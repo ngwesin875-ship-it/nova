@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/middleware.php';
-require_once __DIR__ . '/../includes/user_subscription.php';
+require_once __DIR__ . '/../includes/interactions.php';
 require_once __DIR__ . '/../config/session.php';
 require_once __DIR__ . '/../includes/notifications.php';
 
@@ -17,46 +17,52 @@ $displayRole = (!empty($_SESSION['role']) && $_SESSION['role'] === 'admin') ? 'A
 
 $flash = getFlash();
 $errors = [];
+
+$id = (int)($_GET['id'] ?? 0);
+if ($id <= 0) {
+    flashMessage('error', 'Invalid vote ID.');
+    header('Location: likes.php');
+    exit;
+}
+
+$vote = getLikeDislikeById($id);
+if (!$vote) {
+    flashMessage('error', 'Vote not found.');
+    header('Location: likes.php');
+    exit;
+}
+
 $old = [
-    'user_id' => '',
-    'plan_id' => '',
-    'start_date' => date('Y-m-d'),
-    'end_date' => '',
-    'status' => 'active',
-    'payment_status' => 'pending'
+    'post_id' => $vote['post_id'],
+    'user_id' => $vote['user_id'],
+    'type'    => $vote['type'],
 ];
 
-$users = getAllUsersForSelect();
-$plans = getAllPlansForSelect();
+$posts = getPostsForDropdown();
+$users = getUsersForDropdown();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrf($_POST['csrf_token'] ?? '')) {
         flashMessage('error', 'Invalid CSRF token.');
-        header('Location: user-subscription-create.php');
+        header("Location: like-edit.php?id={$id}");
         exit;
     }
 
+    $old['post_id'] = (int) ($_POST['post_id'] ?? 0);
     $old['user_id'] = (int) ($_POST['user_id'] ?? 0);
-    $old['plan_id'] = (int) ($_POST['plan_id'] ?? 0);
-    $old['start_date'] = $_POST['start_date'] ?? date('Y-m-d');
-    $old['end_date'] = $_POST['end_date'] ?? '';
-    $old['status'] = $_POST['status'] ?? 'active';
-    $old['payment_status'] = $_POST['payment_status'] ?? 'pending';
+    $old['type'] = $_POST['type'] ?? 'like';
 
+    if (empty($old['post_id'])) $errors[] = 'Post is required.';
     if (empty($old['user_id'])) $errors[] = 'User is required.';
-    if (empty($old['plan_id'])) $errors[] = 'Plan is required.';
-    if (empty($old['start_date'])) $errors[] = 'Start date is required.';
-    if (empty($old['end_date'])) $errors[] = 'End date is required.';
-    if (!in_array($old['status'], ['active', 'expired', 'cancelled'])) $errors[] = 'Invalid status.';
-    if (!in_array($old['payment_status'], ['pending', 'paid', 'failed'])) $errors[] = 'Invalid payment status.';
+    if (!in_array($old['type'], ['like', 'dislike'])) $errors[] = 'Type must be like or dislike.';
 
     if (empty($errors)) {
-        if (createUserSubscription($old['user_id'], $old['plan_id'], $old['start_date'], $old['end_date'], $old['status'], $old['payment_status'])) {
-            flashMessage('success', 'User subscription created successfully.');
-            header('Location: user-subscriptions.php');
+        if (updateLikeDislike($id, $old['post_id'], $old['user_id'], $old['type'])) {
+            flashMessage('success', 'Vote updated successfully.');
+            header('Location: likes.php');
             exit;
         } else {
-            $errors[] = 'Failed to create subscription.';
+            $errors[] = 'Failed to update vote.';
         }
     }
 }
@@ -66,14 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova News - Create User Subscription</title>
+    <title>Nova News - Edit Vote</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body class="bg-gray-100">
 
     <aside class="fixed left-0 top-0 h-screen overflow-y-auto z-50 w-72 bg-slate-900 text-white flex flex-col">
-
         <div class="h-16 flex items-center px-6 border-b border-slate-700">
             <div class="flex items-center gap-4">
                 <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-2xl font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
@@ -83,29 +88,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
         </div>
-
         <nav class="mt-6 flex-1">
             <a href="index.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-house mr-4"></i> Dashboard</a>
             <a href="posts.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-newspaper mr-4"></i> Posts</a>
             <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-folder mr-4"></i> Categories</a>
             <a href="users.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-users mr-4"></i> Users</a>
             <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-gem mr-4"></i> Subscription Plans</a>
-            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 bg-blue-600"><i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
+            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
             <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-credit-card mr-4"></i> Payments</a>
             <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
-
-            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
-                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
-            </a>
+            <a href="likes.php" class="flex items-center px-6 py-4 bg-blue-600"><i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes</a>
         </nav>
-           <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600"><i class="fa-solid fa-right-from-bracket mr-4"></i> Logout</a>
-
+        <a href="/Nova_News/public/logout.php" class="flex items-center px-6 py-4 hover:bg-red-600"><i class="fa-solid fa-right-from-bracket mr-4"></i> Logout</a>
     </aside>
 
     <div class="ml-72 flex flex-col h-screen">
-
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
-            <h2 class="text-3xl font-bold">Create Subscription</h2>
+            <h2 class="text-xl font-bold">Edit Vote #<?= $id ?></h2>
             <div class="flex items-center gap-6">
                 <button class="relative">
                     <i class="fa-regular fa-bell text-xl"></i>
@@ -143,74 +142,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="bg-white rounded-xl shadow p-6">
                 <form method="post" action="">
                     <?= csrfField() ?>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Post</label>
+                            <select name="post_id" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                                <?php foreach ($posts as $post): ?>
+                                    <option value="<?= (int) $post['id'] ?>" <?= $old['post_id'] == $post['id'] ? 'selected' : '' ?>>
+                                        <?= htmlspecialchars($post['title']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">User</label>
                             <select name="user_id" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">Select User</option>
                                 <?php foreach ($users as $user): ?>
                                     <option value="<?= (int) $user['id'] ?>" <?= $old['user_id'] == $user['id'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($user['username']) ?> (<?= htmlspecialchars($user['email']) ?>)
+                                        <?= htmlspecialchars($user['username']) ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Plan</label>
-                            <select name="plan_id" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">Select Plan</option>
-                                <?php foreach ($plans as $plan): ?>
-                                    <option value="<?= (int) $plan['id'] ?>" <?= $old['plan_id'] == $plan['id'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($plan['name']) ?> ($<?= number_format((float) $plan['final_price'], 2) ?>)
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                            <input type="date" name="start_date" value="<?= htmlspecialchars($old['start_date']) ?>" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                            <input type="date" name="end_date" value="<?= htmlspecialchars($old['end_date']) ?>" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                            <select name="status" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="active" <?= $old['status'] === 'active' ? 'selected' : '' ?>>Active</option>
-                                <option value="expired" <?= $old['status'] === 'expired' ? 'selected' : '' ?>>Expired</option>
-                                <option value="cancelled" <?= $old['status'] === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-                            <select name="payment_status" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
-                                <option value="pending" <?= $old['payment_status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
-                                <option value="paid" <?= $old['payment_status'] === 'paid' ? 'selected' : '' ?>>Paid</option>
-                                <option value="failed" <?= $old['payment_status'] === 'failed' ? 'selected' : '' ?>>Failed</option>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                            <select name="type" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="like" <?= $old['type'] === 'like' ? 'selected' : '' ?>>Like</option>
+                                <option value="dislike" <?= $old['type'] === 'dislike' ? 'selected' : '' ?>>Dislike</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="mt-8 flex gap-4">
-                        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
-                            Create Subscription
-                        </button>
-                        <a href="user-subscriptions.php" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">
-                            Cancel
-                        </a>
+                        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">Update Vote</button>
+                        <a href="likes.php" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">Cancel</a>
                     </div>
                 </form>
             </div>
 
         </div>
-
     </div>
 
 </body>

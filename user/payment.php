@@ -71,14 +71,16 @@ include __DIR__ . '/../includes/header.php';
 ?>
 
 <main class="flex-1">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        <div class="text-center mb-10">
-            <span class="inline-block px-4 py-1.5 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full uppercase tracking-wider mb-4">
-                <i class="fa-solid fa-lock mr-1"></i> Secure Checkout
-            </span>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-theme-adaptive mb-3">Complete Your Payment</h1>
+        <!-- Page Header -->
+        <div class="flex items-center gap-3 mb-8">
+            <div class="flex items-center gap-2 px-3 py-1.5 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-200 rounded-full uppercase tracking-wider">
+                <i class="fa-solid fa-lock"></i> Secure Checkout
+            </div>
         </div>
+
+        <h1 class="text-2xl md:text-3xl font-extrabold text-theme-adaptive mb-8">Complete Your Payment</h1>
 
         <?php if ($errorMessage): ?>
             <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium bg-red-50 text-red-700 border border-red-200">
@@ -102,123 +104,154 @@ include __DIR__ . '/../includes/header.php';
             </div>
         <?php else: ?>
 
-            <div class="grid md:grid-cols-5 gap-8">
+            <div class="grid md:grid-cols-2 gap-6 items-start">
 
-                <!-- Order Summary -->
-                <div class="md:col-span-2">
-                    <div class="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
-                        <h3 class="text-lg font-bold text-gray-900">Order Summary</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between text-gray-600">
+                <!-- Left Column -->
+                <div class="space-y-5">
+                    <!-- Order Summary -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-receipt text-blue-500 text-sm"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-gray-900">Order Summary</h3>
+                        </div>
+                        <div class="space-y-2.5 text-sm">
+                            <div class="flex justify-between text-gray-500">
                                 <span>Plan</span>
                                 <span class="font-semibold text-gray-900"><?= htmlspecialchars($plan['name']) ?></span>
                             </div>
-                            <div class="flex justify-between text-gray-600">
+                            <div class="flex justify-between text-gray-500">
                                 <span>Duration</span>
                                 <span class="font-semibold text-gray-900"><?= (int) $plan['duration_months'] ?> Month<?= (int) $plan['duration_months'] > 1 ? 's' : '' ?></span>
                             </div>
                             <?php if ((float) $plan['discount_percentage'] > 0): ?>
-                            <div class="flex justify-between text-gray-600">
+                            <div class="flex justify-between text-gray-500">
                                 <span>Original Price</span>
                                 <span class="text-gray-400 line-through">$<?= number_format((float) $plan['price'], 2) ?></span>
                             </div>
                             <div class="flex justify-between text-green-600">
                                 <span>Discount</span>
-                                <span><?= (int) $plan['discount_percentage'] ?>% OFF</span>
+                                <span class="font-semibold"><?= (int) $plan['discount_percentage'] ?>% OFF</span>
                             </div>
                             <?php endif; ?>
-                            <div class="border-t border-gray-200 pt-3 flex justify-between text-lg">
-                                <span class="text-gray-600 font-medium">Total</span>
-                                <span class="font-extrabold text-amber-600">$<?= number_format((float) $plan['final_price'], 2) ?></span>
+                            <div class="border-t border-gray-100 pt-2.5 flex justify-between items-center">
+                                <span class="text-gray-500 font-medium">Total</span>
+                                <span class="text-xl font-extrabold text-amber-600">$<?= number_format((float) $plan['final_price'], 2) ?></span>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Payment Form -->
-                <div class="md:col-span-3">
-                    <form method="post" action="" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-2xl p-6 space-y-5">
-                        <?= csrfField() ?>
-                        <input type="hidden" name="plan_id" value="<?= (int) $plan['id'] ?>">
-                        <input type="hidden" name="process_payment" value="1">
-                        <input type="hidden" name="payment_method" id="selected-method" value="">
-
-                        <h3 class="text-lg font-bold text-gray-900">Choose Payment Method</h3>
+                    <!-- Choose Payment Method -->
+                    <div class="bg-white border border-gray-200 rounded-2xl p-5">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-wallet text-purple-500 text-sm"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-gray-900">Choose Payment Method</h3>
+                        </div>
 
                         <!-- Payment Method Icons -->
-                        <div class="grid grid-cols-3 gap-3">
+                        <div class="grid grid-cols-2 gap-2.5">
                             <?php foreach ($paymentServices as $svc): ?>
                             <button type="button" data-service="<?= htmlspecialchars($svc['name']) ?>" data-display="<?= htmlspecialchars($svc['display_name']) ?>"
-                                class="method-btn bg-white border-2 border-gray-200 rounded-xl p-4 text-center hover:border-amber-500 transition-all">
+                                class="method-btn flex items-center gap-3 bg-white border-2 border-gray-200 rounded-xl p-3 text-left hover:border-amber-500 hover:bg-amber-50/50 transition-all">
                                 <img src="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>"
                                      alt="<?= htmlspecialchars($svc['display_name']) ?>"
-                                     class="w-12 h-12 mx-auto rounded-full object-cover mb-2">
-                                <p class="text-sm font-semibold text-gray-900"><?= htmlspecialchars($svc['display_name']) ?></p>
+                                     class="w-10 h-10 rounded-full object-cover shrink-0">
+                                <span class="text-sm font-semibold text-gray-900"><?= htmlspecialchars($svc['display_name']) ?></span>
                             </button>
                             <?php endforeach; ?>
                         </div>
 
                         <!-- Service Details (shown when a method is selected) -->
-                        <div id="service-details" class="hidden bg-gray-50 rounded-xl p-4 border border-gray-200 space-y-3">
-                            <div class="flex items-center justify-between">
-                                <h4 class="text-sm font-semibold text-amber-600" id="detail-title">Send payment to:</h4>
-                                <button type="button" id="change-method" class="text-xs text-gray-500 hover:text-gray-700 transition">Change</button>
+                        <div id="service-details" class="hidden mt-4 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-200/60">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-xs font-bold text-amber-700 uppercase tracking-wide" id="detail-title">Send payment to:</h4>
+                                <button type="button" id="change-method" class="text-xs text-gray-400 hover:text-gray-700 transition font-medium">Change</button>
                             </div>
                             <div id="detail-content"></div>
                         </div>
 
                         <template id="service-template">
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between text-gray-600">
-                                    <span>Account Name</span>
-                                    <span class="font-semibold text-gray-900" data-field="account_name"></span>
+                            <div class="space-y-3">
+                                <div class="bg-white rounded-lg p-3 border border-amber-100">
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Account Name</p>
+                                    <p class="text-sm font-bold text-gray-900" data-field="account_name"></p>
                                 </div>
-                                <div class="flex justify-between text-gray-600">
-                                    <span>Phone Number</span>
-                                    <span class="font-semibold text-gray-900" data-field="phone_number"></span>
+                                <div class="bg-white rounded-lg p-3 border border-amber-100 relative group">
+                                    <p class="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Phone Number</p>
+                                    <div class="flex items-center gap-2">
+                                        <p class="text-sm font-bold text-gray-900" data-field="phone_number"></p>
+                                        <button type="button" data-copy class="copy-btn relative text-gray-400 hover:text-amber-600 transition-colors" title="Copy">
+                                            <i class="fa-regular fa-copy text-xs"></i>
+                                            <span class="copy-tooltip absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-[10px] font-medium rounded whitespace-nowrap opacity-0 pointer-events-none transition-opacity duration-200">Copied!</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="text-center pt-2" data-field="qr_container">
-                                    <img data-field="qr_image" class="mx-auto w-32 h-32 object-contain rounded-lg border border-gray-300" alt="QR Code">
+                                <div class="text-center pt-1" data-field="qr_container">
+                                    <div class="inline-block bg-white p-2 rounded-xl border border-amber-100 shadow-sm">
+                                        <img data-field="qr_image" class="w-28 h-28 object-contain rounded-lg" alt="QR Code">
+                                    </div>
                                 </div>
                             </div>
                         </template>
+                    </div>
+                </div>
 
-                        <!-- User Account Info -->
-                        <div class="border-t border-gray-200 pt-5 space-y-4">
-                            <h3 class="text-lg font-bold text-gray-900">Your Account Info</h3>
-                            <p class="text-xs text-gray-500">Enter the account details you used to make the payment.</p>
+                <!-- Right Column -->
+                <div>
+                    <form method="post" action="" enctype="multipart/form-data" class="bg-white border border-gray-200 rounded-2xl p-5">
+                        <?= csrfField() ?>
+                        <input type="hidden" name="plan_id" value="<?= (int) $plan['id'] ?>">
+                        <input type="hidden" name="process_payment" value="1">
+                        <input type="hidden" name="payment_method" id="selected-method" value="">
 
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <div>
-                                    <label for="account_name" class="block text-sm font-semibold text-gray-700 mb-1.5">Your Account Name <span class="text-red-500">*</span></label>
-                                    <input type="text" id="account_name" name="account_name" placeholder="Your full name on the account" required class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 rounded-xl placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                                </div>
-                                <div>
-                                    <label for="account_phone" class="block text-sm font-semibold text-gray-700 mb-1.5">Your Account Phone <span class="text-red-500">*</span></label>
-                                    <input type="text" id="account_phone" name="account_phone" placeholder="09XXXXXXXXX" required class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 rounded-xl placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                                </div>
+                        <!-- Your Account Info -->
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-user text-emerald-500 text-sm"></i>
                             </div>
+                            <h3 class="text-base font-bold text-gray-900">Your Account Info</h3>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-4">Enter the account details you used to make the payment.</p>
 
+                        <div class="space-y-3">
                             <div>
-                                <label for="receipt_image" class="block text-sm font-semibold text-gray-700 mb-1.5">E-Receipt Screenshot <span class="text-red-500">*</span></label>
-                                <input type="file" id="receipt_image" name="receipt_image" accept="image/*" required class="w-full px-4 py-3 bg-white border border-gray-300 text-gray-900 rounded-xl file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-amber-500 file:text-white file:font-bold hover:file:brightness-110 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
-                                <p class="text-xs text-gray-500 mt-1.5">Upload a screenshot of your payment confirmation.</p>
+                                <label for="account_name" class="block text-xs font-semibold text-gray-600 mb-1">Account Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="account_name" name="account_name" placeholder="Your full name on the account" required class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label for="account_phone" class="block text-xs font-semibold text-gray-600 mb-1">Account Phone <span class="text-red-500">*</span></label>
+                                <input type="text" id="account_phone" name="account_phone" placeholder="09XXXXXXXXX" required class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition">
                             </div>
                         </div>
 
-                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                            <div class="flex items-center gap-3 text-sm text-gray-600">
-                                <i class="fa-solid fa-shield-halved text-green-500 text-lg"></i>
-                                <span>Your payment information is processed securely. Your subscription will be activated after payment confirmation.</span>
+                        <div class="border-t border-gray-100 mt-5 pt-5">
+                            <label for="receipt_image" class="block text-xs font-semibold text-gray-600 mb-1.5">E-Receipt Screenshot <span class="text-red-500">*</span></label>
+                            <label for="receipt_image" class="flex flex-col items-center justify-center w-full h-32 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50/30 transition-all">
+                                <i class="fa-solid fa-cloud-arrow-up text-2xl text-gray-300 mb-2"></i>
+                                <span class="text-sm font-medium text-gray-500">Choose File</span>
+                                <span class="text-[10px] text-gray-400 mt-0.5">PNG, JPG up to 5MB</span>
+                            </label>
+                            <input type="file" id="receipt_image" name="receipt_image" accept="image/*" required class="hidden">
+                            <div id="receipt-preview" class="hidden mt-3 relative">
+                                <img id="receipt-preview-img" src="" alt="E-Receipt Preview" class="w-full max-h-48 object-contain rounded-xl border border-gray-200 shadow-sm">
+                                <button type="button" id="receipt-remove" class="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 transition flex items-center justify-center shadow"><i class="fa-solid fa-xmark"></i></button>
                             </div>
                         </div>
 
-                        <button type="submit" id="submit-btn" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-white font-bold rounded-xl transition-all shadow-xl hover:shadow-amber-500/30 text-lg disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                            <i class="fa-solid fa-check-circle mr-1"></i> Submit Payment - $<?= number_format((float) $plan['final_price'], 2) ?>
+                        <div class="mt-5 p-3 bg-gray-50 rounded-xl flex items-center gap-2.5">
+                            <i class="fa-solid fa-shield-halved text-green-500"></i>
+                            <span class="text-xs text-gray-500">Payment info is processed securely. Subscription activates after confirmation.</span>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full mt-5 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-amber-500/25 text-sm disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none" disabled>
+                            <i class="fa-solid fa-check-circle mr-1.5"></i> Submit Payment
                         </button>
 
-                        <div class="text-center">
-                            <a href="subscribe.php" class="text-sm text-gray-500 hover:text-gray-700 transition">
+                        <div class="text-center mt-3">
+                            <a href="subscribe.php" class="text-xs text-gray-400 hover:text-gray-600 transition">
                                 <i class="fa-solid fa-arrow-left mr-1"></i> Change Plan
                             </a>
                         </div>
@@ -288,6 +321,49 @@ document.addEventListener('DOMContentLoaded', function () {
         selectedMethod.value = '';
         selected = '';
         submitBtn.disabled = true;
+    });
+
+    // E-Receipt image preview
+    const receiptInput = document.getElementById('receipt_image');
+    const receiptPreview = document.getElementById('receipt-preview');
+    const receiptPreviewImg = document.getElementById('receipt-preview-img');
+    const receiptRemove = document.getElementById('receipt-remove');
+    let receiptObjectUrl = null;
+
+    receiptInput.addEventListener('change', function () {
+        const file = this.files[0];
+        if (file && file.type.startsWith('image/')) {
+            if (receiptObjectUrl) URL.revokeObjectURL(receiptObjectUrl);
+            receiptObjectUrl = URL.createObjectURL(file);
+            receiptPreviewImg.src = receiptObjectUrl;
+            receiptPreview.classList.remove('hidden');
+        }
+    });
+
+    receiptRemove.addEventListener('click', function () {
+        receiptInput.value = '';
+        if (receiptObjectUrl) URL.revokeObjectURL(receiptObjectUrl);
+        receiptObjectUrl = null;
+        receiptPreviewImg.src = '';
+        receiptPreview.classList.add('hidden');
+    });
+
+    // Copy to clipboard
+    serviceDetails.addEventListener('click', function (e) {
+        const copyBtn = e.target.closest('.copy-btn');
+        if (!copyBtn) return;
+        const phoneEl = copyBtn.closest('.flex').querySelector('[data-field="phone_number"]');
+        if (!phoneEl) return;
+        const text = phoneEl.textContent.trim();
+        navigator.clipboard.writeText(text).then(function () {
+            const tooltip = copyBtn.querySelector('.copy-tooltip');
+            tooltip.classList.remove('opacity-0');
+            tooltip.classList.add('opacity-100');
+            setTimeout(function () {
+                tooltip.classList.remove('opacity-100');
+                tooltip.classList.add('opacity-0');
+            }, 1500);
+        });
     });
 });
 </script>

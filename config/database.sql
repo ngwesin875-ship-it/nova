@@ -124,11 +124,43 @@ CREATE TABLE IF NOT EXISTS payment_services (
     updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
--- Default payment services
-INSERT INTO payment_services (name, display_name, phone_number, account_name) VALUES
-('kpay',    'KPay',    '09777777777', 'Nova News'),
-('wavepay', 'Wave Pay', '09888888888', 'Nova News'),
-('ayapay',  'AYA Pay', '09999999999', 'Nova News');
+-- ------------------------------------------------------------
+-- 8. comments
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS comments (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    post_id     INT  NOT NULL,
+    user_id     INT  NOT NULL,
+    parent_id   INT  DEFAULT NULL,
+    content     TEXT NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_comment_post
+        FOREIGN KEY (post_id)   REFERENCES posts(id)    ON DELETE CASCADE,
+    CONSTRAINT fk_comment_user
+        FOREIGN KEY (user_id)   REFERENCES users(id)    ON DELETE CASCADE,
+    CONSTRAINT fk_comment_parent
+        FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ------------------------------------------------------------
+-- 9. likes_dislikes
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS likes_dislikes (
+    id         INT AUTO_INCREMENT PRIMARY KEY,
+    post_id    INT NOT NULL,
+    user_id    INT NOT NULL,
+    type       ENUM('like','dislike') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_like_post
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_like_user
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_post (user_id, post_id)
+) ENGINE=InnoDB;
+
 
 -- ============================================================
 --  SEED DATA

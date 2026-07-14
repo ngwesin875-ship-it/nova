@@ -18,7 +18,7 @@ include __DIR__ . '/../includes/header.php';
 
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-extrabold text-theme-adaptive">My Payments</h1>
+                <h1 class="text-3xl font-extrabold text-theme-adaptive">Payments History</h1>
                 <p class="text-slate-500 text-sm mt-1">View your payment history and subscription receipts.</p>
             </div>
             <a href="subscribe.php" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-900 font-bold rounded-xl hover:brightness-110 transition text-sm shadow-lg">

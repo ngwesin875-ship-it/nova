@@ -153,12 +153,31 @@ $breakingNews = getBreakingPosts(5);
         .ticker-track:hover {
             animation-play-state: paused;
         }
+
+        /* Breaking News Bar - Burmese text readability */
+        .breaking-news-bar {
+            line-height: 2;
+            font-size: 14px;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        .breaking-news-bar .ticker-track {
+            line-height: 2.2;
+        }
+        .breaking-news-bar .ticker-track a {
+            line-height: 2.2;
+            display: inline-block;
+            padding: 0.15em 0;
+        }
+        .breaking-news-bar .ticker-track span {
+            line-height: 2.2;
+        }
     </style>
 </head>
 <body class="bg-[#F8FAFC] text-slate-800 antialiased theme-light">
 
     <!-- breaking news -->
-    <div class="bg-red-600 text-white text-xs py-2 px-4 md:px-8 flex items-center justify-between overflow-hidden">
+    <div class="breaking-news-bar bg-red-600 text-white text-xs px-4 md:px-8 flex items-center justify-between overflow-hidden">
         <div class="flex items-center space-x-4 overflow-hidden min-w-0">
             <span class="bg-white text-red-600 text-[10px] uppercase font-bold px-2 py-0.5 rounded flex items-center gap-1 shrink-0">
                 <i class="fa-solid fa-bolt"></i> <span class="blink-text">Breaking</span>
@@ -302,8 +321,7 @@ $breakingNews = getBreakingPosts(5);
                                     <p class="text-xs text-blue-500">Member</p>
                                 </div>
                                 <a href="/Nova_News/user/dashboard.php" class="block px-4 py-2.5 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">My Dashboard</a>
-                                <a href="/Nova_News/user/subscribe.php" class="block px-4 py-2.5 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">Subscription</a>
-                                <a href="/Nova_News/user/payments.php" class="block px-4 py-2.5 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i class="fa-solid fa-credit-card mr-1.5"></i> My Payments</a>
+                                <a href="/Nova_News/user/payments.php" class="block px-4 py-2.5 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i class="fa-solid fa-credit-card mr-1.5"></i>Payments History</a>
                                 <a href="/Nova_News/public/logout.php" class="block px-4 py-2.5 text-sm text-red-500 hover:text-red-600 hover:bg-slate-50 rounded-b-xl transition-colors">Sign Out</a>
                             </div>
                         </div>

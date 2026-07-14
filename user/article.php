@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/posts.php';
 require_once __DIR__ . '/../includes/subscription.php';
+require_once __DIR__ . '/../includes/interactions.php';
 
 $slug = $_GET['slug'] ?? '';
 $post = getPostBySlug($slug);
@@ -128,6 +129,155 @@ $latestPosts = $latestNews;
                 </div>
             </div>
         </article>
+
+        <?php
+        $postId    = (int) $post['id'];
+        $voteData  = getLikeCounts($postId);
+        $userVote  = isLoggedIn() ? getUserVote($postId, currentUserId()) : null;
+        $comments  = getCommentsByPost($postId);
+        $commentN  = getCommentCount($postId);
+        ?>
+
+        <!-- Like / Dislike Bar -->
+        <div class="flex items-center gap-4 py-4 border-t border-b border-slate-200">
+            <div class="flex items-center gap-1" id="like-section">
+                <button onclick="handleVote(<?= $postId ?>, 'like')" id="btn-like"
+                    class="like-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition <?= $userVote === 'like' ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-200' ?>">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <span id="like-count"><?= $voteData['likes'] ?></span>
+                </button>
+                <button onclick="handleVote(<?= $postId ?>, 'dislike')" id="btn-dislike"
+                    class="dislike-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition <?= $userVote === 'dislike' ? 'bg-red-50 text-red-500 border border-red-200' : 'text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-200' ?>">
+                    <i class="fa-solid fa-thumbs-down"></i>
+                    <span id="dislike-count"><?= $voteData['dislikes'] ?></span>
+                </button>
+            </div>
+            <div class="flex items-center gap-1.5 text-sm text-slate-500">
+                <i class="fa-regular fa-comment"></i>
+                <span id="comment-count"><?= $commentN ?></span> Comment<?= $commentN !== 1 ? 's' : '' ?>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <section class="pt-6">
+            <h2 class="text-lg font-bold text-slate-900 mb-4">Comments</h2>
+
+            <?php if (isLoggedIn()): ?>
+            <form id="comment-form" class="flex gap-3 mb-6">
+                <div class="shrink-0">
+                    <?php $uAvatar = null; ?>
+                    <?php if ($uAvatar): ?>
+                        <img src="<?= '/Nova_News/' . htmlspecialchars($uAvatar) ?>" class="w-9 h-9 rounded-full object-cover">
+                    <?php else: ?>
+                        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+                            <?= strtoupper(mb_substr(currentUserName() ?? 'U', 0, 1)) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="flex-1">
+                    <textarea id="comment-input" rows="2" maxlength="2000" placeholder="Write a comment..."
+                        class="w-full px-3 py-2 text-sm border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#5B41FF]/30 resize-none"></textarea>
+                    <div class="flex justify-end mt-2">
+                        <button type="submit" id="comment-submit"
+                            class="px-4 py-1.5 bg-[#5B41FF] text-white text-sm font-semibold rounded-lg hover:bg-[#4830DF] transition">Post Comment</button>
+                    </div>
+                </div>
+            </form>
+            <?php else: ?>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center text-sm text-slate-500 mb-6">
+                <a href="/Nova_News/public/Signin.php" class="text-[#5B41FF] font-semibold hover:underline">Sign in</a> to leave a comment.
+            </div>
+            <?php endif; ?>
+
+            <div id="comments-list" class="space-y-4">
+                <?php if (empty($comments)): ?>
+                    <p id="no-comments" class="text-sm text-slate-400 text-center py-6">No comments yet. Be the first to share your thoughts!</p>
+                <?php else: ?>
+                    <?php renderComments($comments, $postId); ?>
+                <?php endif; ?>
+            </div>
+        </section>
+
+        <script>
+        (function() {
+            var postId = <?= $postId ?>;
+            var isLoggedIn = <?= isLoggedIn() ? 'true' : 'false' ?>;
+
+            function json(url, body) {
+                return fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                }).then(function(r) { return r.json(); });
+            }
+
+            /* ── Like / Dislike ────────────────────────── */
+            window.handleVote = function(pid, action) {
+                if (!isLoggedIn) { window.location.href = '/Nova_News/public/Signin.php'; return; }
+                json('/Nova_News/user/like.php', { post_id: pid, action: action }).then(function(data) {
+                    if (!data.success) return;
+                    document.getElementById('like-count').textContent = data.likes;
+                    document.getElementById('dislike-count').textContent = data.dislikes;
+
+                    var lb = document.getElementById('btn-like');
+                    var db = document.getElementById('btn-dislike');
+                    lb.className = 'like-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition ' +
+                        (data.user_vote === 'like' ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-200');
+                    db.className = 'dislike-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition ' +
+                        (data.user_vote === 'dislike' ? 'bg-red-50 text-red-500 border border-red-200' : 'text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-200');
+                });
+            };
+
+            /* ── Submit Comment ────────────────────────── */
+            var form = document.getElementById('comment-form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    var input = document.getElementById('comment-input');
+                    var text = input.value.trim();
+                    if (!text) return;
+
+                    json('/Nova_News/user/comment.php', { post_id: postId, content: text }).then(function(data) {
+                        if (!data.success) { alert(data.error || 'Failed to post comment.'); return; }
+                        document.getElementById('comments-list').innerHTML = data.html;
+                        document.getElementById('comment-count').textContent = data.comment_count;
+                        var nc = document.getElementById('no-comments');
+                        if (nc) nc.remove();
+                        input.value = '';
+                    });
+                });
+            }
+
+            /* ── Reply toggle ──────────────────────────── */
+            window.toggleReplyForm = function(cid) {
+                if (!isLoggedIn) { window.location.href = '/Nova_News/public/Signin.php'; return; }
+                var el = document.getElementById('reply-form-' + cid);
+                if (el) el.classList.toggle('hidden');
+            };
+
+            window.submitReply = function(pid, parentId) {
+                var input = document.getElementById('reply-input-' + parentId);
+                var text = input.value.trim();
+                if (!text) return;
+
+                json('/Nova_News/user/comment.php', { post_id: pid, content: text, parent_id: parentId }).then(function(data) {
+                    if (!data.success) { alert(data.error || 'Failed to post reply.'); return; }
+                    document.getElementById('comments-list').innerHTML = data.html;
+                    document.getElementById('comment-count').textContent = data.comment_count;
+                });
+            };
+
+            /* ── Delete Comment ────────────────────────── */
+            window.deleteComment = function(cid, pid) {
+                if (!confirm('Delete this comment?')) return;
+                json('/Nova_News/user/delete-comment.php', { comment_id: cid, post_id: pid }).then(function(data) {
+                    if (!data.success) { alert(data.error || 'Failed to delete.'); return; }
+                    document.getElementById('comments-list').innerHTML = data.html;
+                    document.getElementById('comment-count').textContent = data.comment_count;
+                });
+            };
+        })();
+        </script>
 
         <!-- Related Posts -->
         <?php if (!empty($relatedPosts)): ?>

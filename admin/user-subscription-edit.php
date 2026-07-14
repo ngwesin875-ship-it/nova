@@ -108,6 +108,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="user-subscriptions.php" class="flex items-center px-6 py-4 bg-blue-600"><i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
             <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-credit-card mr-4"></i> Payments</a>
             <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
+
+            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
+            </a>
         </nav>
            <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600"><i class="fa-solid fa-right-from-bracket mr-4"></i> Logout</a>
 

@@ -115,6 +115,13 @@ if ($planResult) {
                 <i class="fa-solid fa-newspaper mr-4"></i>
                 Posts
             </a>
+            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
+            </a>
+
+            <a href="comments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-comments mr-4"></i> Comments
+            </a>
 
             <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
                 <i class="fa-solid fa-folder mr-4"></i>

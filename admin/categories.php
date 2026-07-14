@@ -71,6 +71,12 @@ $categories = getCategories();
                 <i class="fa-solid fa-newspaper mr-4"></i>
                 Posts
             </a>
+            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
+            </a>
+            <a href="comments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-comments mr-4"></i> Comments
+            </a>
             <a href="categories.php" class="flex items-center px-6 py-4 bg-blue-600">
                 <i class="fa-solid fa-folder mr-4"></i>
                 Categories
@@ -79,6 +85,7 @@ $categories = getCategories();
                 <i class="fa-solid fa-users mr-4"></i>
                 Users
             </a>
+            
             <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
                 <i class="fa-solid fa-gem mr-4"></i>
                 Subscription Plans
@@ -94,6 +101,7 @@ $categories = getCategories();
 
             <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
                 <i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
+
         </nav>
 
         <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600">
