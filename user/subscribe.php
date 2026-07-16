@@ -82,12 +82,12 @@ include __DIR__ . '/../includes/header.php';
                 <!-- Price -->
                 <div class="mb-6">
                     <?php if ($plan['discount_percentage'] > 0): ?>
-                    <p class="text-slate-400 text-sm line-through"><?= '$' . number_format($plan['price'], 2) ?></p>
+                    <p class="text-slate-400 text-sm line-through"><?= number_format($plan['price'], 0) ?> MMK</p>
                     <?php endif; ?>
-                    <span class="text-4xl font-extrabold text-slate-900">$<?= number_format($plan['final_price'], 2) ?></span>
+                    <span class="text-4xl font-extrabold text-slate-900"><?= number_format($plan['final_price'], 0) ?> <span class="text-lg">MMK</span></span>
                     <span class="text-slate-500 text-sm ml-1">total</span>
                     <p class="text-slate-400 text-xs mt-1">
-                        ~$<?= number_format($plan['final_price'] / $plan['duration_months'], 2) ?>/month
+                        ~<?= number_format($plan['final_price'] / $plan['duration_months'], 0) ?> MMK/month
                     </p>
                 </div>
 

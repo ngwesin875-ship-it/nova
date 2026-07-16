@@ -96,12 +96,7 @@ $posts    = getPostsForDropdown();
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
             <h2 class="text-xl font-bold">Comments</h2>
             <div class="flex items-center gap-6">
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
                         <?= htmlspecialchars($displayInitial) ?>

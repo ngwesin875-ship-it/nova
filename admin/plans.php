@@ -74,9 +74,7 @@ $plans = getAllPlans();
             <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-credit-card mr-4"></i> Payments</a>
             <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
 
-            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
-                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
-            </a>
+            
         </nav>
            <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600"><i class="fa-solid fa-right-from-bracket mr-4"></i> Logout</a>
 
@@ -87,12 +85,7 @@ $plans = getAllPlans();
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
             <h2 class="text-3xl font-bold">Subscription Plans</h2>
             <div class="flex items-center gap-6">
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
                     <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
@@ -146,9 +139,9 @@ $plans = getAllPlans();
                                     <td class="p-5 text-gray-500"><?= (int) $plan['id'] ?></td>
                                     <td class="p-5 font-medium"><?= htmlspecialchars($plan['name']) ?></td>
                                     <td class="p-5 text-gray-600"><?= (int) $plan['duration_months'] ?> month<?= (int) $plan['duration_months'] > 1 ? 's' : '' ?></td>
-                                    <td class="p-5">$<?= number_format((float) $plan['price'], 2) ?></td>
+                                    <td class="p-5"><?= number_format((float) $plan['price'], 0) ?> MMK</td>
                                     <td class="p-5"><?= (float) $plan['discount_percentage'] > 0 ? number_format((float) $plan['discount_percentage'], 1) . '%' : '-' ?></td>
-                                    <td class="p-5 font-semibold">$<?= number_format((float) $plan['final_price'], 2) ?></td>
+                                    <td class="p-5 font-semibold"><?= number_format((float) $plan['final_price'], 0) ?> MMK</td>
                                     <td class="p-5">
                                         <?php if ((int) $plan['is_active']): ?>
                                             <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Active</span>

@@ -148,12 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
             <h2 class="text-3xl font-bold">Edit Payment</h2>
             <div class="flex items-center gap-6">
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
                     <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
@@ -193,8 +188,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="grid md:grid-cols-3 gap-5">
                         <div>
-                            <label for="amount" class="block text-sm font-semibold text-gray-700 mb-1">Amount ($) <span class="text-red-500">*</span></label>
-                            <input type="number" id="amount" name="amount" value="<?= number_format($amount, 2) ?>" step="0.01" min="0.01" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
+                            <label for="amount" class="block text-sm font-semibold text-gray-700 mb-1">Amount (MMK) <span class="text-red-500">*</span></label>
+                            <input type="number" id="amount" name="amount" value="<?= number_format($amount, 0) ?>" step="1" min="1" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                         </div>
                         <div>
                             <label for="payment_method" class="block text-sm font-semibold text-gray-700 mb-1">Payment Method <span class="text-red-500">*</span></label>

@@ -97,12 +97,7 @@ $pendingApprovals = $notifCounts['pending_payments'];
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
             <h2 class="text-3xl font-bold">Premium Members</h2>
             <div class="flex items-center gap-6">
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
                     <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
@@ -123,11 +118,11 @@ $pendingApprovals = $notifCounts['pending_payments'];
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-500 text-sm font-medium">Total Revenue</p>
-                        <h2 class="text-4xl font-bold mt-1">$<?= number_format($totalRevenue, 2) ?></h2>
+                        <h2 class="text-4xl font-bold mt-1"><?= number_format($totalRevenue, 0) ?> <span class="text-lg">MMK</span></h2>
                         <p class="text-green-500 text-sm mt-1"><?= number_format($paymentCount) ?> successful payments</p>
                     </div>
                     <div class="w-16 h-16 rounded-xl bg-yellow-100 flex items-center justify-center">
-                        <i class="fa-solid fa-dollar-sign text-yellow-600 text-3xl"></i>
+                        <i class="fa-solid fa-coins text-yellow-600 text-3xl"></i>
                     </div>
                 </div>
             </div>
@@ -175,7 +170,7 @@ $pendingApprovals = $notifCounts['pending_payments'];
                                     <td class="p-5 text-gray-500"><?= (int) $payment['id'] ?></td>
                                     <td class="p-5 font-medium"><?= htmlspecialchars($payment['username']) ?></td>
                                     <td class="p-5 text-gray-600"><?= htmlspecialchars($payment['plan_name']) ?></td>
-                                    <td class="p-5">$<?= number_format((float) $payment['amount'], 2) ?></td>
+                                    <td class="p-5"><?= number_format((float) $payment['amount'], 0) ?> MMK</td>
                                     <td class="p-5"><?= htmlspecialchars($payment['payment_method']) ?></td>
                                     <td class="p-5"><?= htmlspecialchars($payment['account_name'] ?? '-') ?></td>
                                     <td class="p-5"><?= htmlspecialchars($payment['account_phone'] ?? '-') ?></td>

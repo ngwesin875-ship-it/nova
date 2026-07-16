@@ -70,11 +70,9 @@ $subscriptions = getAllUserSubscriptions();
             <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-folder mr-4"></i> Categories</a>
             <a href="users.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-users mr-4"></i> Users</a>
             <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-gem mr-4"></i> Subscription Plans</a>
-            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
+            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 bg-blue-600"><i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
             <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-credit-card mr-4"></i> Payments</a>
             <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
-
-            
         </nav>
            <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600"><i class="fa-solid fa-right-from-bracket mr-4"></i> Logout</a>
 
@@ -84,13 +82,8 @@ $subscriptions = getAllUserSubscriptions();
 
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
             <h2 class="text-3xl font-bold">User Subscriptions</h2>
-            <div class="flex items-center gap-6">
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+            <div class="flex items-center gap-4">
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
                     <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
@@ -107,6 +100,8 @@ $subscriptions = getAllUserSubscriptions();
                 </div>
             <?php endif; ?>
 
+            <div id="action-toast" class="hidden fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-medium"></div>
+
             <div class="bg-white rounded-xl shadow">
 
                 <div class="border-b p-5 flex justify-between items-center">
@@ -117,7 +112,7 @@ $subscriptions = getAllUserSubscriptions();
                 </div>
 
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[800px]">
+                    <table class="w-full min-w-[900px]">
                         <thead>
                             <tr class="border-b bg-gray-50 text-left text-sm font-semibold text-gray-600">
                                 <th class="p-5">ID</th>
@@ -141,7 +136,7 @@ $subscriptions = getAllUserSubscriptions();
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($subscriptions as $sub): ?>
-                                    <tr class="border-b hover:bg-gray-50">
+                                    <tr class="border-b hover:bg-gray-50 <?= $sub['payment_status'] === 'pending' ? 'bg-amber-50/50' : '' ?>">
                                         <td class="p-5 text-gray-500"><?= (int) $sub['id'] ?></td>
                                         <td class="p-5 font-medium">
                                             <?= htmlspecialchars($sub['username']) ?>
@@ -170,11 +165,21 @@ $subscriptions = getAllUserSubscriptions();
                                         </td>
                                         <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($sub['created_at']))) ?></td>
                                         <td class="p-5 text-right whitespace-nowrap">
-                                            <a href="user-subscription-edit.php?id=<?= (int) $sub['id'] ?>" class="text-blue-600 hover:text-blue-800 mr-4"><i class="fa-solid fa-edit"></i> Edit</a>
+                                            <?php if ($sub['payment_status'] === 'pending'): ?>
+                                                <button onclick="approveSubscription(<?= (int) $sub['id'] ?>)"
+                                                    class="text-green-600 hover:text-green-800 mr-3 font-semibold text-sm bg-green-50 px-3 py-1 rounded-lg hover:bg-green-100 transition">
+                                                    <i class="fa-solid fa-check mr-1"></i> Approve
+                                                </button>
+                                                <button onclick="rejectSubscription(<?= (int) $sub['id'] ?>)"
+                                                    class="text-red-600 hover:text-red-800 mr-3 font-semibold text-sm bg-red-50 px-3 py-1 rounded-lg hover:bg-red-100 transition">
+                                                    <i class="fa-solid fa-times mr-1"></i> Reject
+                                                </button>
+                                            <?php endif; ?>
+                                            <a href="user-subscription-edit.php?id=<?= (int) $sub['id'] ?>" class="text-blue-600 hover:text-blue-800 mr-3"><i class="fa-solid fa-edit"></i></a>
                                             <form method="post" action="" class="inline" onsubmit="return confirm('Delete this subscription?');">
                                                 <?= csrfField() ?>
                                                 <input type="hidden" name="delete_id" value="<?= (int) $sub['id'] ?>">
-                                                <button type="submit" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i> Delete</button>
+                                                <button type="submit" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
@@ -189,6 +194,46 @@ $subscriptions = getAllUserSubscriptions();
         </div>
 
     </div>
+
+<script>
+function showToast(message, type) {
+    const toast = document.getElementById('action-toast');
+    toast.textContent = message;
+    toast.className = 'fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-medium ' +
+        (type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white');
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 3000);
+}
+
+function handleResponse(response) {
+    return response.json().then(data => {
+        if (data.success) {
+            showToast(data.message, 'success');
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            showToast(data.message || 'Something went wrong.', 'error');
+        }
+    });
+}
+
+function approveSubscription(id) {
+    if (!confirm('Approve this subscription?')) return;
+    fetch('/Nova_News/admin/approve-subscription.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=approve&subscription_id=' + id
+    }).then(handleResponse);
+}
+
+function rejectSubscription(id) {
+    if (!confirm('Reject this subscription?')) return;
+    fetch('/Nova_News/admin/approve-subscription.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: 'action=reject&subscription_id=' + id
+    }).then(handleResponse);
+}
+</script>
 
 </body>
 </html>

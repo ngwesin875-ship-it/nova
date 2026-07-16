@@ -42,7 +42,7 @@ foreach ($posts as $post):
             <?php if ($typeLabel === 'premium'): ?>
                 <span class="bg-amber-50 text-amber-700 font-medium flex items-center gap-1 border border-amber-300 px-2 py-0.5 rounded"><i class="fa-solid fa-lock text-[10px]"></i> Premium</span>
             <?php else: ?>
-                <span class="bg-emerald-50 text-emerald-700 font-medium flex items-center gap-1 border border-emerald-300 px-2 py-0.5 rounded"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Free Article</span>
+                <span class="bg-emerald-50 text-emerald-700 font-medium flex items-center gap-1 border border-emerald-300 px-2 py-0.5 rounded"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Free</span>
             <?php endif; ?>
             <span><?= date('M j, Y', strtotime($post['created_at'])) ?></span>
         </div>

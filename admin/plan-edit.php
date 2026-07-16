@@ -109,12 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
             <h2 class="text-3xl font-bold">Edit Plan</h2>
             <div class="flex items-center gap-6">
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
                     <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
@@ -151,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="number" id="duration_months" name="duration_months" value="<?= $durationMonths ?>" min="1" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                         </div>
                         <div>
-                            <label for="price" class="block text-sm font-semibold text-gray-700 mb-1">Price ($) <span class="text-red-500">*</span></label>
+                            <label for="price" class="block text-sm font-semibold text-gray-700 mb-1">Price (MMK) <span class="text-red-500">*</span></label>
                             <input type="number" id="price" name="price" value="<?= number_format($price, 2) ?>" step="0.01" min="0.01" required oninput="calcFinal()" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                         </div>
                     </div>
@@ -163,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <p class="text-xs text-gray-500 mt-1">Set to 0 for no discount.</p>
                         </div>
                         <div>
-                            <label for="final_price_display" class="block text-sm font-semibold text-gray-700 mb-1">Final Price ($)</label>
+                            <label for="final_price_display" class="block text-sm font-semibold text-gray-700 mb-1">Final Price (MMK)</label>
                             <input type="text" id="final_price_display" readonly class="w-full px-4 py-2.5 border border-gray-200 bg-gray-50 rounded-lg text-gray-500 outline-none cursor-default">
                             <input type="hidden" id="final_price" name="final_price" value="<?= number_format($finalPrice, 2) ?>">
                             <p class="text-xs text-gray-500 mt-1">Auto-calculated from price and discount.</p>
@@ -197,8 +192,8 @@ function calcFinal() {
     const price = parseFloat(document.getElementById('price').value) || 0;
     const discount = parseFloat(document.getElementById('discount_percentage').value) || 0;
     const final = price - (price * discount / 100);
-    document.getElementById('final_price_display').value = '$' + final.toFixed(2);
-    document.getElementById('final_price').value = final.toFixed(2);
+    document.getElementById('final_price_display').value = final.toLocaleString('en-US', {maximumFractionDigits: 0}) + ' MMK';
+    document.getElementById('final_price').value = final.toFixed(0);
 }
 calcFinal();
 </script>

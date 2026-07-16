@@ -161,6 +161,20 @@ CREATE TABLE IF NOT EXISTS likes_dislikes (
     UNIQUE KEY unique_user_post (user_id, post_id)
 ) ENGINE=InnoDB;
 
+-- ------------------------------------------------------------
+-- 10. notifications
+-- ------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS notifications (
+    id            INT AUTO_INCREMENT PRIMARY KEY,
+    type          VARCHAR(50)  NOT NULL,        -- 'new_subscription', 'payment_received', etc.
+    title         VARCHAR(255) NOT NULL,
+    message       TEXT         NOT NULL,
+    reference_id  INT          DEFAULT NULL,    -- e.g. subscription_id
+    reference_type VARCHAR(50) DEFAULT NULL,    -- e.g. 'user_subscriptions'
+    is_read       TINYINT(1)   DEFAULT 0,
+    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
 
 -- ============================================================
 --  SEED DATA

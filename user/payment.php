@@ -5,6 +5,7 @@ require_once __DIR__ . '/../includes/middleware.php';
 require_once __DIR__ . '/../includes/subscription.php';
 require_once __DIR__ . '/../includes/payments.php';
 require_once __DIR__ . '/../includes/payment_services.php';
+require_once __DIR__ . '/../includes/notifications.php';
 
 requireLogin();
 if (isAdmin()) { header('Location: /Nova_News/admin/index.php'); exit; }
@@ -53,6 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['process_payment'])) {
                     } else {
                         $result = createPayment($subscriptionId, (float) $plan['final_price'], $paymentMethod, $accountName, $accountPhone, $receiptImage, 'pending');
                         if ($result !== false) {
+                            createNotification(
+                                'new_subscription',
+                                'New Subscription Request',
+                                htmlspecialchars(currentUserName()) . ' subscribed to ' . htmlspecialchars($plan['name']) . ' (' . number_format((float) $plan['final_price'], 0) . ' MMK). Awaiting approval.',
+                                $subscriptionId,
+                                'user_subscriptions'
+                            );
                             flashMessage('success', 'Payment submitted! Your subscription will be activated once confirmed.');
                             header('Location: payments.php');
                             exit;
@@ -128,7 +136,7 @@ include __DIR__ . '/../includes/header.php';
                             <?php if ((float) $plan['discount_percentage'] > 0): ?>
                             <div class="flex justify-between text-gray-500">
                                 <span>Original Price</span>
-                                <span class="text-gray-400 line-through">$<?= number_format((float) $plan['price'], 2) ?></span>
+                                <span class="text-gray-400 line-through"><?= number_format((float) $plan['price'], 0) ?> MMK</span>
                             </div>
                             <div class="flex justify-between text-green-600">
                                 <span>Discount</span>
@@ -137,7 +145,7 @@ include __DIR__ . '/../includes/header.php';
                             <?php endif; ?>
                             <div class="border-t border-gray-100 pt-2.5 flex justify-between items-center">
                                 <span class="text-gray-500 font-medium">Total</span>
-                                <span class="text-xl font-extrabold text-amber-600">$<?= number_format((float) $plan['final_price'], 2) ?></span>
+                                <span class="text-xl font-extrabold text-amber-600"><?= number_format((float) $plan['final_price'], 0) ?> <span class="text-sm font-semibold">MMK</span></span>
                             </div>
                         </div>
                     </div>
@@ -223,7 +231,7 @@ include __DIR__ . '/../includes/header.php';
                             </div>
                             <div>
                                 <label for="account_phone" class="block text-xs font-semibold text-gray-600 mb-1">Account Phone <span class="text-red-500">*</span></label>
-                                <input type="text" id="account_phone" name="account_phone" placeholder="09XXXXXXXXX" required class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition">
+                                <input type="tel" id="account_phone" name="account_phone" placeholder="09XXXXXXXXX" pattern="[0-9]*" inputmode="numeric" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3.5 py-2.5 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition">
                             </div>
                         </div>
 

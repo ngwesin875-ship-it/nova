@@ -17,6 +17,14 @@ if (!$post) {
 
 $hasAccess = $post['post_type'] !== 'premium' || isAdmin() || (isLoggedIn() && getActiveSubscription(currentUserId()));
 
+$pendingApproval = false;
+if (!$hasAccess && isLoggedIn() && !isAdmin()) {
+    $userSub = getUserSubscription(currentUserId());
+    if ($userSub && $userSub['payment_status'] === 'pending') {
+        $pendingApproval = true;
+    }
+}
+
 include __DIR__ . '/../includes/header.php';
 
 $catColors = [
@@ -113,6 +121,15 @@ $latestPosts = $latestNews;
             <?php if ($hasAccess): ?>
                 <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base">
                     <?= $content ?>
+                </div>
+            <?php elseif ($pendingApproval): ?>
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-clock text-amber-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Subscription Pending Approval</h3>
+                    <p class="text-slate-600 mb-6 max-w-md mx-auto">Your subscription payment has been submitted and is being reviewed. You will gain access to premium content once approved by our team.</p>
+                    <a href="dashboard.php" class="inline-block px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all">Go to Dashboard</a>
                 </div>
             <?php else: ?>
                 <div class="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center">

@@ -121,8 +121,145 @@ $breakingNews = getBreakingPosts(5);
             color: #F87171 !important;
         }
 
+        body.theme-dark .text-gray-900,
+        body.theme-dark .text-gray-800 {
+            color: #E2E8F0 !important;
+        }
+
+        body.theme-dark .text-gray-700,
         body.theme-dark .text-gray-600 {
-            color: #9CA3AF !important;
+            color: #CBD5E1 !important;
+        }
+
+        body.theme-dark .text-gray-500,
+        body.theme-dark .text-gray-400 {
+            color: #94A3B8 !important;
+        }
+
+        body.theme-dark .text-gray-300 {
+            color: #64748B !important;
+        }
+
+        body.theme-dark .bg-gray-50 {
+            background-color: #1E293B !important;
+        }
+
+        body.theme-dark .border-gray-200,
+        body.theme-dark .border-gray-100 {
+            border-color: #334155 !important;
+        }
+
+        body.theme-dark .border-gray-50 {
+            border-color: #334155 !important;
+        }
+
+        body.theme-dark .bg-red-50 {
+            background-color: #450A0A !important;
+        }
+
+        body.theme-dark .text-red-700 {
+            color: #FCA5A5 !important;
+        }
+
+        body.theme-dark .bg-green-50 {
+            background-color: #052E16 !important;
+        }
+
+        body.theme-dark .text-green-700 {
+            color: #86EFAC !important;
+        }
+
+        body.theme-dark .text-green-500 {
+            color: #4ADE80 !important;
+        }
+
+        body.theme-dark .text-amber-500 {
+            color: #FCD34D !important;
+        }
+
+        body.theme-dark .text-amber-700 {
+            color: #FDE68A !important;
+        }
+
+        body.theme-dark .bg-amber-50,
+        body.theme-dark .bg-amber-50\/50 {
+            background-color: #422006 !important;
+        }
+
+        body.theme-dark .bg-blue-50 {
+            background-color: #1E3A5F !important;
+        }
+
+        body.theme-dark .text-purple-500 {
+            color: #C4B5FD !important;
+        }
+
+        body.theme-dark .bg-purple-50 {
+            background-color: #2E1065 !important;
+        }
+
+        body.theme-dark .text-emerald-500 {
+            color: #6EE7B7 !important;
+        }
+
+        body.theme-dark .bg-emerald-50 {
+            background-color: #064E3B !important;
+        }
+
+        body.theme-dark .bg-emerald-50\/50 {
+            background-color: rgba(6, 78, 59, 0.5) !important;
+        }
+
+        body.theme-dark .text-emerald-700 {
+            color: #A7F3D0 !important;
+        }
+
+        body.theme-dark .border-amber-200\/60 {
+            border-color: rgba(217, 119, 6, 0.3) !important;
+        }
+
+        body.theme-dark .border-red-200 {
+            border-color: rgba(252, 165, 165, 0.3) !important;
+        }
+
+        body.theme-dark .border-green-200 {
+            border-color: rgba(134, 239, 172, 0.3) !important;
+        }
+
+        body.theme-dark .border-amber-100 {
+            border-color: #422006 !important;
+        }
+
+        body.theme-dark .border-amber-200 {
+            border-color: rgba(217, 119, 6, 0.3) !important;
+        }
+
+        body.theme-dark .text-red-500 {
+            color: #FCA5A5 !important;
+        }
+
+        body.theme-dark .text-amber-400 {
+            color: #FDE68A !important;
+        }
+
+        body.theme-dark .text-green-400 {
+            color: #86EFAC !important;
+        }
+
+        body.theme-dark .from-orange-50 {
+            --tw-gradient-from: #431407 !important;
+        }
+
+        body.theme-dark .to-orange-50 {
+            --tw-gradient-to: #0F172A !important;
+        }
+
+        body.theme-dark .hover\:bg-amber-50:hover {
+            background-color: #422006 !important;
+        }
+
+        body.theme-dark .hover\:bg-amber-50\/50:hover {
+            background-color: rgba(66, 32, 6, 0.5) !important;
         }
 
         body.theme-dark .shadow-sm {
@@ -185,16 +322,16 @@ $breakingNews = getBreakingPosts(5);
             <div class="overflow-hidden min-w-0 text-white/80">
                 <?php if (!empty($breakingNews)): ?>
                     <div class="ticker-track">
-                        <span class="inline-flex space-x-6">
+                        <span class="inline-flex items-center">
                             <?php foreach ($breakingNews as $i => $bn): ?>
-                                <a href="/Nova_News/user/article.php?slug=<?= urlencode($bn['slug']) ?>" class="text-white font-medium hover:underline whitespace-nowrap"><?= htmlspecialchars($bn['title']) ?></a>
-                                <?php if ($i < count($breakingNews) - 1): ?><span class="mx-3">•</span><?php endif; ?>
+                                <a href="/Nova_News/user/article.php?slug=<?= urlencode($bn['slug']) ?>" class="text-white font-medium hover:underline whitespace-nowrap pr-6"><?= htmlspecialchars($bn['title']) ?></a>
+                                <?php if ($i < count($breakingNews) - 1): ?><span class="px-4 text-white/60">&bull;&nbsp;&nbsp;</span><?php endif; ?>
                             <?php endforeach; ?>
                         </span>
-                        <span class="inline-flex space-x-6">
+                        <span class="inline-flex items-center px-8">
                             <?php foreach ($breakingNews as $i => $bn): ?>
-                                <a href="/Nova_News/user/article.php?slug=<?= urlencode($bn['slug']) ?>" class="text-white font-medium hover:underline whitespace-nowrap"><?= htmlspecialchars($bn['title']) ?></a>
-                                <?php if ($i < count($breakingNews) - 1): ?><span class="mx-3">•</span><?php endif; ?>
+                                <a href="/Nova_News/user/article.php?slug=<?= urlencode($bn['slug']) ?>" class="text-white font-medium hover:underline whitespace-nowrap pr-6"><?= htmlspecialchars($bn['title']) ?></a>
+                                <?php if ($i < count($breakingNews) - 1): ?><span class="px-4 text-white/60">&bull;&nbsp;&nbsp;</span><?php endif; ?>
                             <?php endforeach; ?>
                         </span>
                     </div>
@@ -250,10 +387,12 @@ $breakingNews = getBreakingPosts(5);
             <button id="theme-toggle" class="p-2 text-slate-500 hover:text-slate-800" aria-label="Toggle theme" title="Toggle theme">
                 <i class="fa-solid fa-moon text-lg"></i>
             </button>
+            <!-- Language switcher removed
             <select id="lang-select" onchange="setLang(this.value)" class="p-1.5 text-sm font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#5B41FF]/30" aria-label="Select language">
                 <option value="en" <?= getCurrentLang() === 'en' ? 'selected' : '' ?>>English</option>
                 <option value="my" <?= getCurrentLang() === 'my' ? 'selected' : '' ?>>Myanmar</option>
             </select>
+            -->
         </div>
 
          <div class="hidden md:flex items-center gap-3">

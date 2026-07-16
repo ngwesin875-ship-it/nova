@@ -173,12 +173,7 @@ if ($planResult) {
 
             <div class="flex items-center gap-6">
 
-                <button class="relative">
-                    <i class="fa-regular fa-bell text-xl"></i>
-                    <?php if ($totalNotifs > 0): ?>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center"><?= $totalNotifs > 9 ? '9+' : $totalNotifs ?></span>
-                    <?php endif; ?>
-                </button>
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
 
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
@@ -275,7 +270,7 @@ if ($planResult) {
                             </p>
 
                             <h2 class="text-4xl font-bold mt-3">
-                                $<?= number_format($totalRevenue, 2) ?>
+                                <?= number_format($totalRevenue, 0) ?> <span class="text-lg">MMK</span>
                             </h2>
 
                             <p class="text-green-500 mt-3">
@@ -285,7 +280,7 @@ if ($planResult) {
 
                         <div
                             class="w-16 h-16 rounded-xl bg-yellow-100 flex items-center justify-center">
-                            <i class="fa-solid fa-dollar-sign text-yellow-600 text-3xl"></i>
+                            <i class="fa-solid fa-coins text-yellow-600 text-3xl"></i>
                         </div>
                     </div>
                 </div>
