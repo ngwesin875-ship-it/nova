@@ -119,8 +119,8 @@ $latestPosts = $latestNews;
                     </div>
 
             <?php if ($hasAccess): ?>
-                <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-base">
-                    <?= $content ?>
+                <div class="article-content text-slate-700 leading-relaxed text-base">
+                    <?= formatContent($content) ?>
                 </div>
             <?php elseif ($pendingApproval): ?>
                 <div class="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center">

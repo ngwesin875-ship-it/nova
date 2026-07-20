@@ -214,6 +214,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <input type="file" id="image_file" name="image_file" accept="image/jpeg,image/png,image/gif,image/webp"
                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-semibold hover:file:bg-blue-100">
                             <p class="text-xs text-gray-500 mt-1">Allowed: JPG, PNG, GIF, WEBP (max 5MB).</p>
+                            <div id="image-preview-container" class="mt-3 hidden">
+                                <img id="image-preview" src="" alt="Preview" class="w-full max-w-xs h-40 object-cover rounded-lg border border-gray-200">
+                            </div>
                         </div>
                     </div>
 
@@ -297,6 +300,23 @@ document.getElementById('slug').addEventListener('input', function () {
 document.getElementById('title').addEventListener('blur', function () {
     if (document.getElementById('slug').value === '') {
         autoSlug(this.value);
+    }
+});
+
+document.getElementById('image_file').addEventListener('change', function () {
+    var file = this.files[0];
+    var container = document.getElementById('image-preview-container');
+    var preview = document.getElementById('image-preview');
+    if (file && file.type.startsWith('image/')) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            container.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        container.classList.add('hidden');
     }
 });
 </script>

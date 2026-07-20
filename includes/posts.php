@@ -489,3 +489,27 @@ function deleteImage(string $path): void
         }
     }
 }
+
+function formatContent(string $html): string
+{
+    $html = trim($html);
+    if ($html === '') {
+        return '';
+    }
+
+    $html = htmlspecialchars($html, ENT_QUOTES, 'UTF-8');
+
+    $paragraphs = preg_split('/\n{2,}/', $html);
+    $parts = [];
+
+    foreach ($paragraphs as $para) {
+        $para = trim($para);
+        if ($para === '') {
+            continue;
+        }
+        $para = nl2br($para, false);
+        $parts[] = '<p>' . $para . '</p>';
+    }
+
+    return implode("\n", $parts);
+}

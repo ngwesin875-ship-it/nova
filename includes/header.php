@@ -309,6 +309,24 @@ $breakingNews = getBreakingPosts(5);
         .breaking-news-bar .ticker-track span {
             line-height: 2.2;
         }
+
+        /* Article Content Styling */
+        .article-content p {
+            margin-bottom: 1.25em;
+            line-height: 1.85;
+        }
+        .article-content p:last-child {
+            margin-bottom: 0;
+        }
+        .article-content br {
+            display: block;
+            content: '';
+            margin-top: 0.35em;
+        }
+
+        body.theme-dark .article-content {
+            color: #CBD5E1 !important;
+        }
     </style>
 </head>
 <body class="bg-[#F8FAFC] text-slate-800 antialiased theme-light">

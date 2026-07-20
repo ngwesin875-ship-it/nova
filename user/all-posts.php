@@ -10,6 +10,10 @@ $posts = getPostsPaginated($page, $limit, $typeFilter, 'published');
 $total = getPostsCount($typeFilter, 'published');
 $totalPages = $limit > 0 ? (int)ceil($total / $limit) : 0;
 
+$params = $_GET;
+unset($params['page']);
+$baseUrl = http_build_query($params);
+
 $catColors = [
     'Technology'    => 'text-cyan-600',
     'Business'      => 'text-amber-600',
@@ -73,13 +77,13 @@ $catColors = [
         <?php if ($totalPages > 1): ?>
         <div class="flex justify-center items-center gap-2 pt-4">
             <?php if ($page > 1): ?>
-                <a href="?page=<?= $page - 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">&laquo; Previous</a>
+                <a href="?<?= $baseUrl ? $baseUrl . '&' : '' ?>page=<?= $page - 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">&laquo; Previous</a>
             <?php endif; ?>
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?page=<?= $i ?>" class="px-3 py-2 rounded-lg text-sm <?= $i === $page ? 'bg-[#5B41FF] text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' ?> transition"><?= $i ?></a>
+                <a href="?<?= $baseUrl ? $baseUrl . '&' : '' ?>page=<?= $i ?>" class="px-3 py-2 rounded-lg text-sm <?= $i === $page ? 'bg-[#5B41FF] text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' ?> transition"><?= $i ?></a>
             <?php endfor; ?>
             <?php if ($page < $totalPages): ?>
-                <a href="?page=<?= $page + 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">Next &raquo;</a>
+                <a href="?<?= $baseUrl ? $baseUrl . '&' : '' ?>page=<?= $page + 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">Next &raquo;</a>
             <?php endif; ?>
         </div>
         <?php endif; ?>
