@@ -363,9 +363,9 @@ $breakingNews = getBreakingPosts(5);
 
     <!-- header -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-50 px-4 md:px-8 py-4 flex items-center justify-between gap-8">
-        <div class="flex items-center space-x-2">
+        <div class="flex flex-col">
             <div class="text-2xl font-black tracking-wider text-[#1E224F]">NOVA <span class="text-[#5B41FF]">NEWS</span></div>
-            <div class="text-[10px] text-slate-400 hidden lg:block border-l border-slate-300 pl-2 self-end mb-1">Read Smart. Stay Ahead.</div>
+            <div class="text-[10px] text-slate-400 hidden lg:block">Read Smart. Stay Ahead.</div>
         </div>
         
         <nav class="hidden xl:flex items-center space-x-6 text-sm font-semibold text-slate-600 mr-6">

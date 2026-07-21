@@ -173,6 +173,28 @@ $latestPosts = $latestNews;
                 <i class="fa-regular fa-comment"></i>
                 <span id="comment-count"><?= $commentN ?></span> Comment<?= $commentN !== 1 ? 's' : '' ?>
             </div>
+
+            <?php $shareUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/Nova_News/user/article.php?slug=' . urlencode($slug); ?>
+            <div class="relative ml-auto" id="share-wrapper">
+                <button onclick="handleShare()" id="btn-share"
+                    class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition text-slate-500 hover:bg-slate-50 border border-transparent hover:border-slate-200">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Share</span>
+                </button>
+                <div id="share-dropdown" class="hidden absolute right-0 top-full mt-2 bg-white border border-slate-200 rounded-xl shadow-lg py-2 z-50 min-w-[160px]">
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($shareUrl) ?>" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition">
+                        <i class="fa-brands fa-facebook text-blue-600"></i> Facebook
+                    </a>
+                    <a href="https://t.me/share/url?url=<?= urlencode($shareUrl) ?>&text=<?= urlencode($title) ?>" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition">
+                        <i class="fa-brands fa-telegram text-sky-500"></i> Telegram
+                    </a>
+                    <button onclick="copyShareLink()" class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition w-full text-left">
+                        <i class="fa-solid fa-link text-slate-400"></i> <span id="copy-link-text">Copy Link</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Comments Section -->
@@ -264,6 +286,33 @@ $latestPosts = $latestNews;
                     });
                 });
             }
+
+            /* ── Share ──────────────────────────────── */
+            var shareUrl = <?= json_encode($shareUrl) ?>;
+            var shareTitle = <?= json_encode($title) ?>;
+
+            window.handleShare = function() {
+                if (navigator.share) {
+                    navigator.share({ title: shareTitle, url: shareUrl }).catch(function() {});
+                } else {
+                    document.getElementById('share-dropdown').classList.toggle('hidden');
+                }
+            };
+
+            window.copyShareLink = function() {
+                navigator.clipboard.writeText(shareUrl).then(function() {
+                    var el = document.getElementById('copy-link-text');
+                    el.textContent = 'Copied!';
+                    setTimeout(function() { el.textContent = 'Copy Link'; }, 2000);
+                });
+            };
+
+            document.addEventListener('click', function(e) {
+                var wrapper = document.getElementById('share-wrapper');
+                if (wrapper && !wrapper.contains(e.target)) {
+                    document.getElementById('share-dropdown').classList.add('hidden');
+                }
+            });
 
             /* ── Reply toggle ──────────────────────────── */
             window.toggleReplyForm = function(cid) {
