@@ -448,6 +448,33 @@ function getEditorsPickPost(): ?array
     return null;
 }
 
+function getEditorsPickPosts(int $limit = 3): array
+{
+    $db = getDB();
+    $stmt = $db->prepare('
+        SELECT p.*, u.username AS author_name, c.name AS category_name
+        FROM posts p
+        LEFT JOIN users u ON p.created_by = u.id
+        LEFT JOIN categories c ON p.category_id = c.id
+        WHERE p.status = "published" AND p.is_editors_pick = 1
+        ORDER BY p.created_at DESC
+        LIMIT ?
+    ');
+    if ($stmt) {
+        $stmt->bind_param('i', $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $posts = [];
+        if ($result && method_exists($result, 'fetch_assoc')) {
+            while ($row = $result->fetch_assoc()) {
+                $posts[] = $row;
+            }
+        }
+        return $posts;
+    }
+    return [];
+}
+
 const UPLOAD_DIR = __DIR__ . '/../uploads/posts/';
 const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 

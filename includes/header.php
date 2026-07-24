@@ -436,16 +436,37 @@ $breakingNews = getBreakingPosts(5);
                         <!-- Avatar Dropdown -->
                         <div class="relative group">
                             <button class="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors">
-                                <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-sm font-bold text-white">
+                                <div class="w-8 h-8 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md shadow-amber-500/20">
                                     <?= strtoupper(substr(currentUserName() ?? 'A', 0, 1)) ?>
                                 </div>
                             </button>
-                            <div class="absolute top-full right-0 mt-1 w-44 bg-white rounded-xl shadow-2xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                                <div class="px-4 py-3 border-b border-slate-200">
-                                    <p class="text-sm font-semibold text-slate-900 truncate"><?= htmlspecialchars(currentUserName() ?? '') ?></p>
-                                    <p class="text-xs text-amber-600">Administrator</p>
+                            <div class="absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                                <!-- User info -->
+                                <div class="px-5 py-4 bg-gradient-to-br from-amber-50 to-orange-50 border-b border-amber-100/50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-amber-500/30">
+                                            <?= strtoupper(substr(currentUserName() ?? 'A', 0, 1)) ?>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-bold text-slate-900 truncate"><?= htmlspecialchars(currentUserName() ?? '') ?></p>
+                                            <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-amber-700 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-full mt-1">
+                                                <i class="fa-solid fa-shield-halved"></i> Admin
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href="/Nova_News/public/logout.php" class="block px-4 py-2.5 text-sm text-red-500 hover:text-red-600 hover:bg-slate-50 rounded-b-xl transition-colors">Sign Out</a>
+                                <!-- Menu -->
+                                <div class="py-2">
+                                    <a href="/Nova_News/admin/index.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+                                        <i class="fa-solid fa-gauge-high w-4 text-center text-slate-400"></i> Admin Panel
+                                    </a>
+                                </div>
+                                <!-- Sign out -->
+                                <div class="border-t border-slate-100 px-4 py-3">
+                                    <a href="/Nova_News/public/logout.php" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-red-50 text-sm font-semibold text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-100 transition-colors">
+                                        <i class="fa-solid fa-right-from-bracket text-xs"></i> Sign Out
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     <?php else: ?>
@@ -468,18 +489,49 @@ $breakingNews = getBreakingPosts(5);
                         <!-- Avatar Dropdown -->
                         <div class="relative group">
                             <button class="flex items-center gap-2 p-1 rounded-full hover:bg-slate-100 transition-colors">
-                                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-sm font-bold text-white">
+                                <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-md shadow-blue-500/20">
                                     <?= strtoupper(substr(currentUserName() ?? 'U', 0, 1)) ?>
                                 </div>
                             </button>
-                            <div class="absolute top-full right-0 mt-1 w-44 bg-white rounded-xl shadow-2xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
-                                <div class="px-4 py-3 border-b border-slate-200">
-                                    <p class="text-sm font-semibold text-slate-900 truncate"><?= htmlspecialchars(currentUserName() ?? '') ?></p>
-                                    <p class="text-xs text-blue-500">Member</p>
+                            <div class="absolute top-full right-0 mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                                <!-- User info -->
+                                <div class="px-5 py-4 bg-gradient-to-br from-blue-50 to-indigo-50 border-b border-blue-100/50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-blue-500/30">
+                                            <?= strtoupper(substr(currentUserName() ?? 'U', 0, 1)) ?>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-bold text-slate-900 truncate"><?= htmlspecialchars(currentUserName() ?? '') ?></p>
+                                            <?php if ($navSub): ?>
+                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-amber-700 bg-gradient-to-r from-amber-100 to-yellow-100 border border-amber-200 px-2 py-0.5 rounded-full mt-1">
+                                                    <i class="fa-solid fa-crown text-amber-500"></i> Premium Member
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-full mt-1">
+                                                    <i class="fa-solid fa-user text-slate-400"></i> Free Member
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <a href="/Nova_News/user/dashboard.php" class="block px-4 py-2.5 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">My Dashboard</a>
-                                <a href="/Nova_News/user/payments.php" class="block px-4 py-2.5 text-sm text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors"><i class="fa-solid fa-credit-card mr-1.5"></i>Payments History</a>
-                                <a href="/Nova_News/public/logout.php" class="block px-4 py-2.5 text-sm text-red-500 hover:text-red-600 hover:bg-slate-50 rounded-b-xl transition-colors">Sign Out</a>
+                                <!-- Menu -->
+                                <div class="py-2">
+                                    <a href="/Nova_News/user/dashboard.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+                                        <i class="fa-solid fa-gauge w-4 text-center text-slate-400"></i> Dashboard
+                                    </a>
+                                    <a href="/Nova_News/user/all-posts.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+                                        <i class="fa-regular fa-bookmark w-4 text-center text-slate-400"></i> Saved Articles
+                                    </a>
+                                    <a href="/Nova_News/user/payments.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+                                        <i class="fa-solid fa-receipt w-4 text-center text-slate-400"></i> Payments
+                                    </a>
+                                </div>
+                                <!-- Sign out -->
+                                <div class="border-t border-slate-100 px-4 py-3">
+                                    <a href="/Nova_News/public/logout.php" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-red-50 text-sm font-semibold text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-100 transition-colors">
+                                        <i class="fa-solid fa-right-from-bracket text-xs"></i> Sign Out
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     <?php endif; ?>

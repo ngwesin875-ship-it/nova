@@ -210,15 +210,21 @@ $total = count($posts);
                 </form>
             </div>
 
-            <div class="bg-white rounded-xl shadow w-full overflow-x-auto">
+            <div class="bg-white rounded-xl shadow">
 
                 <div class="border-b p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">All Posts <span class="text-sm font-normal text-gray-500">(<?= number_format($total) ?> total)</span></h3>
-                    <a href="post-create.php" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                        <i class="fa-solid fa-plus mr-1"></i> Add New Post
-                    </a>
+                    <div class="flex items-center gap-3">
+                        <a href="export-excel.php?<?= http_build_query(array_filter(['type' => $type, 'status' => $status, 'search' => $search])) ?>" class="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
+                            <i class="fa-solid fa-file-excel mr-1"></i> Export to Excel
+                        </a>
+                        <a href="post-create.php" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+                            <i class="fa-solid fa-plus mr-1"></i> Add New Post
+                        </a>
+                    </div>
                 </div>
-            
+
+                <div class="w-full overflow-x-auto">
                 <table class="w-full">
                 
                     <thead calss="w-full">
@@ -325,7 +331,8 @@ $total = count($posts);
                         <?php endif; ?>
                     </tbody>
                 </table>
-            
+                </div>
+
             </div>
 
         </div>

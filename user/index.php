@@ -69,7 +69,7 @@ include __DIR__ . '/../includes/header.php';
                     <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
                         <span class="text-orange-500"><i class="fa-solid fa-fire"></i></span> TRENDING TODAY
                     </h2>
-                    <a href="all-posts.php" class="text-sm font-medium text-[#5B41FF] hover:underline">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                    <a href="trending_today.php" class="text-sm font-medium text-[#5B41FF] hover:underline">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

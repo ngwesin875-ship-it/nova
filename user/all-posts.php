@@ -32,9 +32,14 @@ $catColors = [
                 <span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
                     <i class="fa-solid fa-newspaper"></i>
                 </span>
-                <div>
+                <div class="flex-1">
                     <h1 class="text-2xl font-extrabold text-slate-900"><?= $typeFilter === 'premium' ? 'Premium News' : ($typeFilter === 'free' ? 'Free News' : 'All News') ?></h1>
                     <p class="text-sm text-slate-500"><?= $total ?> article<?= $total !== 1 ? 's' : '' ?> total</p>
+                </div>
+                <div class="flex bg-slate-200/60 p-0.5 rounded-lg text-xs font-semibold text-slate-600 shrink-0">
+                    <a href="?type=all" class="px-3 py-1 rounded-md <?= $typeFilter === 'all' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">All</a>
+                    <a href="?type=free" class="px-3 py-1 rounded-md <?= $typeFilter === 'free' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">Free</a>
+                    <a href="?type=premium" class="px-3 py-1 rounded-md <?= $typeFilter === 'premium' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">Premium</a>
                 </div>
             </div>
         </div>
