@@ -76,14 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 $type = $_GET['type'] ?? 'all';
 $status = $_GET['status'] ?? 'all';
 $search = trim($_GET['search'] ?? '');
-$page = max(1, (int)($_GET['page'] ?? 1));
-$limit = 10;
 
-$total = getPostsCount($type, $status, $search);
-$totalPages = max(1, (int)ceil($total / $limit));
-if ($page > $totalPages) $page = $totalPages;
-
-$posts = getPostsPaginated($page, $limit, $type, $status, $search);
+$posts = getPostsPaginated(1, 999999, $type, $status, $search);
+$total = count($posts);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,12 +91,81 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
 </head>
 <body class="bg-gray-100">
 
-<?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
+<!-- Sidebar -->
+    <aside class="fixed left-0 top-0 h-screen overflow-y-auto z-50 w-72 bg-slate-900 text-white flex flex-col">
+
+        <div class="h-16 flex items-center px-6 border-b border-slate-700">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-2xl font-bold text-white">
+                    <?= htmlspecialchars($displayInitial) ?>
+                </div>
+                <div>
+                    <h3 class="font-semibold"><?= htmlspecialchars($displayName) ?></h3>
+                    <p class="text-sm text-green-400">● <?= htmlspecialchars($displayRole) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mt-6 flex-1">
+            <a href="index.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-house mr-4"></i>
+                Dashboard
+            </a>
+            <a href="posts.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-newspaper mr-4"></i>
+                Posts
+            </a>
+            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
+            </a>
+            <a href="comments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-comments mr-4"></i> Comments
+            </a>
+            <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-folder mr-4"></i>
+                Categories
+            </a>
+            <a href="users.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-users mr-4"></i>
+                Users
+            </a>
+            <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-gem mr-4"></i>
+                Subscription Plans
+            </a>
+
+            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions
+            </a>
+            <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-credit-card mr-4"></i>
+                Payments
+            </a>
+            <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
+
+        </nav>
+        <a href="/Nova_News/public/logout.php" class="flex items-center px-6 py-4 hover:bg-red-600">
+            <i class="fa-solid fa-right-from-bracket mr-4"></i>
+            Logout
+        </a>
+
+    </aside>
 
 <!-- Main -->
     <div class="ml-72 flex flex-col h-screen">
 
-        <?php $pageTitle = 'Posts'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
+        <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
+            <h2 class="text-3xl font-bold">Posts</h2>
+            <div class="flex items-center gap-6">
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
+                        <?= htmlspecialchars($displayInitial) ?>
+                    </div>
+                    <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
+                </div>
+            </div>
+        </header>
 
         <div class="flex-1 overflow-y-auto p-8 space-y-10">
 
@@ -113,15 +177,15 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
             <?php endif; ?>
 
             <!-- Filters -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 mb-7 p-6">
+            <div class="bg-white rounded-xl shadow mb-7 p-6">
                 <form method="get" action="" class="flex flex-wrap items-end gap-4">
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
-                        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by title..." class="w-full px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by title..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Type</label>
-                        <select name="type" class="px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <select name="type" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                             <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All Types</option>
                             <option value="free" <?= $type === 'free' ? 'selected' : '' ?>>Free</option>
                             <option value="premium" <?= $type === 'premium' ? 'selected' : '' ?>>Premium</option>
@@ -129,24 +193,24 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                     </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
-                        <select name="status" class="px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <select name="status" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                             <option value="all" <?= $status === 'all' ? 'selected' : '' ?>>All Statuses</option>
                             <option value="published" <?= $status === 'published' ? 'selected' : '' ?>>Published</option>
                             <option value="draft" <?= $status === 'draft' ? 'selected' : '' ?>>Draft</option>
                         </select>
                     </div>
                     <div class="flex gap-2">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-filter mr-1"></i> Filter
                         </button>
-                        <a href="posts.php" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-slate-50/80 transition-colors transition">
+                        <a href="posts.php" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition">
                             <i class="fa-solid fa-undo mr-1"></i> Reset
                         </a>
                     </div>
                 </form>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60">
+            <div class="bg-white rounded-xl shadow">
 
                 <div class="border-b p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">All Posts <span class="text-sm font-normal text-gray-500">(<?= number_format($total) ?> total)</span></h3>
@@ -154,7 +218,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                         <a href="export-excel.php?<?= http_build_query(array_filter(['type' => $type, 'status' => $status, 'search' => $search])) ?>" class="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
                             <i class="fa-solid fa-file-excel mr-1"></i> Export to Excel
                         </a>
-                        <a href="post-create.php" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                        <a href="post-create.php" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-plus mr-1"></i> Add New Post
                         </a>
                     </div>
@@ -164,7 +228,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                 <table class="w-full">
                 
                     <thead calss="w-full">
-                        <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                        <tr class="border-b bg-gray-50 text-left text-sm font-semibold text-gray-600">
                              <th class="p-5">ID</th>
                             <th class="p-5">Title</th>
                             <th class="p-5">Category</th>
@@ -188,7 +252,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                             </tr>
                         <?php else: ?>
                             <?php foreach ($posts as $post): ?>
-                                <tr class="border-b hover:bg-slate-50/80 transition-colors">
+                                <tr class="border-b hover:bg-gray-50">
                                     <td class="p-5 text-gray-500"><?= (int) $post['id'] ?></td>
                                     <td class="p-5 font-medium max-w-xs truncate"><?= htmlspecialchars($post['title']) ?></td>
                                     <td class="p-5 text-gray-600"><?= htmlspecialchars($post['category_name'] ?? '-') ?></td>
@@ -251,13 +315,13 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                                                 <i class="fa-solid <?= ($post['is_editors_pick'] ?? 0) ? 'fa-award' : 'fa-certificate' ?>"></i>
                                             </button>
                                         </form>
-                                        <a href="post-edit.php?id=<?= (int) $post['id'] ?>" class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 p-1.5 rounded-lg transition-colors mr-3" title="Edit">
+                                        <a href="post-edit.php?id=<?= (int) $post['id'] ?>" class="text-blue-600 hover:text-blue-800 mr-3" title="Edit">
                                             <i class="fa-solid fa-edit"></i>
                                         </a>
                                         <form method="post" action="" class="inline" onsubmit="return confirm('Delete post &quot;<?= htmlspecialchars($post['title'], ENT_QUOTES) ?>&quot;?');">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="delete_id" value="<?= (int) $post['id'] ?>">
-                                            <button type="submit" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete">
+                                            <button type="submit" class="text-red-600 hover:text-red-800" title="Delete">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </form>
@@ -268,36 +332,6 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                     </tbody>
                 </table>
                 </div>
-                
-                <!-- Pagination Controls -->
-                <?php if ($totalPages > 1): ?>
-                <div class="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
-                    <p class="text-sm text-slate-500 font-medium">
-                        Showing page <span class="font-bold text-slate-700"><?= $page ?></span> of <span class="font-bold text-slate-700"><?= $totalPages ?></span>
-                    </p>
-                    <div class="flex gap-2">
-                        <?php if ($page > 1): ?>
-                            <a href="?page=<?= $page - 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50 hover:text-slate-800 transition-colors shadow-sm">
-                                <i class="fa-solid fa-chevron-left mr-1"></i> Previous
-                            </a>
-                        <?php else: ?>
-                            <button disabled class="px-4 py-2 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl text-sm font-semibold cursor-not-allowed">
-                                <i class="fa-solid fa-chevron-left mr-1"></i> Previous
-                            </button>
-                        <?php endif; ?>
-
-                        <?php if ($page < $totalPages): ?>
-                            <a href="?page=<?= $page + 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50 hover:text-slate-800 transition-colors shadow-sm">
-                                Next <i class="fa-solid fa-chevron-right ml-1"></i>
-                            </a>
-                        <?php else: ?>
-                            <button disabled class="px-4 py-2 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl text-sm font-semibold cursor-not-allowed">
-                                Next <i class="fa-solid fa-chevron-right ml-1"></i>
-                            </button>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                <?php endif; ?>
 
             </div>
 

@@ -84,13 +84,111 @@ if ($planResult) {
 
 <body class="bg-gray-100">
 
-<?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
+<!-- Sidebar -->
+    <aside class="fixed left-0 top-0 h-screen overflow-y-auto z-50 w-72 bg-slate-900 text-white flex flex-col">
+
+        <div class="h-16 flex items-center px-6 border-b border-slate-700">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-2xl font-bold text-white">
+                    <?= htmlspecialchars($displayInitial) ?>
+                </div>
+
+                <div>
+                    <h3 class="font-semibold"><?= htmlspecialchars($displayName) ?></h3>
+                    <p class="text-sm text-green-400">
+                        ● <?= htmlspecialchars($displayRole) ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <nav class="mt-6 flex-1">
+
+            <a href="#" class="flex items-center px-6 py-4 bg-blue-600">
+                <i class="fa-solid fa-house mr-4"></i>
+                Dashboard
+            </a>
+
+            <a href="posts.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-newspaper mr-4"></i>
+                Posts
+            </a>
+            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
+            </a>
+
+            <a href="comments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-comments mr-4"></i> Comments
+            </a>
+
+            <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-folder mr-4"></i>
+                Categories
+            </a>
+
+            <a href="users.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-users mr-4"></i>
+                Users
+            </a>
+
+            <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-gem mr-4"></i>
+                Subscription Plans
+            </a>
+
+            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
+
+            <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-credit-card mr-4"></i>
+                Payments
+            </a>
+
+            <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-money-bill-transfer mr-4"></i>
+                Payment Services
+            </a>
+            
+
+        </nav>
+
+        <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600">
+                <i class="fa-solid fa-right-from-bracket mr-4"></i>
+                Logout
+        </a>
+
+    </aside>
 
 
 <!-- Main -->
     <div class="ml-72 flex flex-col h-screen">
 
-    <?php $pageTitle = 'Dashboard'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
+    <!-- Header -->
+        <header class="bg-white shadow h-16 flex justify-between items-center px-8 sticky top-0 left-0 right-0 z-30">
+
+            <h2 class="text-3xl font-bold">
+                Dashboard
+            </h2>
+
+            <div class="flex items-center gap-6">
+
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
+
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
+                        <?= htmlspecialchars($displayInitial) ?>
+                    </div>
+
+                    <span class="font-semibold">
+                        <?= htmlspecialchars($displayName) ?>
+                    </span>
+                </div>
+
+            </div>
+
+        </header>
 
         <div class="flex-1 overflow-y-auto p-8 space-y-8">
 
@@ -98,95 +196,92 @@ if ($planResult) {
             <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
                 
             <!-- total users -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow p-6">
                     <div class="flex justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                            <p class="text-gray-500">
                                 Total Users
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
+                            <h2 class="text-4xl font-bold mt-3">
                                 <?= number_format($totalUsers) ?>
                             </h2>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-users text-blue-600 text-2xl"></i>
+                            class="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center">
+                            <i class="fa-solid fa-users text-blue-600 text-3xl"></i>
                         </div>
                     </div>
                 </div>
 
             <!-- total posts -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow p-6">
                     <div class="flex justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                            <p class="text-gray-500">
                                 Total Posts
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
+                            <h2 class="text-4xl font-bold mt-3">
                                 <?= number_format($totalPosts) ?>
                             </h2>
 
-                            <p class="text-emerald-600 text-sm font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
-                                <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span>
+                            <p class="text-green-500 mt-3">
                                 <?= number_format($publishedPosts) ?> Published
                             </p>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-file-lines text-emerald-600 text-2xl"></i>
+                            class="w-16 h-16 rounded-xl bg-green-100 flex items-center justify-center">
+                            <i class="fa-solid fa-file-lines text-green-600 text-3xl"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow p-6">
                     <div class="flex justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                            <p class="text-gray-500">
                                 Premium Users
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
+                            <h2 class="text-4xl font-bold mt-3">
                                 <?= number_format($premiumRegistrationCount) ?>
                             </h2>
 
-                            <p class="text-emerald-600 text-sm font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
-                                <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span>
+                            <p class="text-green-500 mt-3">
                                 <?= number_format($premiumRegistrationCount) ?> Active Subscribers
                             </p>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-gem text-purple-600 text-2xl"></i>
+                            class="w-16 h-16 rounded-xl bg-purple-100 flex items-center justify-center">
+                            <i class="fa-solid fa-gem text-purple-600 text-3xl"></i>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Revenue -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow p-6">
                     <div class="flex justify-between">
                         <div>
-                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                            <p class="text-gray-500">
                                 Revenue
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
-                                <?= number_format($totalRevenue, 0) ?> <span class="text-lg font-medium text-slate-500">MMK</span>
+                            <h2 class="text-4xl font-bold mt-3">
+                                <?= number_format($totalRevenue, 0) ?> <span class="text-lg">MMK</span>
                             </h2>
 
-                            <p class="text-emerald-600 text-sm font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
-                                <i class="fa-solid fa-arrow-trend-up mr-1"></i>
+                            <p class="text-green-500 mt-3">
                                 +18%
                             </p>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-coins text-amber-600 text-2xl"></i>
+                            class="w-16 h-16 rounded-xl bg-yellow-100 flex items-center justify-center">
+                            <i class="fa-solid fa-coins text-yellow-600 text-3xl"></i>
                         </div>
                     </div>
                 </div>
@@ -196,9 +291,10 @@ if ($planResult) {
         <!-- Tables -->
             <div class="grid lg:grid-cols-2 gap-8">
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
-                    <div class="border-b border-slate-100 p-5 bg-slate-50/50">
-                        <h3 class="text-lg font-bold text-slate-800">
+                <div class="bg-white rounded-xl shadow">
+
+                    <div class="border-b p-5">
+                        <h3 class="text-xl font-bold">
                             Latest Posts
                         </h3>
                     </div>
@@ -208,27 +304,26 @@ if ($planResult) {
                         <tbody>
 
                             <?php foreach ($latestPosts as $post): ?>
-                            <tr class="border-b border-slate-50 hover:bg-slate-50/80 transition-colors">
-                                <td class="p-5 font-medium text-slate-700"><?= htmlspecialchars($post['title']) ?></td>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-5"><?= htmlspecialchars($post['title']) ?></td>
                                 <td>
                                     <?php if ($post['post_type'] === 'premium'): ?>
-                                    <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-semibold border border-blue-100">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
                                         Premium
                                     </span>
                                     <?php else: ?>
-                                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-semibold border border-slate-200">
+                                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">
                                         Free
                                     </span>
                                     <?php endif; ?>
                                 </td>
                                 <td>
                                     <?php if ($post['status'] === 'published'): ?>
-                                    <span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-semibold border border-emerald-100 flex items-center w-fit">
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
                                         Published
                                     </span>
                                     <?php else: ?>
-                                    <span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full text-xs font-semibold border border-amber-100 flex items-center w-fit">
+                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
                                         Draft
                                     </span>
                                     <?php endif; ?>
@@ -242,9 +337,9 @@ if ($planResult) {
 
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 h-[380px] overflow-y-auto">
+                <div class="bg-white rounded-xl shadow p-6 h-[350px] overflow-y-auto">
 
-                    <h3 class="text-lg font-bold text-slate-800 mb-6">
+                    <h3 class="text-xl font-bold mb-6">
                         Subscription Overview
                     </h3>
 
@@ -255,12 +350,12 @@ if ($planResult) {
                             $pct = $maxPlanCount > 0 ? round(($count / $maxPlanCount) * 100) : 0;
                             $color = $barColors[$ci % count($barColors)]; $ci++;
                         ?>
-                        <div class="flex justify-between items-center mb-1.5">
-                            <span class="text-sm font-medium text-slate-600"><?= htmlspecialchars($plan['name']) ?></span>
-                            <span class="text-sm font-bold text-slate-800"><?= $count ?></span>
+                        <div class="flex justify-between">
+                            <span><?= htmlspecialchars($plan['name']) ?></span>
+                            <span class="font-bold"><?= $count ?></span>
                         </div>
-                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
-                            <div class="<?= $color ?> h-full rounded-full transition-all duration-1000 ease-out" style="width: <?= $pct ?>%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-3">
+                            <div class="<?= $color ?> h-3 rounded-full" style="width: <?= $pct ?>%"></div>
                         </div>
                         <?php endforeach; ?>
                     </div>

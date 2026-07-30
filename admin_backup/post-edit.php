@@ -106,12 +106,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-gray-100">
 
-<?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
+<!-- Sidebar -->
+    <aside class="fixed left-0 top-0 h-screen overflow-y-auto z-50 w-72 bg-slate-900 text-white">
+
+        <div class="h-16 flex items-center px-6 border-b border-slate-700">
+            <i class="fa-solid fa-newspaper text-2xl mr-3 text-blue-500"></i>
+            <h1 class="text-2xl font-bold">NOVA NEWS</h1>
+        </div>
+
+        <div class="p-6 border-b border-slate-700">
+            <div class="flex items-center gap-4">
+                <div class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-2xl font-bold text-white">
+                    <?= htmlspecialchars($displayInitial) ?>
+                </div>
+                <div>
+                    <h3 class="font-semibold"><?= htmlspecialchars($displayName) ?></h3>
+                    <p class="text-sm text-green-400">● <?= htmlspecialchars($displayRole) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mt-6">
+            <a href="index.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-house mr-4"></i>
+                Dashboard
+            </a>
+            <a href="posts.php" class="flex items-center px-6 py-4 bg-blue-600">
+                <i class="fa-solid fa-newspaper mr-4"></i>
+                Posts
+            </a>
+            <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-folder mr-4"></i>
+                Categories
+            </a>
+            <a href="users.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-users mr-4"></i>
+                Users
+            </a>
+            <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-gem mr-4"></i>
+                Subscription Plans
+            </a>
+            <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-credit-card mr-4"></i>
+                Payments
+            </a>
+
+            <a href="#" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-gear mr-4"></i>
+                Settings
+            </a>
+            <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600">
+                <i class="fa-solid fa-right-from-bracket mr-4"></i>
+                Logout
+            </a>
+        </nav>
+
+    </aside>
 
 <!-- Main -->
     <div class="ml-72 flex flex-col h-screen">
 
-        <?php $pageTitle = 'Edit Post'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
+        <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
+            <h2 class="text-3xl font-bold">Edit Post</h2>
+            <div class="flex items-center gap-6">
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
+                        <?= htmlspecialchars($displayInitial) ?>
+                    </div>
+                    <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
+                </div>
+            </div>
+        </header>
 
         <div class="flex-1 overflow-y-auto p-8 space-y-8">
 
@@ -122,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 max-w-4xl">
+            <div class="bg-white rounded-xl shadow max-w-4xl">
 
                 <div class="border-b p-5 flex items-center gap-3">
                     <i class="fa-solid fa-file-lines text-blue-600 text-xl"></i>
@@ -137,12 +204,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label for="title" class="block text-sm font-semibold text-gray-700 mb-1">Title <span class="text-red-500">*</span></label>
                             <input type="text" id="title" name="title" value="<?= htmlspecialchars($title) ?>" required
                                    oninput="autoSlug(this.value)"
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                         </div>
                         <div>
                             <label for="slug" class="block text-sm font-semibold text-gray-700 mb-1">Slug <span class="text-red-500">*</span></label>
                             <input type="text" id="slug" name="slug" value="<?= htmlspecialchars($slug) ?>" required
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none font-mono text-sm">
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono text-sm">
                             <p class="text-xs text-gray-500 mt-1">Auto-generated from title.</p>
                         </div>
                     </div>
@@ -150,14 +217,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div>
                         <label for="content" class="block text-sm font-semibold text-gray-700 mb-1">Content <span class="text-red-500">*</span></label>
                         <textarea id="content" name="content" rows="16" required
-                                  class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none font-mono text-sm leading-relaxed"><?= htmlspecialchars($content) ?></textarea>
+                                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none font-mono text-sm leading-relaxed"><?= htmlspecialchars($content) ?></textarea>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
                             <label for="excerpt" class="block text-sm font-semibold text-gray-700 mb-1">Excerpt</label>
                             <textarea id="excerpt" name="excerpt" rows="3" maxlength="500"
-                                      class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none text-sm"><?= htmlspecialchars($excerpt) ?></textarea>
+                                      class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"><?= htmlspecialchars($excerpt) ?></textarea>
                             <p class="text-xs text-gray-500 mt-1">Short summary (max 500 chars).</p>
                         </div>
                         <div>
@@ -172,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             <?php endif; ?>
                             <input type="file" id="image_file" name="image_file" accept="image/jpeg,image/png,image/gif,image/webp"
-                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-semibold hover:file:bg-blue-100">
+                                   class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-semibold hover:file:bg-blue-100">
                             <p class="text-xs text-gray-500 mt-1"><?= $imageUrl ? 'Leave empty to keep current image.' : 'Allowed: JPG, PNG, GIF, WEBP (max 5MB).' ?></p>
                             <div id="image-preview-container" class="mt-3 hidden">
                                 <img id="image-preview" src="" alt="Preview" class="w-full max-w-xs h-40 object-cover rounded-lg border border-gray-200">
@@ -183,14 +250,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="grid md:grid-cols-5 gap-5">
                         <div>
                             <label for="post_type" class="block text-sm font-semibold text-gray-700 mb-1">Post Type</label>
-                            <select id="post_type" name="post_type" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <select id="post_type" name="post_type" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                 <option value="free" <?= $postType === 'free' ? 'selected' : '' ?>>Free</option>
                                 <option value="premium" <?= $postType === 'premium' ? 'selected' : '' ?>>Premium</option>
                             </select>
                         </div>
                         <div>
                             <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                            <select id="category_id" name="category_id" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <select id="category_id" name="category_id" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                 <option value="">— No Category —</option>
                                 <?php foreach ($categories as $cat): ?>
                                     <option value="<?= (int) $cat['id'] ?>" <?= $categoryId == $cat['id'] ? 'selected' : '' ?>><?= htmlspecialchars($cat['name']) ?></option>
@@ -199,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <div>
                             <label for="status" class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
-                            <select id="status" name="status" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <select id="status" name="status" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                                 <option value="published" <?= $status === 'published' ? 'selected' : '' ?>>Published</option>
                                 <option value="draft" <?= $status === 'draft' ? 'selected' : '' ?>>Draft</option>
                             </select>
@@ -225,7 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
-                        <a href="posts.php" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-slate-50/80 transition-colors transition">
+                        <a href="posts.php" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition">
                             <i class="fa-solid fa-arrow-left mr-1"></i> Back to Posts
                         </a>
                         <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">

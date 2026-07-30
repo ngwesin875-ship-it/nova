@@ -67,11 +67,74 @@ function qs(array $overrides = []): string
 </head>
 <body class="bg-gray-100">
 
-    <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
+    <aside class="fixed left-0 top-0 h-screen overflow-y-auto z-50 w-72 bg-slate-900 text-white flex flex-col">
+
+        <div class="h-16 flex items-center px-6 border-b border-slate-700">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-2xl font-bold text-white">
+                    <?= htmlspecialchars($displayInitial) ?>
+                </div>
+                <div>
+                    <h3 class="font-semibold"><?= htmlspecialchars($displayName) ?></h3>
+                    <p class="text-sm text-green-400">● <?= htmlspecialchars($displayRole) ?></p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="mt-6 flex-1">
+            <a href="index.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-house mr-4"></i> Dashboard
+            </a>
+            <a href="posts.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-newspaper mr-4"></i> Posts
+            </a>
+            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
+            </a>
+            <a href="comments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-comments mr-4"></i> Comments
+            </a>
+            <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-folder mr-4"></i> Categories
+            </a>
+            <a href="users.php" class="flex items-center px-6 py-4 bg-blue-600">
+                <i class="fa-solid fa-users mr-4"></i> Users
+            </a>
+            <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-gem mr-4"></i> Subscription Plans
+            </a>
+
+            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions
+            </a>
+            <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
+                <i class="fa-solid fa-credit-card mr-4"></i> Payments
+            </a>
+            <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
+
+            
+        </nav>
+
+         <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600">
+            <i class="fa-solid fa-right-from-bracket mr-4"></i> Logout
+        </a>
+
+    </aside>
 
     <div class="ml-72 flex flex-col h-screen">
 
-        <?php $pageTitle = 'Users'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
+        <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
+            <h2 class="text-3xl font-bold">Users</h2>
+            <div class="flex items-center gap-6">
+                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white">
+                        <?= htmlspecialchars($displayInitial) ?>
+                    </div>
+                    <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
+                </div>
+            </div>
+        </header>
 
         <div class="flex-1 overflow-y-auto p-8 space-y-8">
 
@@ -82,24 +145,24 @@ function qs(array $overrides = []): string
                 </div>
             <?php endif; ?>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 mb-6 p-5">
+            <div class="bg-white rounded-xl shadow mb-6 p-5">
                 <form method="get" action="" class="flex flex-wrap items-end gap-4">
                     <div class="flex-1 min-w-[200px]">
                         <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
-                        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by username or email..." class="w-full px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by username or email..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none">
                     </div>
                     <div class="flex gap-2">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-filter mr-1"></i> Filter
                         </button>
-                        <a href="users.php" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-slate-50/80 transition-colors transition">
+                        <a href="users.php" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition">
                             <i class="fa-solid fa-undo mr-1"></i> Reset
                         </a>
                     </div>
                 </form>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60">
+            <div class="bg-white rounded-xl shadow">
 
                 <div class="border-b p-5">
                     <h3 class="text-xl font-bold">All Users <span class="text-sm font-normal text-gray-500">(<?= number_format($total) ?> total)</span></h3>
@@ -107,7 +170,7 @@ function qs(array $overrides = []): string
 
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                        <tr class="border-b bg-gray-50 text-left text-sm font-semibold text-gray-600">
                             <th class="p-5">ID</th>
                             <th class="p-5">User</th>
                             <th class="p-5">Email</th>
@@ -127,7 +190,7 @@ function qs(array $overrides = []): string
                             </tr>
                         <?php else: ?>
                             <?php foreach ($users as $user): ?>
-                                <tr class="border-b hover:bg-slate-50/80 transition-colors">
+                                <tr class="border-b hover:bg-gray-50">
                                     <td class="p-5 text-gray-500"><?= (int) $user['id'] ?></td>
                                     <td class="p-5">
                                         <div class="flex items-center gap-3">
@@ -161,14 +224,14 @@ function qs(array $overrides = []): string
                                     </td>
                                     <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($user['created_at']))) ?></td>
                                     <td class="p-5 text-right whitespace-nowrap">
-                                        <a href="user-edit.php?id=<?= (int) $user['id'] ?>" class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 p-1.5 rounded-lg transition-colors mr-4" title="Edit">
+                                        <a href="user-edit.php?id=<?= (int) $user['id'] ?>" class="text-blue-600 hover:text-blue-800 mr-4" title="Edit">
                                             <i class="fa-solid fa-edit"></i> Edit
                                         </a>
                                         <?php if ((int) $user['id'] !== $selfId): ?>
                                             <form method="post" action="" class="inline" onsubmit="return confirm('Delete user &quot;<?= htmlspecialchars($user['username'], ENT_QUOTES) ?>&quot;?');">
                                                 <?= csrfField() ?>
                                                 <input type="hidden" name="delete_id" value="<?= (int) $user['id'] ?>">
-                                                <button type="submit" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete">
+                                                <button type="submit" class="text-red-600 hover:text-red-800" title="Delete">
                                                     <i class="fa-solid fa-trash"></i> Delete
                                                 </button>
                                             </form>
@@ -185,10 +248,10 @@ function qs(array $overrides = []): string
                         <p class="text-sm text-gray-500">Page <?= $page ?> of <?= $totalPages ?></p>
                         <div class="flex gap-2">
                             <?php if ($page > 1): ?>
-                                <a href="?<?= qs(['page' => $page - 1]) ?>" class="px-3 py-1.5 border border-gray-300 rounded text-sm font-medium hover:bg-slate-50/80 transition-colors transition"><i class="fa-solid fa-chevron-left mr-1"></i> Previous</a>
+                                <a href="?<?= qs(['page' => $page - 1]) ?>" class="px-3 py-1.5 border border-gray-300 rounded text-sm font-medium hover:bg-gray-50 transition"><i class="fa-solid fa-chevron-left mr-1"></i> Previous</a>
                             <?php endif; ?>
                             <?php if ($page < $totalPages): ?>
-                                <a href="?<?= qs(['page' => $page + 1]) ?>" class="px-3 py-1.5 border border-gray-300 rounded text-sm font-medium hover:bg-slate-50/80 transition-colors transition">Next <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                                <a href="?<?= qs(['page' => $page + 1]) ?>" class="px-3 py-1.5 border border-gray-300 rounded text-sm font-medium hover:bg-gray-50 transition">Next <i class="fa-solid fa-chevron-right ml-1"></i></a>
                             <?php endif; ?>
                         </div>
                     </div>

@@ -72,48 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-gray-100">
 
-    <aside class="fixed left-0 top-0 h-screen overflow-y-auto z-50 w-72 bg-slate-900 text-white flex flex-col">
-
-        <div class="h-16 flex items-center px-6 border-b border-slate-700">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-2xl font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
-                <div>
-                    <h3 class="font-semibold"><?= htmlspecialchars($displayName) ?></h3>
-                    <p class="text-sm text-green-400">● <?= htmlspecialchars($displayRole) ?></p>
-                </div>
-            </div>
-        </div>
-
-        <nav class="mt-6 flex-1">
-            <a href="index.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-house mr-4"></i> Dashboard</a>
-            <a href="posts.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-newspaper mr-4"></i> Posts</a>
-            <a href="categories.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-folder mr-4"></i> Categories</a>
-            <a href="users.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-users mr-4"></i> Users</a>
-            <a href="plans.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-gem mr-4"></i> Subscription Plans</a>
-            <a href="user-subscriptions.php" class="flex items-center px-6 py-4 bg-blue-600"><i class="fa-solid fa-file-contract mr-4"></i> User Subscriptions</a>
-            <a href="payments.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-credit-card mr-4"></i> Payments</a>
-            <a href="payment-services.php" class="flex items-center px-6 py-4 hover:bg-slate-800"><i class="fa-solid fa-money-bill-transfer mr-4"></i> Payment Services</a>
-
-            <a href="likes.php" class="flex items-center px-6 py-4 hover:bg-slate-800">
-                <i class="fa-solid fa-thumbs-up mr-4"></i> Likes &amp; Dislikes
-            </a>
-        </nav>
-           <a href="/Nova_News/public/signin.php" class="flex items-center px-6 py-4 hover:bg-red-600"><i class="fa-solid fa-right-from-bracket mr-4"></i> Logout</a>
-
-    </aside>
+    <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
     <div class="ml-72 flex flex-col h-screen">
 
-        <header class="bg-white shadow h-16 flex justify-between items-center px-8 shrink-0">
-            <h2 class="text-3xl font-bold">Create Subscription</h2>
-            <div class="flex items-center gap-6">
-                <?php include __DIR__ . '/../includes/admin-header.php'; ?>
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-sm font-bold text-white"><?= htmlspecialchars($displayInitial) ?></div>
-                    <span class="font-semibold"><?= htmlspecialchars($displayName) ?></span>
-                </div>
-            </div>
-        </header>
+        <?php $pageTitle = 'Create Subscription'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
         <div class="flex-1 overflow-y-auto p-8 space-y-8">
 
@@ -135,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <div class="bg-white rounded-xl shadow p-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6">
                 <form method="post" action="">
                     <?= csrfField() ?>
 
