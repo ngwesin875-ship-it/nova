@@ -71,18 +71,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Edit Plan'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($errorMessage): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium bg-red-100 text-red-800 border border-red-200">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium bg-red-100 text-red-800 border border-red-200">
                     <i class="fa-solid fa-exclamation-circle mr-2"></i> <?= htmlspecialchars($errorMessage) ?>
                 </div>
             <?php endif; ?>
@@ -94,49 +94,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h3 class="text-xl font-bold"><?= htmlspecialchars($plan['name']) ?></h3>
                 </div>
 
-                <form method="post" action="" class="p-5 space-y-5">
+                <form method="post" action="" class="px-3 py-2 text-xs space-y-5">
                     <?= csrfField() ?>
 
                     <div>
-                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label for="name" class="block text-xs font-semibold text-slate-900 mb-1">Name <span class="text-red-600">*</span></label>
+                        <input type="text" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
-                            <label for="duration_months" class="block text-sm font-semibold text-gray-700 mb-1">Duration (months) <span class="text-red-500">*</span></label>
-                            <input type="number" id="duration_months" name="duration_months" value="<?= $durationMonths ?>" min="1" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <label for="duration_months" class="block text-xs font-semibold text-slate-900 mb-1">Duration (months) <span class="text-red-600">*</span></label>
+                            <input type="number" id="duration_months" name="duration_months" value="<?= $durationMonths ?>" min="1" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                         </div>
                         <div>
-                            <label for="price" class="block text-sm font-semibold text-gray-700 mb-1">Price (MMK) <span class="text-red-500">*</span></label>
-                            <input type="number" id="price" name="price" value="<?= number_format($price, 2) ?>" step="0.01" min="0.01" required oninput="calcFinal()" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <label for="price" class="block text-xs font-semibold text-slate-900 mb-1">Price (MMK) <span class="text-red-600">*</span></label>
+                            <input type="number" id="price" name="price" value="<?= number_format($price, 2) ?>" step="0.01" min="0.01" required oninput="calcFinal()" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                         </div>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
-                            <label for="discount_percentage" class="block text-sm font-semibold text-gray-700 mb-1">Discount (%)</label>
-                            <input type="number" id="discount_percentage" name="discount_percentage" value="<?= number_format($discountPercentage, 2) ?>" step="0.01" min="0" max="100" oninput="calcFinal()" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
-                            <p class="text-xs text-gray-500 mt-1">Set to 0 for no discount.</p>
+                            <label for="discount_percentage" class="block text-xs font-semibold text-slate-900 mb-1">Discount (%)</label>
+                            <input type="number" id="discount_percentage" name="discount_percentage" value="<?= number_format($discountPercentage, 2) ?>" step="0.01" min="0" max="100" oninput="calcFinal()" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <p class="text-xs text-slate-500 mt-1">Set to 0 for no discount.</p>
                         </div>
                         <div>
-                            <label for="final_price_display" class="block text-sm font-semibold text-gray-700 mb-1">Final Price (MMK)</label>
-                            <input type="text" id="final_price_display" readonly class="w-full px-4 py-2.5 border border-gray-200 bg-gray-50 rounded-lg text-gray-500 outline-none cursor-default">
+                            <label for="final_price_display" class="block text-xs font-semibold text-slate-900 mb-1">Final Price (MMK)</label>
+                            <input type="text" id="final_price_display" readonly class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 bg-slate-50/50 rounded-lg text-slate-500 outline-none cursor-default">
                             <input type="hidden" id="final_price" name="final_price" value="<?= number_format($finalPrice, 2) ?>">
-                            <p class="text-xs text-gray-500 mt-1">Auto-calculated from price and discount.</p>
+                            <p class="text-xs text-slate-500 mt-1">Auto-calculated from price and discount.</p>
                         </div>
                     </div>
 
                     <div>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" name="is_active" value="1" <?= $isActive ? 'checked' : '' ?> class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                            <span class="text-sm font-semibold text-gray-700">Active</span>
+                            <input type="checkbox" name="is_active" value="1" <?= $isActive ? 'checked' : '' ?> class="w-4 h-4 text-blue-600 border-slate-200 rounded focus:ring-blue-500">
+                            <span class="text-xs font-semibold text-slate-900">Active</span>
                         </label>
-                        <p class="text-xs text-gray-500 mt-1">Only active plans are shown to users.</p>
+                        <p class="text-xs text-slate-500 mt-1">Only active plans are shown to users.</p>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
-                        <a href="plans.php" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-slate-50/80 transition-colors transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Plans</a>
+                        <a href="plans.php" class="px-6 py-2.5 border border-slate-200 text-slate-900 rounded-lg font-semibold hover:bg-slate-50/50 transition-colors transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Plans</a>
                         <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-save mr-1"></i> Update Plan
                         </button>

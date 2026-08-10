@@ -82,111 +82,111 @@ if ($planResult) {
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
 <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
 
 <!-- Main -->
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
     <?php $pageTitle = 'Dashboard'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
         <!-- Cards -->
-            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-4">
                 
             <!-- total users -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
                     <div class="flex justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                 Total Users
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
+                            <h2 class="text-2xl font-bold mt-2 text-slate-900 tracking-tight">
                                 <?= number_format($totalUsers) ?>
                             </h2>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-users text-blue-600 text-2xl"></i>
+                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-users text-blue-600 text-xl"></i>
                         </div>
                     </div>
                 </div>
 
             <!-- total posts -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
                     <div class="flex justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                 Total Posts
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
+                            <h2 class="text-2xl font-bold mt-2 text-slate-900 tracking-tight">
                                 <?= number_format($totalPosts) ?>
                             </h2>
 
-                            <p class="text-emerald-600 text-sm font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
+                            <p class="text-emerald-600 text-xs font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
                                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span>
                                 <?= number_format($publishedPosts) ?> Published
                             </p>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-file-lines text-emerald-600 text-2xl"></i>
+                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-file-lines text-emerald-600 text-xl"></i>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
                     <div class="flex justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                 Premium Users
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
+                            <h2 class="text-2xl font-bold mt-2 text-slate-900 tracking-tight">
                                 <?= number_format($premiumRegistrationCount) ?>
                             </h2>
 
-                            <p class="text-emerald-600 text-sm font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
+                            <p class="text-emerald-600 text-xs font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
                                 <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span>
-                                <?= number_format($premiumRegistrationCount) ?> Active Subscribers
+                                <?= number_format($premiumRegistrationCount) ?> Active Subs
                             </p>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-gem text-purple-600 text-2xl"></i>
+                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-gem text-purple-600 text-xl"></i>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Revenue -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
                     <div class="flex justify-between">
                         <div>
                             <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                 Revenue
                             </p>
 
-                            <h2 class="text-3xl font-bold mt-2 text-slate-800 tracking-tight">
-                                <?= number_format($totalRevenue, 0) ?> <span class="text-lg font-medium text-slate-500">MMK</span>
+                            <h2 class="text-2xl font-bold mt-2 text-slate-900 tracking-tight">
+                                <?= number_format($totalRevenue, 0) ?> <span class="text-base font-medium text-slate-500">MMK</span>
                             </h2>
 
-                            <p class="text-emerald-600 text-sm font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
+                            <p class="text-emerald-600 text-xs font-medium mt-2 bg-emerald-50 inline-block px-2.5 py-0.5 rounded-full">
                                 <i class="fa-solid fa-arrow-trend-up mr-1"></i>
                                 +18%
                             </p>
                         </div>
 
                         <div
-                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center shadow-inner">
-                            <i class="fa-solid fa-coins text-amber-600 text-2xl"></i>
+                            class="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-coins text-amber-600 text-xl"></i>
                         </div>
                     </div>
                 </div>
@@ -194,11 +194,11 @@ if ($planResult) {
             </div>
 
         <!-- Tables -->
-            <div class="grid lg:grid-cols-2 gap-8">
+            <div class="grid lg:grid-cols-2 gap-6">
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
-                    <div class="border-b border-slate-100 p-5 bg-slate-50/50">
-                        <h3 class="text-lg font-bold text-slate-800">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 overflow-hidden">
+                    <div class="border-b border-slate-200 p-4 bg-slate-50/50">
+                        <h3 class="text-base font-bold text-slate-900">
                             Latest Posts
                         </h3>
                     </div>
@@ -208,8 +208,8 @@ if ($planResult) {
                         <tbody>
 
                             <?php foreach ($latestPosts as $post): ?>
-                            <tr class="border-b border-slate-50 hover:bg-slate-50/80 transition-colors">
-                                <td class="p-5 font-medium text-slate-700"><?= htmlspecialchars($post['title']) ?></td>
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/50 transition-colors">
+                                <td class="p-4 font-medium text-slate-900 text-sm"><?= htmlspecialchars($post['title']) ?></td>
                                 <td>
                                     <?php if ($post['post_type'] === 'premium'): ?>
                                     <span class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-semibold border border-blue-100">
@@ -242,9 +242,9 @@ if ($planResult) {
 
                 </div>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 h-[380px] overflow-y-auto">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/60 p-5 h-[300px] overflow-y-auto">
 
-                    <h3 class="text-lg font-bold text-slate-800 mb-6">
+                    <h3 class="text-base font-bold text-slate-900 mb-4">
                         Subscription Overview
                     </h3>
 
@@ -256,8 +256,8 @@ if ($planResult) {
                             $color = $barColors[$ci % count($barColors)]; $ci++;
                         ?>
                         <div class="flex justify-between items-center mb-1.5">
-                            <span class="text-sm font-medium text-slate-600"><?= htmlspecialchars($plan['name']) ?></span>
-                            <span class="text-sm font-bold text-slate-800"><?= $count ?></span>
+                            <span class="text-xs font-medium text-slate-600"><?= htmlspecialchars($plan['name']) ?></span>
+                            <span class="text-sm font-bold text-slate-900"><?= $count ?></span>
                         </div>
                         <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                             <div class="<?= $color ?> h-full rounded-full transition-all duration-1000 ease-out" style="width: <?= $pct ?>%"></div>

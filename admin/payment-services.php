@@ -145,18 +145,18 @@ $services = getAllPaymentServices();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Payment Services'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
@@ -164,70 +164,73 @@ $services = getAllPaymentServices();
 
             <!-- Services Table -->
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
-                <div class="border-b p-5">
+                <div class="border-b p-5 flex items-center justify-between">
                     <h3 class="text-xl font-bold">All Payment Services</h3>
+                    <button onclick="document.getElementById('add-modal').classList.remove('hidden')" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+                        <i class="fa-solid fa-plus mr-1"></i> Add New Payment Service
+                    </button>
                 </div>
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="p-5">ID</th>
-                            <th class="p-5">Name</th>
-                            <th class="p-5">Display Name</th>
-                            <th class="p-5">Phone Number</th>
-                            <th class="p-5">Logo</th>
-                            <th class="p-5">Account Name</th>
-                            <th class="p-5">QR Image</th>
-                            <th class="p-5">Status</th>
-                            <th class="p-5">Created</th>
-                            <th class="p-5 text-right">Actions</th>
+                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">Name</th>
+                            <th class="px-3 py-2 text-xs">Display Name</th>
+                            <th class="px-3 py-2 text-xs">Phone Number</th>
+                            <th class="px-3 py-2 text-xs">Logo</th>
+                            <th class="px-3 py-2 text-xs">Account Name</th>
+                            <th class="px-3 py-2 text-xs">QR Image</th>
+                            <th class="px-3 py-2 text-xs">Status</th>
+                            <th class="px-3 py-2 text-xs">Created</th>
+                            <th class="px-3 py-2 text-xs text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($services)): ?>
                             <tr>
-                                <td colspan="10" class="p-10 text-center text-gray-500">
+                                <td colspan="10" class="p-10 text-center text-slate-500">
                                     <i class="fa-solid fa-money-bill-transfer text-4xl mb-3 block"></i>
                                     No payment services found.
                                 </td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($services as $svc): ?>
-                            <tr class="border-b hover:bg-slate-50/80 transition-colors">
-                                <td class="p-5 text-gray-500"><?= (int) $svc['id'] ?></td>
-                                <td class="p-5 font-mono text-sm text-gray-500"><?= htmlspecialchars($svc['name']) ?></td>
-                                <td class="p-5 font-medium"><?= htmlspecialchars($svc['display_name']) ?></td>
-                                <td class="p-5"><?= htmlspecialchars($svc['phone_number']) ?></td>
-                                <td class="p-5">
+                            <tr class="border-b hover:bg-slate-50/50 transition-colors">
+                                <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $svc['id'] ?></td>
+                                <td class="px-3 py-2 text-xs font-mono text-sm text-slate-500"><?= htmlspecialchars($svc['name']) ?></td>
+                                <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($svc['display_name']) ?></td>
+                                <td class="px-3 py-2 text-xs"><?= htmlspecialchars($svc['phone_number']) ?></td>
+                                <td class="px-3 py-2 text-xs">
                                     <?php if (!empty($svc['logo_image'])): ?>
                                         <a href="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">
                                             <img src="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>" alt="Logo" class="w-10 h-10 object-cover rounded-lg border">
                                         </a>
                                     <?php else: ?>
-                                        <span class="text-gray-400">-</span>
+                                        <span class="text-slate-500">-</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="p-5"><?= htmlspecialchars($svc['account_name']) ?></td>
-                                <td class="p-5">
+                                <td class="px-3 py-2 text-xs"><?= htmlspecialchars($svc['account_name']) ?></td>
+                                <td class="px-3 py-2 text-xs">
                                     <?php if ($svc['qr_image']): ?>
                                         <a href="/Nova_News/<?= htmlspecialchars($svc['qr_image']) ?>" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">
                                             <i class="fa-solid fa-qrcode"></i> View
                                         </a>
                                     <?php else: ?>
-                                        <span class="text-gray-400">-</span>
+                                        <span class="text-slate-500">-</span>
                                     <?php endif; ?>
                                 </td>
-                                <td class="p-5">
+                                <td class="px-3 py-2 text-xs">
                                     <form method="post" action="" class="inline">
                                         <?= csrfField() ?>
                                         <input type="hidden" name="service_id" value="<?= (int) $svc['id'] ?>">
                                         <input type="hidden" name="toggle_active" value="1">
-                                        <button type="submit" class="<?= (int) $svc['is_active'] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' ?> px-3 py-1 rounded-full text-sm font-medium hover:opacity-80 transition">
+                                        <button type="submit" class="<?= (int) $svc['is_active'] ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600' ?> px-3 py-1 rounded-full text-xs font-medium hover:opacity-80 transition">
                                             <?= (int) $svc['is_active'] ? 'Active' : 'Inactive' ?>
                                         </button>
                                     </form>
                                 </td>
-                                <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($svc['created_at']))) ?></td>
-                                <td class="p-5 text-right whitespace-nowrap">
+                                <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($svc['created_at']))) ?></td>
+                                <td class="px-3 py-2 text-xs text-right whitespace-nowrap">
                                     <button onclick="openEdit(<?= (int) $svc['id'] ?>)" class="text-blue-600 hover:text-blue-800 mr-4"><i class="fa-solid fa-edit"></i> Edit</button>
                                     <form method="post" action="" class="inline" onsubmit="return confirm('Delete <?= htmlspecialchars($svc['display_name']) ?>?');">
                                         <?= csrfField() ?>
@@ -252,7 +255,7 @@ $services = getAllPaymentServices();
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between p-6 border-b">
                 <h3 class="text-xl font-bold">Add Payment Service</h3>
-                <button onclick="document.getElementById('add-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
+                <button onclick="document.getElementById('add-modal').classList.add('hidden')" class="text-slate-500 hover:text-slate-900 text-2xl leading-none">&times;</button>
             </div>
             <form method="post" action="" enctype="multipart/form-data" class="p-6 space-y-4">
                 <?= csrfField() ?>
@@ -260,44 +263,44 @@ $services = getAllPaymentServices();
 
                 <div class="grid md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="name" placeholder="kpay, wavepay, ayapay" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
-                        <p class="text-xs text-gray-500 mt-1">Unique key, e.g. 'kpay'</p>
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Name <span class="text-red-600">*</span></label>
+                        <input type="text" name="name" placeholder="kpay, wavepay, ayapay" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <p class="text-xs text-slate-500 mt-1">Unique key, e.g. 'kpay'</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Display Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="display_name" placeholder="KPay" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Display Name <span class="text-red-600">*</span></label>
+                        <input type="text" name="display_name" placeholder="KPay" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
-                        <input type="text" name="phone_number" placeholder="09777777777" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Phone Number <span class="text-red-600">*</span></label>
+                        <input type="text" name="phone_number" placeholder="09777777777" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Account Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="account_name" placeholder="Nova News" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Account Name <span class="text-red-600">*</span></label>
+                        <input type="text" name="account_name" placeholder="Nova News" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Logo Image</label>
-                    <input type="file" name="logo_image" accept="image/*" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <label class="block text-xs font-semibold text-slate-900 mb-1">Logo Image</label>
+                    <input type="file" name="logo_image" accept="image/*" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">QR Code Image</label>
-                    <input type="file" name="qr_image" accept="image/*" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    <label class="block text-xs font-semibold text-slate-900 mb-1">QR Code Image</label>
+                    <input type="file" name="qr_image" accept="image/*" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" id="add_is_active" name="is_active" value="1" checked class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                    <label for="add_is_active" class="text-sm font-medium text-gray-700">Active</label>
+                    <input type="checkbox" id="add_is_active" name="is_active" value="1" checked class="w-4 h-4 rounded border-slate-200 text-blue-600 focus:ring-blue-500">
+                    <label for="add_is_active" class="text-xs font-medium text-slate-900">Active</label>
                 </div>
 
                 <div class="flex items-center gap-3 pt-2">
-                    <button type="button" onclick="document.getElementById('add-modal').classList.add('hidden')" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-slate-50/80 transition-colors transition">Cancel</button>
+                    <button type="button" onclick="document.getElementById('add-modal').classList.add('hidden')" class="px-6 py-2.5 border border-slate-200 text-slate-900 rounded-lg font-semibold hover:bg-slate-50/50 transition-colors transition">Cancel</button>
                     <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
                         <i class="fa-solid fa-plus mr-1"></i> Create Service
                     </button>
@@ -311,7 +314,7 @@ $services = getAllPaymentServices();
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
             <div class="flex items-center justify-between p-6 border-b">
                 <h3 class="text-xl font-bold">Edit Payment Service</h3>
-                <button onclick="document.getElementById('edit-modal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700 text-2xl leading-none">&times;</button>
+                <button onclick="document.getElementById('edit-modal').classList.add('hidden')" class="text-slate-500 hover:text-slate-900 text-2xl leading-none">&times;</button>
             </div>
             <form method="post" action="" enctype="multipart/form-data" class="p-6 space-y-4">
                 <?= csrfField() ?>
@@ -319,52 +322,52 @@ $services = getAllPaymentServices();
                 <input type="hidden" name="update_service" value="1">
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Name</label>
-                    <input type="text" id="edit_name_display" disabled class="w-full px-4 py-2.5 border border-gray-200 bg-gray-50 text-gray-500 rounded-lg cursor-not-allowed">
-                    <p class="text-xs text-gray-500 mt-1">Name cannot be changed after creation.</p>
+                    <label class="block text-xs font-semibold text-slate-900 mb-1">Name</label>
+                    <input type="text" id="edit_name_display" disabled class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 bg-slate-50/50 text-slate-500 rounded-lg cursor-not-allowed">
+                    <p class="text-xs text-slate-500 mt-1">Name cannot be changed after creation.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Display Name <span class="text-red-500">*</span></label>
-                        <input type="text" id="edit_display_name" name="display_name" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Display Name <span class="text-red-600">*</span></label>
+                        <input type="text" id="edit_display_name" name="display_name" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
-                        <input type="text" id="edit_phone_number" name="phone_number" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Phone Number <span class="text-red-600">*</span></label>
+                        <input type="text" id="edit_phone_number" name="phone_number" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Account Name <span class="text-red-500">*</span></label>
-                    <input type="text" id="edit_account_name" name="account_name" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                    <label class="block text-xs font-semibold text-slate-900 mb-1">Account Name <span class="text-red-600">*</span></label>
+                    <input type="text" id="edit_account_name" name="account_name" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Logo Image</label>
+                    <label class="block text-xs font-semibold text-slate-900 mb-1">Logo Image</label>
                     <div id="edit_logo_preview" class="mb-2 hidden">
                         <img id="edit_logo_img" class="w-16 h-16 object-cover rounded-lg border" alt="Logo">
                     </div>
-                    <input type="file" name="logo_image" accept="image/*" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <p class="text-xs text-gray-500 mt-1">Leave empty to keep current logo.</p>
+                    <input type="file" name="logo_image" accept="image/*" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
+                    <p class="text-xs text-slate-500 mt-1">Leave empty to keep current logo.</p>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">QR Code Image</label>
+                    <label class="block text-xs font-semibold text-slate-900 mb-1">QR Code Image</label>
                     <div id="edit_qr_preview" class="mb-2 hidden">
                         <img id="edit_qr_img" class="w-24 h-24 object-cover rounded-lg border" alt="QR">
                     </div>
-                    <input type="file" name="qr_image" accept="image/*" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    <p class="text-xs text-gray-500 mt-1">Leave empty to keep current QR.</p>
+                    <input type="file" name="qr_image" accept="image/*" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100">
+                    <p class="text-xs text-slate-500 mt-1">Leave empty to keep current QR.</p>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" id="edit_is_active" name="is_active" value="1" class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                    <label for="edit_is_active" class="text-sm font-medium text-gray-700">Active</label>
+                    <input type="checkbox" id="edit_is_active" name="is_active" value="1" class="w-4 h-4 rounded border-slate-200 text-blue-600 focus:ring-blue-500">
+                    <label for="edit_is_active" class="text-xs font-medium text-slate-900">Active</label>
                 </div>
 
                 <div class="flex items-center gap-3 pt-2">
-                    <button type="button" onclick="document.getElementById('edit-modal').classList.add('hidden')" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-slate-50/80 transition-colors transition">Cancel</button>
+                    <button type="button" onclick="document.getElementById('edit-modal').classList.add('hidden')" class="px-6 py-2.5 border border-slate-200 text-slate-900 rounded-lg font-semibold hover:bg-slate-50/50 transition-colors transition">Cancel</button>
                     <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
                         <i class="fa-solid fa-save mr-1"></i> Update Service
                     </button>

@@ -85,7 +85,11 @@ include __DIR__ . '/../includes/header.php';
                     <a href="article.php?from=index&slug=<?= urlencode($post['slug']) ?>" class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group cursor-pointer">
                         <div class="h-40 bg-slate-100 relative overflow-hidden">
                             <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" alt="<?= $title ?>">
-                            <span class="absolute top-3 left-3 <?= $badgeColor ?> text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded"><?= $catName ?></span>
+                            
+                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
+                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
+                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
+                            </button><span class="absolute top-3 left-3 <?= $badgeColor ?> text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded"><?= $catName ?></span>
                         </div>
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <h3 class="font-bold text-sm text-slate-800 line-clamp-2 group-hover:text-[#5B41FF] transition"><?= $title ?></h3>
@@ -273,7 +277,11 @@ include __DIR__ . '/../includes/header.php';
                     <a href="../user/article.php?slug=<?= urlencode($post['slug']) ?>" data-type="<?= $type ?>" class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex space-x-4 group cursor-pointer">
                         <div class="w-28 h-24 rounded-lg bg-slate-100 overflow-hidden shrink-0">
                             <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition" alt="<?= $title ?>">
-                        </div>
+                        
+                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
+                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
+                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
+                            </button></div>
                         <div class="flex flex-col justify-between flex-1 min-w-0">
                             <div>
                                 <span class="text-[10px] font-bold uppercase <?= $color ?>"><?= $catName ?></span>
@@ -321,7 +329,11 @@ include __DIR__ . '/../includes/header.php';
                 <a href="article.php?slug=<?= urlencode($post['slug']) ?>" class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex space-x-4 group cursor-pointer">
                     <div class="w-28 h-24 rounded-lg bg-slate-100 overflow-hidden shrink-0">
                         <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition" alt="<?= $title ?>">
-                    </div>
+                    
+                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
+                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
+                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
+                            </button></div>
                     <div class="flex flex-col justify-between flex-1 min-w-0">
                         <div>
                             <span class="text-[10px] font-bold uppercase <?= $catStyle['text'] ?> <?= $catStyle['bg'] ?> border-2 border-current/30 px-2 py-0.5 rounded-lg"><?= $catName ?></span>

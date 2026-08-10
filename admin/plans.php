@@ -44,18 +44,18 @@ $plans = getAllPlans();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Subscription Plans'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
@@ -65,7 +65,7 @@ $plans = getAllPlans();
 
                 <div class="border-b p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">All Plans</h3>
-                    <a href="plan-create.php" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                    <a href="plan-create.php" class="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
                         <i class="fa-solid fa-plus mr-1"></i> Add New Plan
                     </a>
                 </div>
@@ -73,43 +73,43 @@ $plans = getAllPlans();
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="p-5">ID</th>
-                            <th class="p-5">Name</th>
-                            <th class="p-5">Duration</th>
-                            <th class="p-5">Price</th>
-                            <th class="p-5">Discount</th>
-                            <th class="p-5">Final Price</th>
-                            <th class="p-5">Status</th>
-                            <th class="p-5">Created</th>
-                            <th class="p-5 text-right">Actions</th>
+                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">Name</th>
+                            <th class="px-3 py-2 text-xs">Duration</th>
+                            <th class="px-3 py-2 text-xs">Price</th>
+                            <th class="px-3 py-2 text-xs">Discount</th>
+                            <th class="px-3 py-2 text-xs">Final Price</th>
+                            <th class="px-3 py-2 text-xs">Status</th>
+                            <th class="px-3 py-2 text-xs">Created</th>
+                            <th class="px-3 py-2 text-xs text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($plans)): ?>
                             <tr>
-                                <td colspan="9" class="p-10 text-center text-gray-500">
+                                <td colspan="9" class="p-10 text-center text-slate-500">
                                     <i class="fa-solid fa-gem text-4xl mb-3 block"></i>
                                     No plans found.
                                 </td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($plans as $plan): ?>
-                                <tr class="border-b hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-5 text-gray-500"><?= (int) $plan['id'] ?></td>
-                                    <td class="p-5 font-medium"><?= htmlspecialchars($plan['name']) ?></td>
-                                    <td class="p-5 text-gray-600"><?= (int) $plan['duration_months'] ?> month<?= (int) $plan['duration_months'] > 1 ? 's' : '' ?></td>
-                                    <td class="p-5"><?= number_format((float) $plan['price'], 0) ?> MMK</td>
-                                    <td class="p-5"><?= (float) $plan['discount_percentage'] > 0 ? number_format((float) $plan['discount_percentage'], 1) . '%' : '-' ?></td>
-                                    <td class="p-5 font-semibold"><?= number_format((float) $plan['final_price'], 0) ?> MMK</td>
-                                    <td class="p-5">
+                                <tr class="border-b hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $plan['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($plan['name']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $plan['duration_months'] ?> month<?= (int) $plan['duration_months'] > 1 ? 's' : '' ?></td>
+                                    <td class="px-3 py-2 text-xs"><?= number_format((float) $plan['price'], 0) ?> MMK</td>
+                                    <td class="px-3 py-2 text-xs"><?= (float) $plan['discount_percentage'] > 0 ? number_format((float) $plan['discount_percentage'], 1) . '%' : '-' ?></td>
+                                    <td class="px-3 py-2 text-xs font-semibold"><?= number_format((float) $plan['final_price'], 0) ?> MMK</td>
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if ((int) $plan['is_active']): ?>
-                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Active</span>
+                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>
                                         <?php else: ?>
-                                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">Inactive</span>
+                                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">Inactive</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($plan['created_at']))) ?></td>
-                                    <td class="p-5 text-right whitespace-nowrap">
+                                    <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($plan['created_at']))) ?></td>
+                                    <td class="px-3 py-2 text-xs text-right whitespace-nowrap">
                                         <a href="plan-edit.php?id=<?= (int) $plan['id'] ?>" class="text-blue-600 hover:text-blue-800 mr-4"><i class="fa-solid fa-edit"></i> Edit</a>
                                         <form method="post" action="" class="inline" onsubmit="return confirm('Delete plan &quot;<?= htmlspecialchars($plan['name'], ENT_QUOTES) ?>&quot;?');">
                                             <?= csrfField() ?>

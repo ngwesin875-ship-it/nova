@@ -60,19 +60,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
 <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
 <!-- Main -->
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Edit Category'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($errorMessage): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium bg-red-100 text-red-800 border border-red-200">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium bg-red-100 text-red-800 border border-red-200">
                     <i class="fa-solid fa-exclamation-circle mr-2"></i>
                     <?= htmlspecialchars($errorMessage) ?>
                 </div>
@@ -85,28 +85,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h3 class="text-xl font-bold"><?= htmlspecialchars($category['name']) ?></h3>
                 </div>
 
-                <form method="post" action="" class="p-5 space-y-5">
+                <form method="post" action="" class="px-3 py-2 text-xs space-y-5">
                     <?= csrfField() ?>
 
                     <div>
-                        <label for="name" class="block text-sm font-semibold text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
+                        <label for="name" class="block text-xs font-semibold text-slate-900 mb-1">Name <span class="text-red-600">*</span></label>
                         <input type="text" id="name" name="name" value="<?= htmlspecialchars($name) ?>" required
                                oninput="autoSlug(this.value)"
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                               class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
 
                     <div>
-                        <label for="slug" class="block text-sm font-semibold text-gray-700 mb-1">Slug <span class="text-red-500">*</span></label>
+                        <label for="slug" class="block text-xs font-semibold text-slate-900 mb-1">Slug <span class="text-red-600">*</span></label>
                         <input type="text" id="slug" name="slug" value="<?= htmlspecialchars($slug) ?>" required
-                               class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none font-mono text-sm">
-                        <p class="text-xs text-gray-500 mt-1">Auto-generated from name, but can be edited manually.</p>
+                               class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none font-mono text-sm">
+                        <p class="text-xs text-slate-500 mt-1">Auto-generated from name, but can be edited manually.</p>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
                         <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-save mr-1"></i> Update Category
                         </button>
-                        <a href="categories.php" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-slate-50/80 transition-colors transition">
+                        <a href="categories.php" class="px-6 py-2.5 border border-slate-200 text-slate-900 rounded-lg font-semibold hover:bg-slate-50/50 transition-colors transition">
                             Cancel
                         </a>
                     </div>

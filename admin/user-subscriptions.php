@@ -44,30 +44,30 @@ $subscriptions = getAllUserSubscriptions();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'User Subscriptions'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
             <?php endif; ?>
 
-            <div id="action-toast" class="hidden fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-medium"></div>
+            <div id="action-toast" class="hidden fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-lg text-xs font-medium"></div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60">
 
                 <div class="border-b p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">All Subscriptions</h3>
-                    <a href="user-subscription-create.php" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                    <a href="user-subscription-create.php" class="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
                         <i class="fa-solid fa-plus mr-1"></i> Add New Subscription
                     </a>
                 </div>
@@ -76,56 +76,56 @@ $subscriptions = getAllUserSubscriptions();
                     <table class="w-full min-w-[900px]">
                         <thead>
                             <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                <th class="p-5">ID</th>
-                                <th class="p-5">User</th>
-                                <th class="p-5">Plan</th>
-                                <th class="p-5">Start Date</th>
-                                <th class="p-5">End Date</th>
-                                <th class="p-5">Status</th>
-                                <th class="p-5">Payment</th>
-                                <th class="p-5">Created</th>
-                                <th class="p-5 text-right">Actions</th>
+                                <th class="px-3 py-2 text-xs">ID</th>
+                                <th class="px-3 py-2 text-xs">User</th>
+                                <th class="px-3 py-2 text-xs">Plan</th>
+                                <th class="px-3 py-2 text-xs">Start Date</th>
+                                <th class="px-3 py-2 text-xs">End Date</th>
+                                <th class="px-3 py-2 text-xs">Status</th>
+                                <th class="px-3 py-2 text-xs">Payment</th>
+                                <th class="px-3 py-2 text-xs">Created</th>
+                                <th class="px-3 py-2 text-xs text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($subscriptions)): ?>
                                 <tr>
-                                    <td colspan="9" class="p-10 text-center text-gray-500">
+                                    <td colspan="9" class="p-10 text-center text-slate-500">
                                         <i class="fa-solid fa-file-contract text-4xl mb-3 block"></i>
                                         No subscriptions found.
                                     </td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($subscriptions as $sub): ?>
-                                    <tr class="border-b hover:bg-slate-50/80 transition-colors <?= $sub['payment_status'] === 'pending' ? 'bg-amber-50/50' : '' ?>">
-                                        <td class="p-5 text-gray-500"><?= (int) $sub['id'] ?></td>
-                                        <td class="p-5 font-medium">
+                                    <tr class="border-b hover:bg-slate-50/50 transition-colors <?= $sub['payment_status'] === 'pending' ? 'bg-amber-50/50' : '' ?>">
+                                        <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $sub['id'] ?></td>
+                                        <td class="px-3 py-2 text-xs font-medium">
                                             <?= htmlspecialchars($sub['username']) ?>
-                                            <div class="text-xs text-gray-500"><?= htmlspecialchars($sub['email']) ?></div>
+                                            <div class="text-xs text-slate-500"><?= htmlspecialchars($sub['email']) ?></div>
                                         </td>
-                                        <td class="p-5 text-gray-600"><?= htmlspecialchars($sub['plan_name']) ?></td>
-                                        <td class="p-5 text-gray-600 text-sm"><?= htmlspecialchars($sub['start_date']) ?></td>
-                                        <td class="p-5 text-gray-600 text-sm"><?= htmlspecialchars($sub['end_date']) ?></td>
-                                        <td class="p-5">
+                                        <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($sub['plan_name']) ?></td>
+                                        <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars($sub['start_date']) ?></td>
+                                        <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars($sub['end_date']) ?></td>
+                                        <td class="px-3 py-2 text-xs">
                                             <?php if ($sub['status'] === 'active'): ?>
-                                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Active</span>
+                                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Active</span>
                                             <?php elseif ($sub['status'] === 'expired'): ?>
-                                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Expired</span>
+                                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Expired</span>
                                             <?php else: ?>
-                                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">Cancelled</span>
+                                                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">Cancelled</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="p-5">
+                                        <td class="px-3 py-2 text-xs">
                                             <?php if ($sub['payment_status'] === 'paid'): ?>
-                                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Paid</span>
+                                                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Paid</span>
                                             <?php elseif ($sub['payment_status'] === 'pending'): ?>
-                                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Pending</span>
+                                                <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Pending</span>
                                             <?php else: ?>
-                                                <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">Failed</span>
+                                                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">Failed</span>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($sub['created_at']))) ?></td>
-                                        <td class="p-5 text-right whitespace-nowrap">
+                                        <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($sub['created_at']))) ?></td>
+                                        <td class="px-3 py-2 text-xs text-right whitespace-nowrap">
                                             <?php if ($sub['payment_status'] === 'pending'): ?>
                                                 <button onclick="approveSubscription(<?= (int) $sub['id'] ?>)"
                                                     class="text-green-600 hover:text-green-800 mr-3 font-semibold text-sm bg-green-50 px-3 py-1 rounded-lg hover:bg-green-100 transition">
@@ -160,7 +160,7 @@ $subscriptions = getAllUserSubscriptions();
 function showToast(message, type) {
     const toast = document.getElementById('action-toast');
     toast.textContent = message;
-    toast.className = 'fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-lg text-sm font-medium ' +
+    toast.className = 'fixed top-4 right-4 z-50 px-5 py-3 rounded-xl shadow-lg text-xs font-medium ' +
         (type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white');
     toast.classList.remove('hidden');
     setTimeout(() => toast.classList.add('hidden'), 3000);

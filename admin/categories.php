@@ -45,19 +45,19 @@ $categories = getCategories();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
 <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
 <!-- Main -->
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Categories'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
@@ -67,7 +67,7 @@ $categories = getCategories();
 
                 <div class="border-b p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">All Categories</h3>
-                    <a href="category-create.php" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                    <a href="category-create.php" class="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
                         <i class="fa-solid fa-plus mr-1"></i> Add New Category
                     </a>
                 </div>
@@ -75,36 +75,36 @@ $categories = getCategories();
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="p-5">ID</th>
-                            <th class="p-5">Name</th>
-                            <th class="p-5">Slug</th>
-                            <th class="p-5">Created At</th>
-                            <th class="p-5 text-right">Actions</th>
+                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">Name</th>
+                            <th class="px-3 py-2 text-xs">Slug</th>
+                            <th class="px-3 py-2 text-xs">Created At</th>
+                            <th class="px-3 py-2 text-xs text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($categories)): ?>
                             <tr>
-                                <td colspan="5" class="p-10 text-center text-gray-500">
+                                <td colspan="5" class="p-10 text-center text-slate-500">
                                     <i class="fa-solid fa-folder-open text-4xl mb-3 block"></i>
                                     No categories found.
                                 </td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($categories as $cat): ?>
-                                <tr class="border-b hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-5 text-gray-500"><?= (int) $cat['id'] ?></td>
-                                    <td class="p-5 font-medium"><?= htmlspecialchars($cat['name']) ?></td>
-                                    <td class="p-5 text-gray-600"><?= htmlspecialchars($cat['slug']) ?></td>
-                                    <td class="p-5 text-gray-500"><?= htmlspecialchars($cat['created_at']) ?></td>
-                                    <td class="p-5 text-right">
-                                        <a href="category-edit.php?id=<?= (int) $cat['id'] ?>" class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 p-1.5 rounded-lg transition-colors mr-4" title="Edit">
+                                <tr class="border-b hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $cat['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($cat['name']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($cat['slug']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($cat['created_at']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-right">
+                                        <a href="category-edit.php?id=<?= (int) $cat['id'] ?>" class="text-blue-500 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition-colors mr-4" title="Edit">
                                             <i class="fa-solid fa-edit"></i> Edit
                                         </a>
                                         <form method="post" action="" class="inline" onsubmit="return confirm('Delete category &quot;<?= htmlspecialchars($cat['name'], ENT_QUOTES) ?>&quot;?');">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="delete_id" value="<?= (int) $cat['id'] ?>">
-                                            <button type="submit" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete">
+                                            <button type="submit" class="text-red-600 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete">
                                                 <i class="fa-solid fa-trash"></i> Delete
                                             </button>
                                         </form>

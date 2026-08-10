@@ -93,18 +93,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Edit User'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($errorMessage): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium bg-red-100 text-red-800 border border-red-200">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium bg-red-100 text-red-800 border border-red-200">
                     <i class="fa-solid fa-exclamation-circle mr-2"></i> <?= htmlspecialchars($errorMessage) ?>
                 </div>
             <?php endif; ?>
@@ -118,29 +118,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <h3 class="text-xl font-bold"><?= htmlspecialchars($user['username']) ?></h3>
                 </div>
 
-                <form method="post" action="" enctype="multipart/form-data" class="p-5 space-y-5">
+                <form method="post" action="" enctype="multipart/form-data" class="px-3 py-2 text-xs space-y-5">
                     <?= csrfField() ?>
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
-                            <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">Username <span class="text-red-500">*</span></label>
-                            <input type="text" id="username" name="username" value="<?= htmlspecialchars($username) ?>" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <label for="username" class="block text-xs font-semibold text-slate-900 mb-1">Username <span class="text-red-600">*</span></label>
+                            <input type="text" id="username" name="username" value="<?= htmlspecialchars($username) ?>" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email <span class="text-red-500">*</span></label>
-                            <input type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <label for="email" class="block text-xs font-semibold text-slate-900 mb-1">Email <span class="text-red-600">*</span></label>
+                            <input type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" required class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                         </div>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-5">
                         <div>
-                            <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-                            <input type="password" id="password" name="password" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" placeholder="Leave blank to keep current">
-                            <p class="text-xs text-gray-500 mt-1">Min 6 characters. Leave empty to keep current.</p>
+                            <label for="password" class="block text-xs font-semibold text-slate-900 mb-1">Password</label>
+                            <input type="password" id="password" name="password" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none" placeholder="Leave blank to keep current">
+                            <p class="text-xs text-slate-500 mt-1">Min 6 characters. Leave empty to keep current.</p>
                         </div>
                         <div>
-                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-1">Role</label>
-                            <select id="role" name="role" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                            <label for="role" class="block text-xs font-semibold text-slate-900 mb-1">Role</label>
+                            <select id="role" name="role" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                                 <option value="user" <?= $role === 'user' ? 'selected' : '' ?>>User</option>
                                 <option value="admin" <?= $role === 'admin' ? 'selected' : '' ?>>Admin</option>
                             </select>
@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Avatar</label>
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Avatar</label>
                         <?php if ($avatar): ?>
                             <div class="mb-3 flex items-center gap-3">
                                 <img src="/Nova_News/<?= htmlspecialchars($avatar) ?>" alt="Avatar" class="w-12 h-12 rounded-full object-cover">
@@ -157,12 +157,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </label>
                             </div>
                         <?php endif; ?>
-                        <input type="file" id="avatar_file" name="avatar_file" accept="image/jpeg,image/png,image/gif,image/webp" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-semibold hover:file:bg-blue-100">
-                        <p class="text-xs text-gray-500 mt-1"><?= $avatar ? 'Leave empty to keep current.' : 'Allowed: JPG, PNG, GIF, WEBP (max 2MB).' ?></p>
+                        <input type="file" id="avatar_file" name="avatar_file" accept="image/jpeg,image/png,image/gif,image/webp" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-600 file:font-semibold hover:file:bg-blue-100">
+                        <p class="text-xs text-slate-500 mt-1"><?= $avatar ? 'Leave empty to keep current.' : 'Allowed: JPG, PNG, GIF, WEBP (max 2MB).' ?></p>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">
-                        <a href="users.php" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-slate-50/80 transition-colors transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Users</a>
+                        <a href="users.php" class="px-6 py-2.5 border border-slate-200 text-slate-900 rounded-lg font-semibold hover:bg-slate-50/50 transition-colors transition"><i class="fa-solid fa-arrow-left mr-1"></i> Back to Users</a>
                         <button type="submit" class="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-save mr-1"></i> Update User
                         </button>

@@ -113,9 +113,16 @@ $latestPosts = $latestNews;
 
                     <h1 class="text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-4"><?= $title ?></h1>
 
-                    <div class="flex items-center gap-4 text-sm text-slate-500 mb-6">
-                        <span><i class="fa-regular fa-user mr-1"></i> <?= $author ?></span>
-                        <span><i class="fa-regular fa-calendar mr-1"></i> <?= $date ?></span>
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-slate-100 pb-4">
+                        <div class="flex items-center gap-4 text-sm text-slate-500">
+                            <span><i class="fa-regular fa-user mr-1"></i> <?= $author ?></span>
+                            <span><i class="fa-regular fa-calendar mr-1"></i> <?= $date ?></span>
+                        </div>
+                        <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
+                        <button type="button" onclick="event.preventDefault(); toggleBookmark(<?= $post['id'] ?>, this)" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-700 hover:text-[#5B41FF] hover:border-[#5B41FF]/30 transition group">
+                            <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark"></i>
+                            <span class="text-sm font-semibold">Save Article</span>
+                        </button>
                     </div>
 
             <?php if ($hasAccess): ?>
@@ -482,7 +489,11 @@ $latestPosts = $latestNews;
                     <a href="../user/article.php?slug=<?= urlencode($post['slug']) ?>" data-type="<?= $type ?>" class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex space-x-4 group cursor-pointer">
                         <div class="w-28 h-24 rounded-lg bg-slate-100 overflow-hidden shrink-0">
                             <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition" alt="<?= $title ?>">
-                        </div>
+                        
+                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
+                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
+                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
+                            </button></div>
                         <div class="flex flex-col justify-between flex-1 min-w-0">
                             <div>
                                 <span class="text-[10px] font-bold uppercase <?= $color ?>"><?= $catName ?></span>

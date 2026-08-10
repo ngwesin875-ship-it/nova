@@ -1,6 +1,22 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
 
+function getSavedPostIds(int $user_id): array {
+    if ($user_id <= 0) return [];
+    $db = getDB();
+    $stmt = $db->prepare('SELECT post_id FROM saved_articles WHERE user_id = ?');
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $ids = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $ids[] = (int)$row['post_id'];
+        }
+    }
+    return $ids;
+}
+
 /**
  * Return the available categories for the site navigation.
  *

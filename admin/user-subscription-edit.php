@@ -85,25 +85,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Edit Subscription'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
             <?php endif; ?>
 
             <?php if (!empty($errors)): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium bg-red-100 text-red-800 border border-red-200">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium bg-red-100 text-red-800 border border-red-200">
                     <i class="fa-solid fa-exclamation-circle mr-2"></i>
                     <ul class="list-disc list-inside">
                         <?php foreach ($errors as $error): ?>
@@ -119,8 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">User</label>
-                            <select name="user_id" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-xs font-medium text-slate-900 mb-1">User</label>
+                            <select name="user_id" required class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-blue-500 focus:border-blue-500">
                                 <option value="">Select User</option>
                                 <?php foreach ($users as $user): ?>
                                     <option value="<?= (int) $user['id'] ?>" <?= $old['user_id'] == $user['id'] ? 'selected' : '' ?>>
@@ -131,8 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Plan</label>
-                            <select name="plan_id" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-xs font-medium text-slate-900 mb-1">Plan</label>
+                            <select name="plan_id" required class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-blue-500 focus:border-blue-500">
                                 <option value="">Select Plan</option>
                                 <?php foreach ($plans as $plan): ?>
                                     <option value="<?= (int) $plan['id'] ?>" <?= $old['plan_id'] == $plan['id'] ? 'selected' : '' ?>>
@@ -143,18 +143,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                            <input type="date" name="start_date" value="<?= htmlspecialchars($old['start_date']) ?>" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-xs font-medium text-slate-900 mb-1">Start Date</label>
+                            <input type="date" name="start_date" value="<?= htmlspecialchars($old['start_date']) ?>" required class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-blue-500 focus:border-blue-500">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                            <input type="date" name="end_date" value="<?= htmlspecialchars($old['end_date']) ?>" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-xs font-medium text-slate-900 mb-1">End Date</label>
+                            <input type="date" name="end_date" value="<?= htmlspecialchars($old['end_date']) ?>" required class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-blue-500 focus:border-blue-500">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                            <select name="status" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-xs font-medium text-slate-900 mb-1">Status</label>
+                            <select name="status" required class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-blue-500 focus:border-blue-500">
                                 <option value="active" <?= $old['status'] === 'active' ? 'selected' : '' ?>>Active</option>
                                 <option value="expired" <?= $old['status'] === 'expired' ? 'selected' : '' ?>>Expired</option>
                                 <option value="cancelled" <?= $old['status'] === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
@@ -162,8 +162,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Payment Status</label>
-                            <select name="payment_status" required class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+                            <label class="block text-xs font-medium text-slate-900 mb-1">Payment Status</label>
+                            <select name="payment_status" required class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-blue-500 focus:border-blue-500">
                                 <option value="pending" <?= $old['payment_status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
                                 <option value="paid" <?= $old['payment_status'] === 'paid' ? 'selected' : '' ?>>Paid</option>
                                 <option value="failed" <?= $old['payment_status'] === 'failed' ? 'selected' : '' ?>>Failed</option>
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
                             Update Subscription
                         </button>
-                        <a href="user-subscriptions.php" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition">
+                        <a href="user-subscriptions.php" class="px-6 py-2 bg-gray-200 text-slate-900 rounded-lg font-semibold hover:bg-gray-300 transition">
                             Cancel
                         </a>
                     </div>

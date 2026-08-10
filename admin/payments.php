@@ -56,18 +56,18 @@ $pendingApprovals = $notifCounts['pending_payments'];
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
     <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Premium Members'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-8">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
@@ -76,7 +76,7 @@ $pendingApprovals = $notifCounts['pending_payments'];
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 mb-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-gray-500 text-sm font-medium">Total Revenue</p>
+                        <p class="text-slate-500 text-xs font-medium">Total Revenue</p>
                         <h2 class="text-4xl font-bold mt-1"><?= number_format($totalRevenue, 0) ?> <span class="text-lg">MMK</span></h2>
                         <p class="text-green-500 text-sm mt-1"><?= number_format($paymentCount) ?> successful payments</p>
                     </div>
@@ -102,59 +102,59 @@ $pendingApprovals = $notifCounts['pending_payments'];
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="p-5">ID</th>
-                            <th class="p-5">User</th>
-                            <th class="p-5">Plan</th>
-                            <th class="p-5">Amount</th>
-                            <th class="p-5">Method</th>
-                            <th class="p-5">Account Name</th>
-                            <th class="p-5">Phone</th>
-                            <th class="p-5">Receipt</th>
-                            <th class="p-5">Status</th>
-                            <th class="p-5">Paid At</th>
-                            <th class="p-5 text-right">Actions</th>
+                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">User</th>
+                            <th class="px-3 py-2 text-xs">Plan</th>
+                            <th class="px-3 py-2 text-xs">Amount</th>
+                            <th class="px-3 py-2 text-xs">Method</th>
+                            <th class="px-3 py-2 text-xs">Account Name</th>
+                            <th class="px-3 py-2 text-xs">Phone</th>
+                            <th class="px-3 py-2 text-xs">Receipt</th>
+                            <th class="px-3 py-2 text-xs">Status</th>
+                            <th class="px-3 py-2 text-xs">Paid At</th>
+                            <th class="px-3 py-2 text-xs text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (empty($payments)): ?>
                             <tr>
-                                <td colspan="11" class="p-10 text-center text-gray-500">
+                                <td colspan="11" class="p-10 text-center text-slate-500">
                                     <i class="fa-solid fa-credit-card text-4xl mb-3 block"></i>
                                     No payments found.
                                 </td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($payments as $payment): ?>
-                                <tr class="border-b hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-5 text-gray-500"><?= (int) $payment['id'] ?></td>
-                                    <td class="p-5 font-medium"><?= htmlspecialchars($payment['username']) ?></td>
-                                    <td class="p-5 text-gray-600"><?= htmlspecialchars($payment['plan_name']) ?></td>
-                                    <td class="p-5"><?= number_format((float) $payment['amount'], 0) ?> MMK</td>
-                                    <td class="p-5"><?= htmlspecialchars($payment['payment_method']) ?></td>
-                                    <td class="p-5"><?= htmlspecialchars($payment['account_name'] ?? '-') ?></td>
-                                    <td class="p-5"><?= htmlspecialchars($payment['account_phone'] ?? '-') ?></td>
-                                    <td class="p-5">
+                                <tr class="border-b hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $payment['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($payment['username']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($payment['plan_name']) ?></td>
+                                    <td class="px-3 py-2 text-xs"><?= number_format((float) $payment['amount'], 0) ?> MMK</td>
+                                    <td class="px-3 py-2 text-xs"><?= htmlspecialchars($payment['payment_method']) ?></td>
+                                    <td class="px-3 py-2 text-xs"><?= htmlspecialchars($payment['account_name'] ?? '-') ?></td>
+                                    <td class="px-3 py-2 text-xs"><?= htmlspecialchars($payment['account_phone'] ?? '-') ?></td>
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if (!empty($payment['receipt_image'])): ?>
                                             <a href="/Nova_News/<?= htmlspecialchars($payment['receipt_image']) ?>" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">
                                                 <i class="fa-solid fa-image"></i> View
                                             </a>
                                         <?php else: ?>
-                                            <span class="text-gray-400">-</span>
+                                            <span class="text-slate-500">-</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5">
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if ($payment['status'] === 'success'): ?>
-                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Success</span>
+                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Success</span>
                                         <?php elseif ($payment['status'] === 'pending'): ?>
-                                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Pending</span>
+                                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Pending</span>
                                         <?php elseif ($payment['status'] === 'failed'): ?>
-                                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">Failed</span>
+                                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">Failed</span>
                                         <?php else: ?>
-                                            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Refunded</span>
+                                            <span class="bg-slate-100 text-slate-900 px-3 py-1 rounded-full text-xs font-medium">Refunded</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y g:i A', strtotime($payment['paid_at']))) ?></td>
-                                    <td class="p-5 text-right whitespace-nowrap">
+                                    <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars(date('M j, Y g:i A', strtotime($payment['paid_at']))) ?></td>
+                                    <td class="px-3 py-2 text-xs text-right whitespace-nowrap">
                                         <a href="payment-edit.php?id=<?= (int) $payment['id'] ?>" class="text-blue-600 hover:text-blue-800 mr-4"><i class="fa-solid fa-edit"></i> Edit</a>
                                         <form method="post" action="" class="inline" onsubmit="return confirm('Delete payment #<?= (int) $payment['id'] ?>?');">
                                             <?= csrfField() ?>

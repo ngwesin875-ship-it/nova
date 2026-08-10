@@ -34,6 +34,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     } else {
         $message .= "✓ view_count column already exists\n";
     }
+
+    $sql = "CREATE TABLE IF NOT EXISTS saved_articles (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        user_id INT,
+        post_id INT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+        UNIQUE KEY user_post_unique (user_id, post_id)
+    )";
+    if ($db->query($sql) === TRUE) {
+        $message .= "✓ Table saved_articles created successfully\n";
+    } else {
+        $message .= "✗ Failed to create table saved_articles: " . $db->error . "\n";
+    }
+
     
     $success = true;
 }

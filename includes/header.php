@@ -3,6 +3,7 @@ require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/posts.php';
 require_once __DIR__ . '/lang.php';
 $breakingNews = getBreakingPosts(5);
+$savedPostIds = getSavedPostIds(currentUserId() ?? 0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -319,15 +320,65 @@ $breakingNews = getBreakingPosts(5);
             margin-bottom: 0;
         }
         .article-content br {
-            display: block;
-            content: '';
-            margin-top: 0.35em;
-        }
-
         body.theme-dark .article-content {
             color: #CBD5E1 !important;
         }
     </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', () => {
+                if (body.classList.contains('theme-light')) {
+                    body.classList.remove('theme-light');
+                    body.classList.add('theme-dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.classList.remove('theme-dark');
+                    body.classList.add('theme-light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+    });
+
+    // Bookmark functionality
+    function toggleBookmark(postId, btnElement) {
+        fetch('/Nova_News/user/save_article_action.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'post_id=' + encodeURIComponent(postId)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const icon = btnElement.querySelector('i');
+                if (data.action === 'saved') {
+                    icon.classList.remove('fa-regular');
+                    icon.classList.add('fa-solid');
+                    icon.classList.add('text-[#5B41FF]');
+                } else {
+                    icon.classList.remove('fa-solid');
+                    icon.classList.remove('text-[#5B41FF]');
+                    icon.classList.add('fa-regular');
+                }
+            } else {
+                if (data.message === 'Not logged in') {
+                    window.location.href = '/Nova_News/public/Signin.php';
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    </script>
 </head>
 <body class="bg-[#F8FAFC] text-slate-800 antialiased theme-light">
 
@@ -460,6 +511,9 @@ $breakingNews = getBreakingPosts(5);
                                     <a href="/Nova_News/admin/index.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
                                         <i class="fa-solid fa-gauge-high w-4 text-center text-slate-400"></i> Admin Panel
                                     </a>
+                                    <a href="/Nova_News/user/saved-articles.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+                                        <i class="fa-solid fa-bookmark w-4 text-center text-slate-400"></i> Saved Articles
+                                    </a>
                                 </div>
                                 <!-- Sign out -->
                                 <div class="border-t border-slate-100 px-4 py-3">
@@ -519,9 +573,10 @@ $breakingNews = getBreakingPosts(5);
                                     <a href="/Nova_News/user/dashboard.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
                                         <i class="fa-solid fa-gauge w-4 text-center text-slate-400"></i> Dashboard
                                     </a>
-                                    <a href="/Nova_News/user/all-posts.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
-                                        <i class="fa-regular fa-bookmark w-4 text-center text-slate-400"></i> Saved Articles
+                                    <a href="/Nova_News/user/saved-articles.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
+                                        <i class="fa-solid fa-bookmark w-4 text-center text-slate-400"></i> Saved Articles
                                     </a>
+                                   
                                     <a href="/Nova_News/user/payments.php" class="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">
                                         <i class="fa-solid fa-receipt w-4 text-center text-slate-400"></i> Payments
                                     </a>

@@ -94,52 +94,52 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-100">
 
 <?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
 <!-- Main -->
-    <div class="ml-72 flex flex-col h-screen">
+    <div class="ml-64 flex flex-col h-screen">
 
         <?php $pageTitle = 'Posts'; include __DIR__ . '/../includes/admin-topbar.php'; ?>
 
-        <div class="flex-1 overflow-y-auto p-8 space-y-10">
+        <div class="flex-1 overflow-y-auto p-6 space-y-6">
 
             <?php if ($flash): ?>
-                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-sm font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
+                <div class="mb-6 px-5 py-4 rounded-xl shadow-sm text-xs font-medium <?= $flash['type'] === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200' ?>">
                     <i class="fa-solid <?= $flash['type'] === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle' ?> mr-2"></i>
                     <?= htmlspecialchars($flash['message']) ?>
                 </div>
             <?php endif; ?>
 
             <!-- Filters -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 mb-7 p-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 mb-5 p-4">
                 <form method="get" action="" class="flex flex-wrap items-end gap-4">
                     <div class="flex-1 min-w-[200px]">
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
-                        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by title..." class="w-full px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Search</label>
+                        <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by title..." class="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Type</label>
-                        <select name="type" class="px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Type</label>
+                        <select name="type" class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                             <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All Types</option>
                             <option value="free" <?= $type === 'free' ? 'selected' : '' ?>>Free</option>
                             <option value="premium" <?= $type === 'premium' ? 'selected' : '' ?>>Premium</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Status</label>
-                        <select name="status" class="px-4 py-2 border border-gray-300 rounded-xl border-slate-300 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Status</label>
+                        <select name="status" class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                             <option value="all" <?= $status === 'all' ? 'selected' : '' ?>>All Statuses</option>
                             <option value="published" <?= $status === 'published' ? 'selected' : '' ?>>Published</option>
                             <option value="draft" <?= $status === 'draft' ? 'selected' : '' ?>>Draft</option>
                         </select>
                     </div>
                     <div class="flex gap-2">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                        <button type="submit" class="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-filter mr-1"></i> Filter
                         </button>
-                        <a href="posts.php" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-slate-50/80 transition-colors transition">
+                        <a href="posts.php" class="px-3 py-1.5 text-xs border border-slate-200 text-slate-900 rounded-lg text-sm font-semibold hover:bg-slate-50/50 transition-colors transition">
                             <i class="fa-solid fa-undo mr-1"></i> Reset
                         </a>
                     </div>
@@ -149,12 +149,12 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60">
 
                 <div class="border-b p-5 flex justify-between items-center">
-                    <h3 class="text-xl font-bold">All Posts <span class="text-sm font-normal text-gray-500">(<?= number_format($total) ?> total)</span></h3>
+                    <h3 class="text-xl font-bold">All Posts <span class="text-xs font-normal text-slate-500">(<?= number_format($total) ?> total)</span></h3>
                     <div class="flex items-center gap-3">
-                        <a href="export-excel.php?<?= http_build_query(array_filter(['type' => $type, 'status' => $status, 'search' => $search])) ?>" class="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
+                        <a href="export-excel.php?<?= http_build_query(array_filter(['type' => $type, 'status' => $status, 'search' => $search])) ?>" class="px-3 py-1.5 text-xs bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
                             <i class="fa-solid fa-file-excel mr-1"></i> Export to Excel
                         </a>
-                        <a href="post-create.php" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
+                        <a href="post-create.php" class="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
                             <i class="fa-solid fa-plus mr-1"></i> Add New Post
                         </a>
                     </div>
@@ -165,71 +165,71 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                 
                     <thead calss="w-full">
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                             <th class="p-5">ID</th>
-                            <th class="p-5">Title</th>
-                            <th class="p-5">Category</th>
-                            <th class="p-5">Author</th>
-                            <th class="p-5">Type</th>
-                            <th class="p-5">Featured</th>
-                            <th class="p-5">Breaking</th>
-                            <th class="p-5">Editor's Pick</th>
-                            <th class="p-5">Status</th>
-                            <th class="p-5">Created</th>
-                            <th class="p-5 text-right">Actions</th>
+                             <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">Title</th>
+                            <th class="px-3 py-2 text-xs">Category</th>
+                            <th class="px-3 py-2 text-xs">Author</th>
+                            <th class="px-3 py-2 text-xs">Type</th>
+                            <th class="px-3 py-2 text-xs">Featured</th>
+                            <th class="px-3 py-2 text-xs">Breaking</th>
+                            <th class="px-3 py-2 text-xs">Editor's Pick</th>
+                            <th class="px-3 py-2 text-xs">Status</th>
+                            <th class="px-3 py-2 text-xs">Created</th>
+                            <th class="px-3 py-2 text-xs text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="min-w-full">
                         <?php if (empty($posts)): ?>
                             <tr>
-                                <td colspan="11" class="p-10 text-center text-gray-500">
+                                <td colspan="11" class="p-10 text-center text-slate-500">
                                     <i class="fa-solid fa-file-lines text-4xl mb-3 block"></i>
                                     No posts found.
                                 </td>
                             </tr>
                         <?php else: ?>
                             <?php foreach ($posts as $post): ?>
-                                <tr class="border-b hover:bg-slate-50/80 transition-colors">
-                                    <td class="p-5 text-gray-500"><?= (int) $post['id'] ?></td>
-                                    <td class="p-5 font-medium max-w-xs truncate"><?= htmlspecialchars($post['title']) ?></td>
-                                    <td class="p-5 text-gray-600"><?= htmlspecialchars($post['category_name'] ?? '-') ?></td>
-                                    <td class="p-5 text-gray-600"><?= htmlspecialchars($post['author_name'] ?? '-') ?></td>
-                                    <td class="p-5">
+                                <tr class="border-b hover:bg-slate-50/50 transition-colors">
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $post['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs font-medium max-w-xs truncate"><?= htmlspecialchars($post['title']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($post['category_name'] ?? '-') ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($post['author_name'] ?? '-') ?></td>
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if (($post['post_type'] ?? 'free') === 'premium'): ?>
-                                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">Premium</span>
+                                            <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-medium">Premium</span>
                                         <?php else: ?>
-                                            <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">Free</span>
+                                            <span class="bg-slate-100 text-slate-900 px-3 py-1 rounded-full text-xs font-medium">Free</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5">
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if (($post['is_featured'] ?? 0)): ?>
-                                            <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-sm font-medium">Featured</span>
+                                            <span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-medium">Featured</span>
                                         <?php else: ?>
-                                            <span class="text-gray-400 text-sm">—</span>
+                                            <span class="text-slate-500 text-sm">—</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5">
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if (($post['is_breaking'] ?? 0)): ?>
-                                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">Breaking</span>
+                                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">Breaking</span>
                                         <?php else: ?>
-                                            <span class="text-gray-400 text-sm">—</span>
+                                            <span class="text-slate-500 text-sm">—</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5">
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if (($post['is_editors_pick'] ?? 0)): ?>
-                                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">Editor's Pick</span>
+                                            <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-medium">Editor's Pick</span>
                                         <?php else: ?>
-                                            <span class="text-gray-400 text-sm">—</span>
+                                            <span class="text-slate-500 text-sm">—</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5">
+                                    <td class="px-3 py-2 text-xs">
                                         <?php if (($post['status'] ?? 'draft') === 'published'): ?>
-                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">Published</span>
+                                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Published</span>
                                         <?php else: ?>
-                                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">Draft</span>
+                                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Draft</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td class="p-5 text-gray-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($post['created_at']))) ?></td>
-                                    <td class="p-5 text-right whitespace-nowrap">
+                                    <td class="px-3 py-2 text-xs text-slate-500 text-sm"><?= htmlspecialchars(date('M j, Y', strtotime($post['created_at']))) ?></td>
+                                    <td class="px-3 py-2 text-xs text-right whitespace-nowrap">
                                         <form method="post" action="" class="inline">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="toggle_featured" value="<?= (int) $post['id'] ?>">
@@ -251,13 +251,13 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                                                 <i class="fa-solid <?= ($post['is_editors_pick'] ?? 0) ? 'fa-award' : 'fa-certificate' ?>"></i>
                                             </button>
                                         </form>
-                                        <a href="post-edit.php?id=<?= (int) $post['id'] ?>" class="text-blue-500 hover:text-blue-700 hover:bg-blue-50 p-1.5 rounded-lg transition-colors mr-3" title="Edit">
+                                        <a href="post-edit.php?id=<?= (int) $post['id'] ?>" class="text-blue-500 hover:text-blue-600 hover:bg-blue-50 p-1.5 rounded-lg transition-colors mr-3" title="Edit">
                                             <i class="fa-solid fa-edit"></i>
                                         </a>
                                         <form method="post" action="" class="inline" onsubmit="return confirm('Delete post &quot;<?= htmlspecialchars($post['title'], ENT_QUOTES) ?>&quot;?');">
                                             <?= csrfField() ?>
                                             <input type="hidden" name="delete_id" value="<?= (int) $post['id'] ?>">
-                                            <button type="submit" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete">
+                                            <button type="submit" class="text-red-600 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition-colors" title="Delete">
                                                 <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </form>
@@ -271,27 +271,27 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                 
                 <!-- Pagination Controls -->
                 <?php if ($totalPages > 1): ?>
-                <div class="px-6 py-4 border-t border-slate-100 flex items-center justify-between bg-slate-50/30">
+                <div class="px-6 py-4 border-t border-slate-200 flex items-center justify-between bg-slate-50/30">
                     <p class="text-sm text-slate-500 font-medium">
-                        Showing page <span class="font-bold text-slate-700"><?= $page ?></span> of <span class="font-bold text-slate-700"><?= $totalPages ?></span>
+                        Showing page <span class="font-bold text-slate-900"><?= $page ?></span> of <span class="font-bold text-slate-900"><?= $totalPages ?></span>
                     </p>
                     <div class="flex gap-2">
                         <?php if ($page > 1): ?>
-                            <a href="?page=<?= $page - 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50 hover:text-slate-800 transition-colors shadow-sm">
+                            <a href="?page=<?= $page - 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-3 py-1.5 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50/50 hover:text-slate-900 transition-colors shadow-sm">
                                 <i class="fa-solid fa-chevron-left mr-1"></i> Previous
                             </a>
                         <?php else: ?>
-                            <button disabled class="px-4 py-2 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl text-sm font-semibold cursor-not-allowed">
+                            <button disabled class="px-3 py-1.5 text-xs bg-slate-50/50 border border-slate-200 text-slate-500 rounded-xl text-sm font-semibold cursor-not-allowed">
                                 <i class="fa-solid fa-chevron-left mr-1"></i> Previous
                             </button>
                         <?php endif; ?>
 
                         <?php if ($page < $totalPages): ?>
-                            <a href="?page=<?= $page + 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50 hover:text-slate-800 transition-colors shadow-sm">
+                            <a href="?page=<?= $page + 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-3 py-1.5 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50/50 hover:text-slate-900 transition-colors shadow-sm">
                                 Next <i class="fa-solid fa-chevron-right ml-1"></i>
                             </a>
                         <?php else: ?>
-                            <button disabled class="px-4 py-2 bg-slate-50 border border-slate-100 text-slate-400 rounded-xl text-sm font-semibold cursor-not-allowed">
+                            <button disabled class="px-3 py-1.5 text-xs bg-slate-50/50 border border-slate-200 text-slate-500 rounded-xl text-sm font-semibold cursor-not-allowed">
                                 Next <i class="fa-solid fa-chevron-right ml-1"></i>
                             </button>
                         <?php endif; ?>
