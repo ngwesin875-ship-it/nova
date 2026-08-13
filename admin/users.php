@@ -52,7 +52,9 @@ $users = getUsersPaginated($page, $limit, $search);
 function qs(array $overrides = []): string
 {
     $params = array_merge($_GET, $overrides);
-    unset($params['page']);
+    if (!isset($overrides['page'])) {
+        unset($params['page']);
+    }
     return http_build_query($params);
 }
 ?>
@@ -108,7 +110,7 @@ function qs(array $overrides = []): string
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">User</th>
                             <th class="px-3 py-2 text-xs">Email</th>
                             <th class="px-3 py-2 text-xs">Role</th>
@@ -126,9 +128,10 @@ function qs(array $overrides = []): string
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($users as $user): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $user['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                     <td class="px-3 py-2 text-xs">
                                         <div class="flex items-center gap-3">
                                             <?php if (!empty($user['avatar'])): ?>
@@ -185,10 +188,15 @@ function qs(array $overrides = []): string
                         <p class="text-sm text-slate-500">Page <?= $page ?> of <?= $totalPages ?></p>
                         <div class="flex gap-2">
                             <?php if ($page > 1): ?>
-                                <a href="?<?= qs(['page' => $page - 1]) ?>" class="px-3 py-1.5 border border-slate-200 rounded text-xs font-medium hover:bg-slate-50/50 transition-colors transition"><i class="fa-solid fa-chevron-left mr-1"></i> Previous</a>
+                                <a href="users.php?<?= qs(['page' => $page - 1]) ?>" class="px-3 py-1.5 border border-slate-200 rounded text-xs font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50/50 transition-colors"><i class="fa-solid fa-chevron-left mr-1"></i> Previous</a>
+                            <?php else: ?>
+                                <span class="px-3 py-1.5 border border-slate-200 rounded text-xs font-medium text-slate-400 bg-slate-50 opacity-50 cursor-not-allowed"><i class="fa-solid fa-chevron-left mr-1"></i> Previous</span>
                             <?php endif; ?>
+                            
                             <?php if ($page < $totalPages): ?>
-                                <a href="?<?= qs(['page' => $page + 1]) ?>" class="px-3 py-1.5 border border-slate-200 rounded text-xs font-medium hover:bg-slate-50/50 transition-colors transition">Next <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                                <a href="users.php?<?= qs(['page' => $page + 1]) ?>" class="px-3 py-1.5 border border-slate-200 rounded text-xs font-medium text-slate-700 hover:text-blue-600 hover:bg-slate-50/50 transition-colors">Next <i class="fa-solid fa-chevron-right ml-1"></i></a>
+                            <?php else: ?>
+                                <span class="px-3 py-1.5 border border-slate-200 rounded text-xs font-medium text-slate-400 bg-slate-50 opacity-50 cursor-not-allowed">Next <i class="fa-solid fa-chevron-right ml-1"></i></span>
                             <?php endif; ?>
                         </div>
                     </div>

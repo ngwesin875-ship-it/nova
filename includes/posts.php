@@ -130,26 +130,44 @@ function getPostBySlug(string $slug): ?array
     return null;
 }
 
-function createPost(string $title, string $slug, string $content, ?string $excerpt, ?string $imageUrl, string $postType, ?int $categoryId, string $status, int $createdBy, int $isFeatured = 0, int $isBreaking = 0, int $isEditorsPick = 0): int|false
+function createPost(string $title, string $slug, string $content, ?string $excerpt, ?string $imageUrl, string $postType, ?int $categoryId, string $status, int $createdBy, int $isFeatured = 0, int $isBreaking = 0, int $isEditorsPick = 0, ?string $createdAt = null): int|false
 {
     $db = getDB();
-    $stmt = $db->prepare('INSERT INTO posts (title, slug, content, excerpt, image_url, post_type, category_id, is_featured, is_breaking, is_editors_pick, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    if ($stmt) {
-        $stmt->bind_param('ssssssiiiiss', $title, $slug, $content, $excerpt, $imageUrl, $postType, $categoryId, $isFeatured, $isBreaking, $isEditorsPick, $status, $createdBy);
-        if ($stmt->execute()) {
-            return $db->insert_id;
+    if ($createdAt !== null) {
+        $stmt = $db->prepare('INSERT INTO posts (title, slug, content, excerpt, image_url, post_type, category_id, is_featured, is_breaking, is_editors_pick, status, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        if ($stmt) {
+            $stmt->bind_param('ssssssiiiisss', $title, $slug, $content, $excerpt, $imageUrl, $postType, $categoryId, $isFeatured, $isBreaking, $isEditorsPick, $status, $createdBy, $createdAt);
+            if ($stmt->execute()) {
+                return $db->insert_id;
+            }
+        }
+    } else {
+        $stmt = $db->prepare('INSERT INTO posts (title, slug, content, excerpt, image_url, post_type, category_id, is_featured, is_breaking, is_editors_pick, status, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        if ($stmt) {
+            $stmt->bind_param('ssssssiiiiss', $title, $slug, $content, $excerpt, $imageUrl, $postType, $categoryId, $isFeatured, $isBreaking, $isEditorsPick, $status, $createdBy);
+            if ($stmt->execute()) {
+                return $db->insert_id;
+            }
         }
     }
     return false;
 }
 
-function updatePost(int $id, string $title, string $slug, string $content, ?string $excerpt, ?string $imageUrl, string $postType, ?int $categoryId, string $status, int $isFeatured = 0, int $isBreaking = 0, int $isEditorsPick = 0): bool
+function updatePost(int $id, string $title, string $slug, string $content, ?string $excerpt, ?string $imageUrl, string $postType, ?int $categoryId, string $status, int $isFeatured = 0, int $isBreaking = 0, int $isEditorsPick = 0, ?string $createdAt = null): bool
 {
     $db = getDB();
-    $stmt = $db->prepare('UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, image_url = ?, post_type = ?, category_id = ?, is_featured = ?, is_breaking = ?, is_editors_pick = ?, status = ? WHERE id = ?');
-    if ($stmt) {
-        $stmt->bind_param('ssssssiiiisi', $title, $slug, $content, $excerpt, $imageUrl, $postType, $categoryId, $isFeatured, $isBreaking, $isEditorsPick, $status, $id);
-        return $stmt->execute();
+    if ($createdAt !== null) {
+        $stmt = $db->prepare('UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, image_url = ?, post_type = ?, category_id = ?, is_featured = ?, is_breaking = ?, is_editors_pick = ?, status = ?, created_at = ? WHERE id = ?');
+        if ($stmt) {
+            $stmt->bind_param('ssssssiiiissi', $title, $slug, $content, $excerpt, $imageUrl, $postType, $categoryId, $isFeatured, $isBreaking, $isEditorsPick, $status, $createdAt, $id);
+            return $stmt->execute();
+        }
+    } else {
+        $stmt = $db->prepare('UPDATE posts SET title = ?, slug = ?, content = ?, excerpt = ?, image_url = ?, post_type = ?, category_id = ?, is_featured = ?, is_breaking = ?, is_editors_pick = ?, status = ? WHERE id = ?');
+        if ($stmt) {
+            $stmt->bind_param('ssssssiiiisi', $title, $slug, $content, $excerpt, $imageUrl, $postType, $categoryId, $isFeatured, $isBreaking, $isEditorsPick, $status, $id);
+            return $stmt->execute();
+        }
     }
     return false;
 }
@@ -372,7 +390,7 @@ function getPostsPaginated(int $page = 1, int $limit = 10, string $type = 'all',
     return [];
 }
 
-function getPostsByCategory(int $categoryId, int $page = 1, int $limit = 10, string $type = 'all'): array
+function getPostsByCategory(int $categoryId, int $page = 1, int $limit = 10, string $type = 'all', string $date = ''): array
 {
     $db = getDB();
     $page = max(1, $page);
@@ -386,6 +404,12 @@ function getPostsByCategory(int $categoryId, int $page = 1, int $limit = 10, str
     if ($type !== 'all') {
         $conditions[] = 'p.post_type = ?';
         $params[] = $type;
+        $types .= 's';
+    }
+
+    if ($date !== '') {
+        $conditions[] = 'DATE(p.created_at) = ?';
+        $params[] = $date;
         $types .= 's';
     }
 

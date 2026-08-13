@@ -88,7 +88,7 @@ $likes = getLikesDislikesPaginated($page, $perPage, $search, $type);
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">User</th>
                             <th class="px-3 py-2 text-xs">Post</th>
                             <th class="px-3 py-2 text-xs">Type</th>
@@ -104,11 +104,12 @@ $likes = getLikesDislikesPaginated($page, $perPage, $search, $type);
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($likes as $like): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $like['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                     <td class="px-3 py-2 text-xs font-medium text-blue-600"><?= htmlspecialchars($like['username']) ?></td>
-                                    <td class="px-3 py-2 text-xs max-w-xs truncate">
+                                    <td class="px-3 py-2 text-xs max-w-xs line-clamp-2 whitespace-normal break-words">
                                         <a href="/Nova_News/public/article.php?slug=<?= htmlspecialchars($like['post_slug']) ?>" target="_blank" class="hover:underline">
                                             <?= htmlspecialchars($like['post_title']) ?>
                                         </a>

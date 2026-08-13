@@ -39,6 +39,7 @@ $status = $post['status'] ?? 'draft';
 $isFeatured = (int) ($post['is_featured'] ?? 0);
 $isBreaking = (int) ($post['is_breaking'] ?? 0);
 $isEditorsPick = (int) ($post['is_editors_pick'] ?? 0);
+$createdAt = date('Y-m-d\TH:i', strtotime($post['created_at'] ?? 'now'));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!verifyCsrf($_POST['csrf_token'] ?? '')) {
@@ -50,10 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $excerpt = trim($_POST['excerpt'] ?? '');
         $postType = $_POST['post_type'] ?? 'free';
         $categoryId = $_POST['category_id'] !== '' ? (int) $_POST['category_id'] : null;
-        $status = $_POST['status'] ?? 'published';
         $isFeatured = isset($_POST['is_featured']) ? 1 : 0;
         $isBreaking = isset($_POST['is_breaking']) ? 1 : 0;
         $isEditorsPick = isset($_POST['is_editors_pick']) ? 1 : 0;
+        $createdAtUpdate = !empty($_POST['created_at']) ? date('Y-m-d H:i:s', strtotime($_POST['created_at'])) : null;
 
         if ($title === '') {
             $errorMessage = 'Title is required.';
@@ -83,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (!$errorMessage) {
-                if (updatePost($id, $title, $slug, $content, $excerpt ?: null, $imageUrl, $postType, $categoryId, $status, $isFeatured, $isBreaking, $isEditorsPick)) {
+                if (updatePost($id, $title, $slug, $content, $excerpt ?: null, $imageUrl, $postType, $categoryId, $status, $isFeatured, $isBreaking, $isEditorsPick, $createdAtUpdate)) {
                 flashMessage('success', 'Post "' . htmlspecialchars($title) . '" updated successfully.');
                 header('Location: posts.php');
                 exit;
@@ -180,7 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
 
-                    <div class="grid md:grid-cols-5 gap-5">
+                    <div class="grid md:grid-cols-4 gap-5">
                         <div>
                             <label for="post_type" class="block text-xs font-semibold text-slate-900 mb-1">Post Type</label>
                             <select id="post_type" name="post_type" class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
@@ -204,24 +205,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="draft" <?= $status === 'draft' ? 'selected' : '' ?>>Draft</option>
                             </select>
                         </div>
-                        <div class="flex items-end pb-2">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" name="is_featured" value="1" <?= $isFeatured ? 'checked' : '' ?> class="w-4 h-4 text-blue-600 border-slate-200 rounded focus:ring-blue-500">
-                                <span class="text-xs font-semibold text-slate-900">Featured</span>
-                            </label>
+                        <div>
+                            <label for="created_at" class="block text-xs font-semibold text-slate-900 mb-1">Posting Date</label>
+                            <input type="datetime-local" id="created_at" name="created_at" value="<?= isset($_POST['created_at']) ? htmlspecialchars($_POST['created_at']) : htmlspecialchars($createdAt) ?>"
+                                   class="w-full px-3 py-1.5 text-xs.5 border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                         </div>
-                        <div class="flex items-end pb-2">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" name="is_breaking" value="1" <?= $isBreaking ? 'checked' : '' ?> class="w-4 h-4 text-red-600 border-slate-200 rounded focus:ring-red-500">
-                                <span class="text-xs font-semibold text-slate-900">Breaking</span>
-                            </label>
-                        </div>
-                        <div class="flex items-end pb-2">
-                            <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" name="is_editors_pick" value="1" <?= $isEditorsPick ? 'checked' : '' ?> class="w-4 h-4 text-purple-600 border-slate-200 rounded focus:ring-purple-500">
-                                <span class="text-xs font-semibold text-slate-900">Editor's Pick</span>
-                            </label>
-                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-5 pt-2 pb-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="is_featured" value="1" <?= $isFeatured ? 'checked' : '' ?> class="w-4 h-4 text-blue-600 border-slate-200 rounded focus:ring-blue-500">
+                            <span class="text-xs font-semibold text-slate-900">Featured</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="is_breaking" value="1" <?= $isBreaking ? 'checked' : '' ?> class="w-4 h-4 text-red-600 border-slate-200 rounded focus:ring-red-500">
+                            <span class="text-xs font-semibold text-slate-900">Breaking</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" name="is_editors_pick" value="1" <?= $isEditorsPick ? 'checked' : '' ?> class="w-4 h-4 text-purple-600 border-slate-200 rounded focus:ring-purple-500">
+                            <span class="text-xs font-semibold text-slate-900">Editor's Pick</span>
+                        </label>
                     </div>
 
                     <div class="flex items-center gap-3 pt-2">

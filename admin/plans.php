@@ -73,7 +73,7 @@ $plans = getAllPlans();
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">Name</th>
                             <th class="px-3 py-2 text-xs">Duration</th>
                             <th class="px-3 py-2 text-xs">Price</th>
@@ -93,9 +93,10 @@ $plans = getAllPlans();
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($plans as $plan): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $plan['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                     <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($plan['name']) ?></td>
                                     <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $plan['duration_months'] ?> month<?= (int) $plan['duration_months'] > 1 ? 's' : '' ?></td>
                                     <td class="px-3 py-2 text-xs"><?= number_format((float) $plan['price'], 0) ?> MMK</td>

@@ -165,7 +165,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                 
                     <thead calss="w-full">
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                             <th class="px-3 py-2 text-xs">ID</th>
+                             <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">Title</th>
                             <th class="px-3 py-2 text-xs">Category</th>
                             <th class="px-3 py-2 text-xs">Author</th>
@@ -187,10 +187,11 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($posts as $post): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $post['id'] ?></td>
-                                    <td class="px-3 py-2 text-xs font-medium max-w-xs truncate"><?= htmlspecialchars($post['title']) ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
+                                    <td class="px-3 py-2 text-xs font-medium max-w-xs line-clamp-2 whitespace-normal break-words"><?= htmlspecialchars($post['title']) ?></td>
                                     <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($post['category_name'] ?? '-') ?></td>
                                     <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($post['author_name'] ?? '-') ?></td>
                                     <td class="px-3 py-2 text-xs">

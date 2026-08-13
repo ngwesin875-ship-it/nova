@@ -102,7 +102,7 @@ $pendingApprovals = $notifCounts['pending_payments'];
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">User</th>
                             <th class="px-3 py-2 text-xs">Plan</th>
                             <th class="px-3 py-2 text-xs">Amount</th>
@@ -124,9 +124,10 @@ $pendingApprovals = $notifCounts['pending_payments'];
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($payments as $payment): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $payment['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                     <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($payment['username']) ?></td>
                                     <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($payment['plan_name']) ?></td>
                                     <td class="px-3 py-2 text-xs"><?= number_format((float) $payment['amount'], 0) ?> MMK</td>

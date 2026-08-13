@@ -75,7 +75,7 @@ $categories = getCategories();
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">Name</th>
                             <th class="px-3 py-2 text-xs">Slug</th>
                             <th class="px-3 py-2 text-xs">Created At</th>
@@ -91,9 +91,10 @@ $categories = getCategories();
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($categories as $cat): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $cat['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                     <td class="px-3 py-2 text-xs font-medium"><?= htmlspecialchars($cat['name']) ?></td>
                                     <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($cat['slug']) ?></td>
                                     <td class="px-3 py-2 text-xs text-slate-500"><?= htmlspecialchars($cat['created_at']) ?></td>

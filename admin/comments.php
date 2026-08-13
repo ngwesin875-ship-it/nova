@@ -92,7 +92,7 @@ $posts    = getPostsForDropdown();
                 <table class="w-full">
                     <thead>
                         <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-3 py-2 text-xs">ID</th>
+                            <th class="px-3 py-2 text-xs">No</th>
                             <th class="px-3 py-2 text-xs">User</th>
                             <th class="px-3 py-2 text-xs">Post</th>
                             <th class="px-3 py-2 text-xs">Parent</th>
@@ -110,13 +110,14 @@ $posts    = getPostsForDropdown();
                                 </td>
                             </tr>
                         <?php else: ?>
+                            <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                             <?php foreach ($comments as $c): ?>
                                 <tr class="border-b hover:bg-slate-50/50 transition-colors">
-                                    <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $c['id'] ?></td>
+                                    <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                     <td class="px-3 py-2 text-xs font-medium text-blue-600"><?= htmlspecialchars($c['username']) ?></td>
-                                    <td class="px-3 py-2 text-xs max-w-[150px] truncate">
+                                    <td class="px-3 py-2 text-xs max-w-[150px] line-clamp-2 whitespace-normal break-words">
                                         <a href="/Nova_News/public/article.php?slug=<?= htmlspecialchars($c['post_slug']) ?>" target="_blank" class="hover:underline">
-                                            <?= htmlspecialchars(mb_strimwidth($c['post_title'], 0, 35, '...')) ?>
+                                            <?= htmlspecialchars($c['post_title']) ?>
                                         </a>
                                     </td>
                                     <td class="px-3 py-2 text-xs text-slate-500 text-sm">

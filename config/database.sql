@@ -226,4 +226,20 @@ ADD COLUMN is_breaking TINYINT(1) DEFAULT 0 AFTER is_featured;
 ALTER TABLE posts 
 ADD COLUMN is_editors_pick TINYINT(1) DEFAULT 0 AFTER is_breaking;
 
+-- 1. Data မကိုက်ညီမှုများရှိလျှင် NULL ပြောင်းပေးခြင်း
+UPDATE payments 
+SET payment_service_id = NULL 
+WHERE payment_service_id NOT IN (SELECT id FROM payment_services);
 
+UPDATE notifications 
+SET user_id = NULL 
+WHERE user_id NOT IN (SELECT id FROM users);
+
+-- 2. Foreign Key သစ်များ အသစ်စက်စက် တိုက်ရိုက် ချိတ်ဆက်ခြင်း
+ALTER TABLE payments 
+ADD CONSTRAINT fk_payments_payment_services_new 
+FOREIGN KEY (payment_service_id) REFERENCES payment_services(id) ON DELETE SET NULL;
+
+ALTER TABLE notifications 
+ADD CONSTRAINT fk_notifications_users_new 
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE;

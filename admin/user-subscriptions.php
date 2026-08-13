@@ -76,7 +76,7 @@ $subscriptions = getAllUserSubscriptions();
                     <table class="w-full min-w-[900px]">
                         <thead>
                             <tr class="border-b bg-slate-50/50 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                <th class="px-3 py-2 text-xs">ID</th>
+                                <th class="px-3 py-2 text-xs">No</th>
                                 <th class="px-3 py-2 text-xs">User</th>
                                 <th class="px-3 py-2 text-xs">Plan</th>
                                 <th class="px-3 py-2 text-xs">Start Date</th>
@@ -96,9 +96,10 @@ $subscriptions = getAllUserSubscriptions();
                                     </td>
                                 </tr>
                             <?php else: ?>
+                                <?php $seq = isset($page, $limit) ? ($page - 1) * $limit + 1 : 1; ?>
                                 <?php foreach ($subscriptions as $sub): ?>
                                     <tr class="border-b hover:bg-slate-50/50 transition-colors <?= $sub['payment_status'] === 'pending' ? 'bg-amber-50/50' : '' ?>">
-                                        <td class="px-3 py-2 text-xs text-slate-500"><?= (int) $sub['id'] ?></td>
+                                        <td class="px-3 py-2 text-xs text-slate-500"><?= $seq++ ?></td>
                                         <td class="px-3 py-2 text-xs font-medium">
                                             <?= htmlspecialchars($sub['username']) ?>
                                             <div class="text-xs text-slate-500"><?= htmlspecialchars($sub['email']) ?></div>

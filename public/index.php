@@ -157,7 +157,7 @@ include __DIR__ . '/../includes/header.php';
                                     </button>
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <span class="text-sm font-medium text-slate-700 group-hover:text-[#5B41FF] truncate block"><?= $postTitle ?></span>
+                                    <span class="text-sm font-medium text-slate-700 group-hover:text-[#5B41FF] line-clamp-2 whitespace-normal break-words block"><?= $postTitle ?></span>
                                     <div class="flex items-center gap-2 mt-1">
                                         <?php if ($postType === 'premium'): ?>
                                             <span class="text-[10px] font-bold text-amber-600 bg-amber-100 px-1.5 py-0.5 rounded">PREMIUM</span>

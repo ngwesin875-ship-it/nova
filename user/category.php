@@ -12,7 +12,8 @@ if (!$category) {
     exit;
 }
 
-$posts = getPostsByCategory((int)$category['id']);
+$dateFilter = $_GET['date'] ?? '';
+$posts = getPostsByCategory((int)$category['id'], 1, 100, 'all', $dateFilter);
 
 $catIcons = [
     'Technology'    => ['bg' => 'bg-cyan-100', 'text' => 'text-cyan-600', 'icon' => 'fa-laptop-code'],
@@ -41,7 +42,7 @@ $totalPosts = count($posts);
 ?>
 <main class="max-w-[1440px] mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
     <div class="lg:col-span-9 space-y-8">
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <span class="w-10 h-10 rounded-xl <?= $iconStyle['bg'] . ' ' . $iconStyle['text'] ?> flex items-center justify-center">
                     <i class="fa-solid <?= $iconStyle['icon'] ?>"></i>
@@ -51,6 +52,14 @@ $totalPosts = count($posts);
                     <p class="text-sm text-slate-500"><?= $totalPosts ?> Article<?= $totalPosts !== 1 ? 's' : '' ?></p>
                 </div>
             </div>
+            
+            <form method="get" action="" class="flex items-center gap-2">
+                <input type="hidden" name="slug" value="<?= htmlspecialchars($slug) ?>">
+                <input type="date" name="date" value="<?= htmlspecialchars($dateFilter) ?>" class="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:ring-2 focus:ring-[#5B41FF]/20 focus:border-[#5B41FF] outline-none transition-all text-slate-700">
+                <button type="submit" class="bg-[#5B41FF] hover:bg-[#4830DF] text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm">
+                    Search
+                </button>
+            </form>
         </div>
 
         <?php if (empty($posts)): ?>
