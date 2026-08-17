@@ -280,7 +280,7 @@ function deletePost(int $id): bool
     return false;
 }
 
-function getPostsCount(string $type = 'all', string $status = 'all', string $search = ''): int
+function getPostsCount(string $type = 'all', string $status = 'all', string $search = '', string $date = ''): int
 {
     $db = getDB();
     $conditions = [];
@@ -305,6 +305,12 @@ function getPostsCount(string $type = 'all', string $status = 'all', string $sea
         $types .= 's';
     }
 
+    if ($date !== '') {
+        $conditions[] = 'DATE(created_at) = ?';
+        $params[] = $date;
+        $types .= 's';
+    }
+
     $sql = 'SELECT COUNT(*) AS total FROM posts';
     if (!empty($conditions)) {
         $sql .= ' WHERE ' . implode(' AND ', $conditions);
@@ -325,7 +331,7 @@ function getPostsCount(string $type = 'all', string $status = 'all', string $sea
     return 0;
 }
 
-function getPostsPaginated(int $page = 1, int $limit = 10, string $type = 'all', string $status = 'all', string $search = '', ?int $featured = null): array
+function getPostsPaginated(int $page = 1, int $limit = 10, string $type = 'all', string $status = 'all', string $search = '', ?int $featured = null, string $date = ''): array
 {
     $db = getDB();
     $page = max(1, $page);
@@ -358,6 +364,12 @@ function getPostsPaginated(int $page = 1, int $limit = 10, string $type = 'all',
         $conditions[] = 'p.is_featured = ?';
         $params[] = $featured;
         $types .= 'i';
+    }
+
+    if ($date !== '') {
+        $conditions[] = 'DATE(p.created_at) = ?';
+        $params[] = $date;
+        $types .= 's';
     }
 
     $sql = 'SELECT p.*, u.username AS author_name, c.name AS category_name

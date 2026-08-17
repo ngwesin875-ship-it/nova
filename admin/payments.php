@@ -136,11 +136,11 @@ $pendingApprovals = $notifCounts['pending_payments'];
                                     <td class="px-3 py-2 text-xs"><?= htmlspecialchars($payment['account_phone'] ?? '-') ?></td>
                                     <td class="px-3 py-2 text-xs">
                                         <?php if (!empty($payment['receipt_image'])): ?>
-                                            <a href="/Nova_News/<?= htmlspecialchars($payment['receipt_image']) ?>" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">
-                                                <i class="fa-solid fa-image"></i> View
+                                            <a href="/Nova_News/<?= htmlspecialchars($payment['receipt_image']) ?>" target="_blank" class="inline-block">
+                                                <img src="/Nova_News/<?= htmlspecialchars($payment['receipt_image']) ?>" alt="Receipt" class="w-12 h-12 object-cover rounded-lg border shadow-sm hover:scale-105 transition cursor-pointer">
                                             </a>
                                         <?php else: ?>
-                                            <span class="text-slate-500">-</span>
+                                            <span class="text-slate-500">No receipt</span>
                                         <?php endif; ?>
                                     </td>
                                     <td class="px-3 py-2 text-xs">

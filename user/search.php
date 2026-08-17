@@ -5,12 +5,13 @@ require_once __DIR__ . '/../includes/categories.php';
 include __DIR__ . '/../includes/header.php';
 
 $query = trim($_GET['q'] ?? '');
+$date = trim($_GET['date'] ?? '');
 $page = max(1, (int)($_GET['page'] ?? 1));
 $limit = 12;
 
-if ($query !== '') {
-    $posts = getPostsPaginated($page, $limit, 'all', 'published', $query);
-    $total = getPostsCount('all', 'published', $query);
+if ($query !== '' || $date !== '') {
+    $posts = getPostsPaginated($page, $limit, 'all', 'published', $query, null, $date);
+    $total = getPostsCount('all', 'published', $query, $date);
 } else {
     $posts = [];
     $total = 0;
@@ -38,8 +39,12 @@ $safeQuery = htmlspecialchars($query);
                 </span>
                 <div>
                     <h1 class="text-2xl font-extrabold text-slate-900">
-                        <?php if ($query !== ''): ?>
+                        <?php if ($query !== '' && $date !== ''): ?>
+                            Search results for "<?= $safeQuery ?>" on <?= htmlspecialchars($date) ?>
+                        <?php elseif ($query !== ''): ?>
                             Search results for "<?= $safeQuery ?>"
+                        <?php elseif ($date !== ''): ?>
+                            Search results for <?= htmlspecialchars($date) ?>
                         <?php else: ?>
                             Search News
                         <?php endif; ?>
@@ -49,10 +54,10 @@ $safeQuery = htmlspecialchars($query);
             </div>
         </div>
 
-        <?php if ($query === ''): ?>
+        <?php if ($query === '' && $date === ''): ?>
         <div class="bg-white rounded-2xl border border-slate-200 p-10 shadow-sm text-center">
             <div class="text-4xl text-slate-300 mb-4"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <p class="text-slate-400 text-sm">Enter a search term to find news articles.</p>
+            <p class="text-slate-400 text-sm">Enter a search term or select a date to find news articles.</p>
         </div>
         <?php elseif (empty($posts)): ?>
         <div class="bg-white rounded-2xl border border-slate-200 p-10 shadow-sm text-center">
@@ -98,13 +103,13 @@ $safeQuery = htmlspecialchars($query);
         <?php if ($totalPages > 1): ?>
         <div class="flex justify-center items-center gap-2 mt-8">
             <?php if ($page > 1): ?>
-                <a href="?q=<?= urlencode($query) ?>&page=<?= $page - 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">&laquo; Previous</a>
+                <a href="?q=<?= urlencode($query) ?>&date=<?= urlencode($date) ?>&page=<?= $page - 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">&laquo; Previous</a>
             <?php endif; ?>
             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                <a href="?q=<?= urlencode($query) ?>&page=<?= $i ?>" class="px-3 py-2 rounded-lg text-sm <?= $i === $page ? 'bg-[#5B41FF] text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' ?> transition"><?= $i ?></a>
+                <a href="?q=<?= urlencode($query) ?>&date=<?= urlencode($date) ?>&page=<?= $i ?>" class="px-3 py-2 rounded-lg text-sm <?= $i === $page ? 'bg-[#5B41FF] text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' ?> transition"><?= $i ?></a>
             <?php endfor; ?>
             <?php if ($page < $totalPages): ?>
-                <a href="?q=<?= urlencode($query) ?>&page=<?= $page + 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">Next &raquo;</a>
+                <a href="?q=<?= urlencode($query) ?>&date=<?= urlencode($date) ?>&page=<?= $page + 1 ?>" class="px-3 py-2 rounded-lg bg-white border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">Next &raquo;</a>
             <?php endif; ?>
         </div>
         <?php endif; ?>

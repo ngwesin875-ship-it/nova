@@ -1,6 +1,3 @@
-
-
-
 <?php
 session_start();
 require_once __DIR__ . '/../config/db.php';
@@ -74,7 +71,7 @@ header('Expires: 0');
 
 $output = fopen('php://output', 'w');
 
-fwrite($output, "\xEF\xBB\xBF");
+fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 
 fputcsv($output, ['ID', 'Title', 'Slug', 'Content', 'Category', 'Author', 'Type', 'Status', 'Created At']);
 

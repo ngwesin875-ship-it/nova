@@ -203,21 +203,21 @@ $services = getAllPaymentServices();
                                 <td class="px-3 py-2 text-xs"><?= htmlspecialchars($svc['phone_number']) ?></td>
                                 <td class="px-3 py-2 text-xs">
                                     <?php if (!empty($svc['logo_image'])): ?>
-                                        <a href="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">
-                                            <img src="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>" alt="Logo" class="w-10 h-10 object-cover rounded-lg border">
+                                        <a href="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>" target="_blank" class="inline-block">
+                                            <img src="/Nova_News/<?= htmlspecialchars($svc['logo_image']) ?>" alt="Logo" class="w-12 h-12 object-cover rounded-lg border shadow-sm hover:scale-105 transition cursor-pointer">
                                         </a>
                                     <?php else: ?>
-                                        <span class="text-slate-500">-</span>
+                                        <span class="text-slate-500">No logo</span>
                                     <?php endif; ?>
                                 </td>
                                 <td class="px-3 py-2 text-xs"><?= htmlspecialchars($svc['account_name']) ?></td>
                                 <td class="px-3 py-2 text-xs">
                                     <?php if ($svc['qr_image']): ?>
-                                        <a href="/Nova_News/<?= htmlspecialchars($svc['qr_image']) ?>" target="_blank" class="text-blue-600 hover:text-blue-800 text-sm">
-                                            <i class="fa-solid fa-qrcode"></i> View
+                                        <a href="/Nova_News/<?= htmlspecialchars($svc['qr_image']) ?>" target="_blank" class="inline-block">
+                                            <img src="/Nova_News/<?= htmlspecialchars($svc['qr_image']) ?>" alt="QR Code" class="w-12 h-12 object-cover rounded-lg border shadow-sm hover:scale-105 transition cursor-pointer">
                                         </a>
                                     <?php else: ?>
-                                        <span class="text-slate-500">-</span>
+                                        <span class="text-slate-500">No QR</span>
                                     <?php endif; ?>
                                 </td>
                                 <td class="px-3 py-2 text-xs">

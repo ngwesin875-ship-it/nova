@@ -447,7 +447,9 @@ $savedPostIds = getSavedPostIds(currentUserId() ?? 0);
         <!-- search bar -->
         <div class="flex items-center space-x-3">
             <form action="search.php" method="GET" class="hidden lg:flex items-center bg-slate-100 border border-slate-200 rounded-full overflow-hidden focus-within:ring-2 focus-within:ring-[#5B41FF]/30">
-                <input name="q" type="search" placeholder="<?= __('header.search') ?>" class="min-w-[180px] bg-transparent px-3 py-1.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none" />
+                <input name="q" type="search" placeholder="<?= __('header.search') ?>" class="min-w-[150px] bg-transparent px-3 py-1.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none" />
+                <div class="h-4 w-px bg-slate-300 mx-1"></div>
+                <input type="date" name="date" class="bg-transparent px-2 py-1.5 text-sm text-slate-600 focus:outline-none cursor-pointer" title="Filter by date" />
                 <button type="submit" class="px-3 py-1.5 bg-[#5B41FF] text-white text-sm font-semibold hover:bg-[#4830DF] transition">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
