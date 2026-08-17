@@ -1,12 +1,20 @@
 <?php
 $pageTitle = $pageTitle ?? 'Dashboard';
 ?>
+<?php include __DIR__ . '/theme-init.php'; ?>
 <header class="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200/80 h-16 flex justify-between items-center px-8 shrink-0 sticky top-0 left-0 right-0 z-30">
     <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
         <?= htmlspecialchars($pageTitle) ?>
     </h2>
     <div class="flex items-center gap-5">
         <?php include __DIR__ . '/admin-header.php'; ?>
+        
+        <div class="h-8 w-px bg-slate-200 mx-2"></div>
+
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="p-2 text-slate-500 hover:text-slate-800 transition-colors" aria-label="Toggle theme" title="Toggle theme">
+            <i class="fa-solid fa-moon text-lg"></i>
+        </button>
         
         <div class="h-8 w-px bg-slate-200 mx-2"></div>
         

@@ -11,6 +11,13 @@ $savedPostIds = getSavedPostIds(currentUserId() ?? 0);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova News Dashboard</title>
+    <script>
+        tailwind = {
+            config: {
+                darkMode: 'class',
+            }
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,254 +28,6 @@ $savedPostIds = getSavedPostIds(currentUserId() ?? 0);
         body {
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        body.theme-dark {
-            background-color: #020617;
-            color: #E2E8F0;
-        }
-
-        body.theme-dark header,
-        body.theme-dark footer,
-        body.theme-dark .bg-white,
-        body.theme-dark .bg-slate-100,
-        body.theme-dark .bg-slate-50 {
-            background-color: #111827 !important;
-        }
-
-        body.theme-dark .border-slate-200,
-        body.theme-dark .border-slate-100 {
-            border-color: #334155 !important;
-        }
-
-        body.theme-dark .text-slate-900,
-        body.theme-dark .text-slate-800,
-        body.theme-dark .text-slate-700,
-        body.theme-dark .text-slate-600,
-        body.theme-dark .text-slate-500,
-        body.theme-dark .text-slate-400,
-        body.theme-dark .text-slate-300,
-        body.theme-dark .text-slate-950 {
-            color: #E2E8F0 !important;
-        }
-
-        body.theme-dark .text-slate-400 {
-            color: #94A3B8 !important;
-        }
-
-        .text-theme-adaptive {
-            color: #0F172A;
-        }
-
-        body.theme-dark .text-theme-adaptive {
-            color: #FFFFFF;
-        }
-
-        body.theme-dark .bg-slate-900,
-        body.theme-dark .bg-slate-950 {
-            background-color: #0F172A !important;
-        }
-
-        body.theme-dark .hover\:bg-slate-50:hover {
-            background-color: #1E293B !important;
-        }
-
-        body.theme-dark .hover\:bg-slate-100:hover {
-            background-color: #1E293B !important;
-        }
-
-        body.theme-dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
-            border-color: #334155 !important;
-        }
-
-        body.theme-dark .from-amber-50 {
-            --tw-gradient-from: #422006 !important;
-            --tw-gradient-to: #0F172A !important;
-        }
-
-        body.theme-dark .hover\:border-slate-300:hover {
-            border-color: #475569 !important;
-        }
-
-        body.theme-dark .text-blue-500 {
-            color: #60A5FA !important;
-        }
-
-        body.theme-dark .hover\:text-red-600:hover {
-            color: #FCA5A5 !important;
-        }
-
-        body.theme-dark .text-amber-600 {
-            color: #FCD34D !important;
-        }
-
-        body.theme-dark .hover\:text-amber-700:hover {
-            color: #FCD34D !important;
-        }
-
-        body.theme-dark .hover\:text-slate-900:hover {
-            color: #F1F5F9 !important;
-        }
-
-        body.theme-dark .text-green-600 {
-            color: #4ADE80 !important;
-        }
-
-        body.theme-dark .text-yellow-600 {
-            color: #FACC15 !important;
-        }
-
-        body.theme-dark .text-red-600 {
-            color: #F87171 !important;
-        }
-
-        body.theme-dark .text-gray-900,
-        body.theme-dark .text-gray-800 {
-            color: #E2E8F0 !important;
-        }
-
-        body.theme-dark .text-gray-700,
-        body.theme-dark .text-gray-600 {
-            color: #CBD5E1 !important;
-        }
-
-        body.theme-dark .text-gray-500,
-        body.theme-dark .text-gray-400 {
-            color: #94A3B8 !important;
-        }
-
-        body.theme-dark .text-gray-300 {
-            color: #64748B !important;
-        }
-
-        body.theme-dark .bg-gray-50 {
-            background-color: #1E293B !important;
-        }
-
-        body.theme-dark .border-gray-200,
-        body.theme-dark .border-gray-100 {
-            border-color: #334155 !important;
-        }
-
-        body.theme-dark .border-gray-50 {
-            border-color: #334155 !important;
-        }
-
-        body.theme-dark .bg-red-50 {
-            background-color: #450A0A !important;
-        }
-
-        body.theme-dark .text-red-700 {
-            color: #FCA5A5 !important;
-        }
-
-        body.theme-dark .bg-green-50 {
-            background-color: #052E16 !important;
-        }
-
-        body.theme-dark .text-green-700 {
-            color: #86EFAC !important;
-        }
-
-        body.theme-dark .text-green-500 {
-            color: #4ADE80 !important;
-        }
-
-        body.theme-dark .text-amber-500 {
-            color: #FCD34D !important;
-        }
-
-        body.theme-dark .text-amber-700 {
-            color: #FDE68A !important;
-        }
-
-        body.theme-dark .bg-amber-50,
-        body.theme-dark .bg-amber-50\/50 {
-            background-color: #422006 !important;
-        }
-
-        body.theme-dark .bg-blue-50 {
-            background-color: #1E3A5F !important;
-        }
-
-        body.theme-dark .text-purple-500 {
-            color: #C4B5FD !important;
-        }
-
-        body.theme-dark .bg-purple-50 {
-            background-color: #2E1065 !important;
-        }
-
-        body.theme-dark .text-emerald-500 {
-            color: #6EE7B7 !important;
-        }
-
-        body.theme-dark .bg-emerald-50 {
-            background-color: #064E3B !important;
-        }
-
-        body.theme-dark .bg-emerald-50\/50 {
-            background-color: rgba(6, 78, 59, 0.5) !important;
-        }
-
-        body.theme-dark .text-emerald-700 {
-            color: #A7F3D0 !important;
-        }
-
-        body.theme-dark .border-amber-200\/60 {
-            border-color: rgba(217, 119, 6, 0.3) !important;
-        }
-
-        body.theme-dark .border-red-200 {
-            border-color: rgba(252, 165, 165, 0.3) !important;
-        }
-
-        body.theme-dark .border-green-200 {
-            border-color: rgba(134, 239, 172, 0.3) !important;
-        }
-
-        body.theme-dark .border-amber-100 {
-            border-color: #422006 !important;
-        }
-
-        body.theme-dark .border-amber-200 {
-            border-color: rgba(217, 119, 6, 0.3) !important;
-        }
-
-        body.theme-dark .text-red-500 {
-            color: #FCA5A5 !important;
-        }
-
-        body.theme-dark .text-amber-400 {
-            color: #FDE68A !important;
-        }
-
-        body.theme-dark .text-green-400 {
-            color: #86EFAC !important;
-        }
-
-        body.theme-dark .from-orange-50 {
-            --tw-gradient-from: #431407 !important;
-        }
-
-        body.theme-dark .to-orange-50 {
-            --tw-gradient-to: #0F172A !important;
-        }
-
-        body.theme-dark .hover\:bg-amber-50:hover {
-            background-color: #422006 !important;
-        }
-
-        body.theme-dark .hover\:bg-amber-50\/50:hover {
-            background-color: rgba(66, 32, 6, 0.5) !important;
-        }
-
-        body.theme-dark .shadow-sm {
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.4) !important;
-        }
-
-        body.theme-dark .shadow-xl {
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.35) !important;
         }
 
         @keyframes blink {
@@ -319,30 +78,12 @@ $savedPostIds = getSavedPostIds(currentUserId() ?? 0);
         .article-content p:last-child {
             margin-bottom: 0;
         }
-        .article-content br {
         body.theme-dark .article-content {
             color: #CBD5E1 !important;
         }
     </style>
+    <?php include __DIR__ . '/theme-init.php'; ?>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const toggleBtn = document.getElementById('theme-toggle');
-        const body = document.body;
-        
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
-                if (body.classList.contains('theme-light')) {
-                    body.classList.remove('theme-light');
-                    body.classList.add('theme-dark');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    body.classList.remove('theme-dark');
-                    body.classList.add('theme-light');
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-        }
-    });
 
     // Bookmark functionality
     function toggleBookmark(postId, btnElement) {
@@ -380,7 +121,7 @@ $savedPostIds = getSavedPostIds(currentUserId() ?? 0);
     }
     </script>
 </head>
-<body class="bg-[#F8FAFC] text-slate-800 antialiased theme-light">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 antialiased">
 
     <!-- breaking news -->
     <div class="breaking-news-bar bg-red-600 text-white text-xs px-4 md:px-8 flex items-center justify-between overflow-hidden">
