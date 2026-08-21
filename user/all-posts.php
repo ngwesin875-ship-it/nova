@@ -6,8 +6,17 @@ $page = max(1, (int)($_GET['page'] ?? 1));
 $limit = 12;
 $type = $_GET['type'] ?? 'all';
 $typeFilter = in_array($type, ['all', 'free', 'premium']) ? $type : 'all';
-$posts = getPostsPaginated($page, $limit, $typeFilter, 'published');
-$total = getPostsCount($typeFilter, 'published');
+
+$date = $_GET['date'] ?? '';
+$dateFilter = '';
+if ($date === 'today') {
+    $dateFilter = date('Y-m-d');
+} elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+    $dateFilter = $date;
+}
+
+$posts = getPostsPaginated($page, $limit, $typeFilter, 'published', '', null, $dateFilter);
+$total = getPostsCount($typeFilter, 'published', '', $dateFilter);
 $totalPages = $limit > 0 ? (int)ceil($total / $limit) : 0;
 
 $params = $_GET;
@@ -33,13 +42,14 @@ $catColors = [
                     <i class="fa-solid fa-newspaper"></i>
                 </span>
                 <div class="flex-1">
-                    <h1 class="text-2xl font-extrabold text-slate-900"><?= $typeFilter === 'premium' ? 'Premium News' : ($typeFilter === 'free' ? 'Free News' : 'All News') ?></h1>
+                    <h1 class="text-2xl font-extrabold text-slate-900"><?= $typeFilter === 'premium' ? 'Premium News' : ($typeFilter === 'free' ? 'Free News' : 'All News') ?><?= $date === 'today' ? ' - Today' : '' ?></h1>
                     <p class="text-sm text-slate-500"><?= $total ?> article<?= $total !== 1 ? 's' : '' ?> total</p>
                 </div>
                 <div class="flex bg-slate-200/60 p-0.5 rounded-lg text-xs font-semibold text-slate-600 shrink-0">
-                    <a href="?type=all" class="px-3 py-1 rounded-md <?= $typeFilter === 'all' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">All</a>
-                    <a href="?type=free" class="px-3 py-1 rounded-md <?= $typeFilter === 'free' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">Free</a>
-                    <a href="?type=premium" class="px-3 py-1 rounded-md <?= $typeFilter === 'premium' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">Premium</a>
+                    <?php $dateParam = $date ? '&date=' . urlencode($date) : ''; ?>
+                    <a href="?type=all<?= $dateParam ?>" class="px-3 py-1 rounded-md <?= $typeFilter === 'all' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">All</a>
+                    <a href="?type=free<?= $dateParam ?>" class="px-3 py-1 rounded-md <?= $typeFilter === 'free' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">Free</a>
+                    <a href="?type=premium<?= $dateParam ?>" class="px-3 py-1 rounded-md <?= $typeFilter === 'premium' ? 'bg-[#5B41FF] text-white' : 'hover:text-slate-900' ?>">Premium</a>
                 </div>
             </div>
         </div>

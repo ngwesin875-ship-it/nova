@@ -148,13 +148,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <!-- Remember / Forgot -->
-            <div class="box-border flex items-center justify-between mt-2">
+            <!-- Remember -->
+            <div class="box-border flex items-center mt-2">
                 <label class="flex items-center gap-2.5 cursor-pointer group">
                     <input type="checkbox" class="box-border w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-600 cursor-pointer transition">
                     <span class="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition">Remember me</span>
                 </label>
-                <a href="#" class="text-sm font-semibold text-blue-600 hover:text-slate-900 transition-colors">Forgot password?</a>
             </div>
 
             <!-- Submit Button -->

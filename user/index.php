@@ -35,7 +35,7 @@ include __DIR__ . '/../includes/header.php';
 
                     <div class="pt-4 flex flex-wrap gap-3">
                         <?php if ($hero): ?>
-                        <a href="article.php?slug=<?= urlencode($hero['slug']) ?>" class="bg-[#5B41FF] hover:bg-[#4830DF] text-white text-sm font-semibold px-5 py-3 rounded-xl flex items-center gap-2 shadow-lg transition">
+                        <a href="../user/article.php?slug=<?= urlencode($hero['slug']) ?>" class="bg-[#5B41FF] hover:bg-[#4830DF] text-white text-sm font-semibold px-5 py-3 rounded-xl flex items-center gap-2 shadow-lg transition">
                             <?php if ($hero['post_type'] === 'premium'): ?>
                             <i class="fa-solid fa-lock"></i> Unlock This Article
                             <?php else: ?>
@@ -69,7 +69,7 @@ include __DIR__ . '/../includes/header.php';
                     <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
                         <span class="text-orange-500"><i class="fa-solid fa-fire"></i></span> TRENDING TODAY
                     </h2>
-                    <a href="trending_today.php" class="text-sm font-medium text-[#5B41FF] hover:underline">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                    <a href="../user/all-posts.php?date=today" class="text-sm font-medium text-[#5B41FF] hover:underline">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -82,14 +82,12 @@ include __DIR__ . '/../includes/header.php';
                         $img = $post['image_url'] ? '/Nova_News/' . htmlspecialchars($post['image_url']) : 'https://images.unsplash.com/photo-1504711434969-e33886168d8c?auto=format&fit=crop&w=400&q=80';
                         $title = htmlspecialchars($post['title']);
                     ?>
-                    <a href="article.php?from=index&slug=<?= urlencode($post['slug']) ?>" class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group cursor-pointer">
+                    <a href="../user/article.php?from=index&slug=<?= urlencode($post['slug']) ?>" class="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group cursor-pointer">
                         <div class="h-40 bg-slate-100 relative overflow-hidden">
                             <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" alt="<?= $title ?>">
                             
-                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
-                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
-                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
-                            </button><span class="absolute top-3 left-3 <?= $badgeColor ?> text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded"><?= $catName ?></span>
+
+                            <span class="absolute top-3 left-3 <?= $badgeColor ?> text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded"><?= $catName ?></span>
                         </div>
                         <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
                             <h3 class="font-bold text-sm text-slate-800 line-clamp-2 group-hover:text-[#5B41FF] transition"><?= $title ?></h3>
@@ -147,9 +145,10 @@ include __DIR__ . '/../includes/header.php';
                                 $postDate = date('M j, Y', strtotime($post['created_at']));
                                 $postImg = $post['image_url'] ? '/Nova_News/' . htmlspecialchars($post['image_url']) : 'https://images.unsplash.com/photo-1504711434969-e33886168d8c?auto=format&fit=crop&w=200&q=80';
                             ?>
-                            <a href="article.php?slug=<?= urlencode($postSlug) ?>" class="flex items-center gap-4 bg-white p-3 rounded-xl border border-slate-100 hover:border-[#5B41FF]/30 hover:shadow-sm transition group">
+                            <a href="../user/article.php?slug=<?= urlencode($postSlug) ?>" class="flex items-center gap-4 bg-white p-3 rounded-xl border border-slate-100 hover:border-[#5B41FF]/30 hover:shadow-sm transition group">
                                 <div class="w-20 h-16 rounded-lg bg-slate-100 overflow-hidden shrink-0">
                                     <img src="<?= $postImg ?>" class="w-full h-full object-cover group-hover:scale-105 transition" alt="<?= $postTitle ?>">
+
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <span class="text-sm font-medium text-slate-700 group-hover:text-[#5B41FF] line-clamp-2 whitespace-normal break-words block"><?= $postTitle ?></span>
@@ -191,8 +190,8 @@ include __DIR__ . '/../includes/header.php';
                     <div class="text-[11px] text-slate-400">Starting from</div>
                     <div class="text-xl font-extrabold text-slate-950">3,000 MMK <span class="text-xs font-normal text-slate-500">/ Month</span></div>
                 </div>
-                <a href="subscribe.php" class="block w-full text-center bg-[#5B41FF] hover:bg-[#4830DF] text-white font-semibold text-sm py-3 rounded-xl shadow-md transition">Choose Plan</a>
-                <div class="text-center"><a href="subscribe.php" class="text-xs font-semibold text-slate-500 hover:text-slate-800">Learn More <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a></div>
+                <a href="../user/subscribe.php" class="block w-full text-center bg-[#5B41FF] hover:bg-[#4830DF] text-white font-semibold text-sm py-3 rounded-xl shadow-md transition">Choose Plan</a>
+                <div class="text-center"><a href="../user/subscribe.php" class="text-xs font-semibold text-slate-500 hover:text-slate-800">Learn More <i class="fa-solid fa-arrow-right text-[10px] ml-0.5"></i></a></div>
             </div>
 
 
@@ -231,10 +230,11 @@ include __DIR__ . '/../includes/header.php';
             <?php if ($editorsPick):
                 $epImg = $editorsPick['image_url'] ? '/Nova_News/' . htmlspecialchars($editorsPick['image_url']) : 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=300&q=80';
             ?>
-            <a href="article.php?slug=<?= urlencode($editorsPick['slug']) ?>" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4 block group">
+            <a href="../user/article.php?slug=<?= urlencode($editorsPick['slug']) ?>" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4 block group">
                 <div class="text-xs font-bold text-slate-900 uppercase tracking-wider">Editor's Pick</div>
                 <div class="rounded-xl overflow-hidden bg-slate-950 relative h-36 group cursor-pointer">
                     <img src="<?= $epImg ?>" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-70" alt="<?= htmlspecialchars($editorsPick['title']) ?>">
+
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-3 left-3 right-3 text-white">
                         <?php if (($editorsPick['post_type'] ?? 'free') === 'premium'): ?>
@@ -277,11 +277,7 @@ include __DIR__ . '/../includes/header.php';
                     <a href="../user/article.php?slug=<?= urlencode($post['slug']) ?>" data-type="<?= $type ?>" class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex space-x-4 group cursor-pointer">
                         <div class="w-28 h-24 rounded-lg bg-slate-100 overflow-hidden shrink-0">
                             <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition" alt="<?= $title ?>">
-                        
-                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
-                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
-                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
-                            </button></div>
+                        </div>
                         <div class="flex flex-col justify-between flex-1 min-w-0">
                             <div>
                                 <span class="text-[10px] font-bold uppercase <?= $color ?>"><?= $catName ?></span>
@@ -291,7 +287,7 @@ include __DIR__ . '/../includes/header.php';
                                 <?php if ($type === 'premium'): ?>
                                     <span class="bg-amber-50 text-amber-700 font-medium flex items-center gap-1 border border-amber-300 px-2 py-0.5 rounded"><i class="fa-solid fa-lock text-[10px]"></i> Premium</span>
                                 <?php else: ?>
-                                    <span class="bg-emerald-50 text-emerald-700 font-medium flex items-center gap-1 border border-emerald-300 px-2 py-0.5 rounded"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Free </span>
+                                    <span class="bg-emerald-50 text-emerald-700 font-medium flex items-center gap-1 border border-emerald-300 px-2 py-0.5 rounded"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Free Article</span>
                                 <?php endif; ?>
                                 <span><?= date('M j, Y', strtotime($post['created_at'])) ?></span>
                             </div>
@@ -310,7 +306,7 @@ include __DIR__ . '/../includes/header.php';
                 <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
                     <span class="text-amber-500"><i class="fa-solid fa-crown"></i></span> PREMIUM ARTICLES
                 </h2>
-                <a href="all-posts.php?type=premium" class="text-sm font-medium text-[#5B41FF] hover:underline">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
+                <a href="../user/all-posts.php?type=premium" class="text-sm font-medium text-[#5B41FF] hover:underline">View All <i class="fa-solid fa-arrow-right text-xs ml-1"></i></a>
             </div>
 
             <?php
@@ -326,14 +322,11 @@ include __DIR__ . '/../includes/header.php';
                     $img = $post['image_url'] ? '/Nova_News/' . htmlspecialchars($post['image_url']) : 'https://images.unsplash.com/photo-1504711434969-e33886168d8c?auto=format&fit=crop&w=200&q=80';
                     $title = htmlspecialchars($post['title']);
                 ?>
-                <a href="article.php?slug=<?= urlencode($post['slug']) ?>" class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex space-x-4 group cursor-pointer">
+                <a href="../user/article.php?slug=<?= urlencode($post['slug']) ?>" class="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex space-x-4 group cursor-pointer">
                     <div class="w-28 h-24 rounded-lg bg-slate-100 overflow-hidden shrink-0">
                         <img src="<?= $img ?>" class="w-full h-full object-cover group-hover:scale-105 transition" alt="<?= $title ?>">
-                    
-                            <?php $isSaved = in_array($post['id'], $savedPostIds ?? []); ?>
-                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleBookmark(<?= $post['id'] ?>, this)" class="absolute top-3 right-3 w-7 h-7 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm text-slate-700 hover:text-[#5B41FF] transition z-10">
-                                <i class="<?= $isSaved ? 'fa-solid text-[#5B41FF]' : 'fa-regular' ?> fa-bookmark text-xs"></i>
-                            </button></div>
+
+                    </div>
                     <div class="flex flex-col justify-between flex-1 min-w-0">
                         <div>
                             <span class="text-[10px] font-bold uppercase <?= $catStyle['text'] ?> <?= $catStyle['bg'] ?> border-2 border-current/30 px-2 py-0.5 rounded-lg"><?= $catName ?></span>

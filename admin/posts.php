@@ -76,14 +76,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_id'])) {
 $type = $_GET['type'] ?? 'all';
 $status = $_GET['status'] ?? 'all';
 $search = trim($_GET['search'] ?? '');
+$date = trim($_GET['date'] ?? '');
 $page = max(1, (int)($_GET['page'] ?? 1));
 $limit = 10;
 
-$total = getPostsCount($type, $status, $search);
+$total = getPostsCount($type, $status, $search, $date);
 $totalPages = max(1, (int)ceil($total / $limit));
 if ($page > $totalPages) $page = $totalPages;
 
-$posts = getPostsPaginated($page, $limit, $type, $status, $search);
+$posts = getPostsPaginated($page, $limit, $type, $status, $search, null, $date);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -120,6 +121,10 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                         <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search by title..." class="w-full px-3 py-1.5 text-xs border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                     </div>
                     <div>
+                        <label class="block text-xs font-semibold text-slate-900 mb-1">Date</label>
+                        <input type="date" name="date" value="<?= htmlspecialchars($date) ?>" class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
+                    </div>
+                    <div>
                         <label class="block text-xs font-semibold text-slate-900 mb-1">Type</label>
                         <select name="type" class="px-3 py-1.5 text-xs border border-slate-200 rounded-xl border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
                             <option value="all" <?= $type === 'all' ? 'selected' : '' ?>>All Types</option>
@@ -151,7 +156,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                 <div class="border-b p-5 flex justify-between items-center">
                     <h3 class="text-xl font-bold">All Posts <span class="text-xs font-normal text-slate-500">(<?= number_format($total) ?> total)</span></h3>
                     <div class="flex items-center gap-3">
-                        <a href="export-excel.php?<?= http_build_query(array_filter(['type' => $type, 'status' => $status, 'search' => $search])) ?>" class="px-3 py-1.5 text-xs bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
+                        <a href="export-excel.php?<?= http_build_query(array_filter(['type' => $type, 'status' => $status, 'search' => $search, 'date' => $date])) ?>" class="px-3 py-1.5 text-xs bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition">
                             <i class="fa-solid fa-file-excel mr-1"></i> Export to Excel
                         </a>
                         <a href="post-create.php" class="px-3 py-1.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-xs shadow-sm transition-all text-sm font-semibold hover:bg-blue-700 transition">
@@ -278,7 +283,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                     </p>
                     <div class="flex gap-2">
                         <?php if ($page > 1): ?>
-                            <a href="?page=<?= $page - 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-3 py-1.5 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50/50 hover:text-slate-900 transition-colors shadow-sm">
+                            <a href="?page=<?= $page - 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>&date=<?= urlencode($date) ?>" class="px-3 py-1.5 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50/50 hover:text-slate-900 transition-colors shadow-sm">
                                 <i class="fa-solid fa-chevron-left mr-1"></i> Previous
                             </a>
                         <?php else: ?>
@@ -288,7 +293,7 @@ $posts = getPostsPaginated($page, $limit, $type, $status, $search);
                         <?php endif; ?>
 
                         <?php if ($page < $totalPages): ?>
-                            <a href="?page=<?= $page + 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>" class="px-3 py-1.5 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50/50 hover:text-slate-900 transition-colors shadow-sm">
+                            <a href="?page=<?= $page + 1 ?>&type=<?= urlencode($type) ?>&status=<?= urlencode($status) ?>&search=<?= urlencode($search) ?>&date=<?= urlencode($date) ?>" class="px-3 py-1.5 text-xs bg-white border border-slate-200 text-slate-600 rounded-xl text-sm font-semibold hover:bg-slate-50/50 hover:text-slate-900 transition-colors shadow-sm">
                                 Next <i class="fa-solid fa-chevron-right ml-1"></i>
                             </a>
                         <?php else: ?>

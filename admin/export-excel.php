@@ -12,6 +12,7 @@ $db = getDB();
 $type = $_GET['type'] ?? 'all';
 $status = $_GET['status'] ?? 'all';
 $search = trim($_GET['search'] ?? '');
+$date = trim($_GET['date'] ?? '');
 
 $conditions = [];
 $params = [];
@@ -32,6 +33,12 @@ if ($status !== 'all') {
 if ($search !== '') {
     $conditions[] = 'p.title LIKE ?';
     $params[] = '%' . $search . '%';
+    $types .= 's';
+}
+
+if ($date !== '') {
+    $conditions[] = 'DATE(p.created_at) = ?';
+    $params[] = $date;
     $types .= 's';
 }
 
