@@ -130,9 +130,38 @@ function getPostBySlug(string $slug): ?array
     return null;
 }
 
+function generateUniqueSlug(mysqli $conn, string $slug): string
+{
+    $originalSlug = $slug;
+    $counter = 1;
+    $uniqueSlug = $slug;
+
+    $stmt = $conn->prepare('SELECT id FROM posts WHERE slug = ?');
+    if (!$stmt) {
+        return $uniqueSlug;
+    }
+
+    while (true) {
+        $stmt->bind_param('s', $uniqueSlug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result && $result->num_rows === 0) {
+            break;
+        }
+        
+        $uniqueSlug = $originalSlug . '-' . $counter;
+        $counter++;
+    }
+    
+    return $uniqueSlug;
+}
+
 function createPost(string $title, string $slug, string $content, ?string $excerpt, ?string $imageUrl, string $postType, ?int $categoryId, string $status, int $createdBy, int $isFeatured = 0, int $isBreaking = 0, int $isEditorsPick = 0, ?string $createdAt = null): int|false
 {
     $db = getDB();
+    $slug = generateUniqueSlug($db, $slug);
+
     if ($createdAt !== null) {
         $stmt = $db->prepare('INSERT INTO posts (title, slug, content, excerpt, image_url, post_type, category_id, is_featured, is_breaking, is_editors_pick, status, created_by, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
         if ($stmt) {
@@ -459,7 +488,7 @@ function getBreakingPosts(int $limit = 5): array
         FROM posts p
         LEFT JOIN users u ON p.created_by = u.id
         LEFT JOIN categories c ON p.category_id = c.id
-        WHERE p.status = "published" AND p.is_breaking = 1
+        WHERE p.status = "published" AND p.is_breaking = 1 AND p.created_at >= NOW() - INTERVAL 24 HOUR
         ORDER BY p.created_at DESC
         LIMIT ?
     ');
